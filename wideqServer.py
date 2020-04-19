@@ -6,21 +6,66 @@ import time
 import argparse
 import sys
 import re
+import uuid
 import os.path
 import logging
 import traceback
 from typing import List
-from flask import Flask, json, jsonify
+from flask import Flask, json, jsonify, request
 
 api = Flask(__name__)
 
 LOGGER = logging.getLogger("wideq.server")
 STATE_FILE = 'wideq_state.json'
 
-# state is client global config
+# state is the client global config
 state = {}
+# jeedom token
+jeedom_token = '';
+
+class InvalidUsage(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+        
+
+def check_headers(headers):
+    """ check authentication with access token and refresh token from the header request."""
+    if 'jeedom_token' not in headers:
+        raise InvalidUsage('No jeedom token.' , status_code=401)
+    if headers['jeedom_token'] != jeedom_token:
+        raise InvalidUsage('Invalid jeedom token ###' +  headers['jeedom_token'] +'###'+ jeedom_token +'###', status_code=401)
 
 
+@api.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+    
+ 
+@api.errorhandler(404)
+def not_found(e):
+    """Error 404 page not found"""
+    return jsonify({'msg':'Error 404 page not found!', 'err':str(e), 'url': request.url}), 404
+
+ 
+@api.errorhandler(500)
+def server_error(e):
+    """Server Error 500"""
+    return jsonify({ 'msg':'Server Error 500!', 'err':str(e), 'url': request.url, 'type':str(type(e)) }), 500
+
+  
 @api.route('/ping', methods=['GET'])
 def get_ping():
     """check if server is alive"""
@@ -39,23 +84,13 @@ def set_log(level):
     elif level == 'error':
         lvl = logging.ERROR
     else:
-        return jsonify({"unknown log": level, "result": "ko"}), 404
+        raise InvalidUsage('Unknown Log level {}'.format(level) , status_code=410)
 
     wideq.set_log_level(lvl)
-    LOGGER.setLevel(lvl)        
+    LOGGER.setLevel(lvl)
+    api.logger.setLevel(lvl)    
     return jsonify({'log':level,'result':'ok'}), 200
 
-@api.route('/save', methods=['GET'])
-def get_save_default():
-    return get_save(STATE_FILE)
-
-@api.route('/save/<string:file>', methods=['GET'])
-def get_save(file):
-    """Save the updated state to a local json file"""
-    with open(file, 'w') as f:
-        json.dump(state, f)
-        LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
-    return jsonify({'result':'ok'}), 200
 
 @api.route('/gateway/<string:country>/<string:language>', methods=['GET'])
 def get_auth(country, language):
@@ -72,7 +107,7 @@ def get_auth(country, language):
         msg = "Country must be two or three letters" \
            " all upper case (e.g. US, NO, KR) got: '{}'".format( country)
         LOGGER.error(msg)
-        return jsonify({"err":msg}), 401
+        raise InvalidUsage(msg, 410)
 
     if not language:
         language = wideq.DEFAULT_LANGUAGE
@@ -83,7 +118,7 @@ def get_auth(country, language):
            " and country (e.g. en-US, no-NO, kr-KR)" \
            " got: '{}'".format(language)
         LOGGER.error(msg)
-        return jsonify({"err":msg}), 401
+        raise InvalidUsage(msg, 410)
 
     LOGGER.info("auth country=%s, lang=%s", country, language )
 
@@ -108,33 +143,55 @@ def get_auth_default():
 @api.route('/token/<path:token>', methods=['GET', 'POST'])
 def get_token(token):
     """URL from LG login with the token"""
-    global state
+    global state, jeedom_token
 
     client = wideq.Client.load(state)
     client._auth = wideq.Auth.from_url(client.gateway, token)
     # Save the updated state.
     state = client.dump()
-    return jsonify({'token':'ok'}), 200
+    # generate jeedom token
+    jeedom_token = str(uuid.uuid4())
+    return jsonify({'token':'ok', 'jeedom_token': jeedom_token}), 200
 
 
 #
 #
-#   list of available commands
+#   list of available commands, requieres authentication with headers
 #
 #
+
+
+@api.route('/save', methods=['GET'])
+def get_save_default():
+    return get_save(STATE_FILE)
+
+@api.route('/save/<string:file>', methods=['GET'])
+def get_save(file):
+    """Save the updated state to a local json file"""
+    check_headers( request.headers)
+    with open(file, 'w') as f:
+        # add jeedom_token
+        backup = dict(state)
+        backup['jeedom_token'] = jeedom_token
+        json.dump(backup, f)
+        LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
+    return jsonify({'result':'ok'}), 200
+
 
 @api.route('/ls', methods=['GET' ])
 def get_ls():
     """List the user's devices."""
     global state
     
+    check_headers( request.headers)
+
     client = wideq.Client.load(state)
-    LOGGER.debug('ls with client=' + json.dumps(client.dump()))
     client.refresh()
-    LOGGER.debug('ls with client=' + json.dumps(client.dump()))
     
     # Loop to retry if session has expired.
-    while True:
+    i = 0
+    while i < 10:
+        i += 1
         try:
             result = []
             for device in client.devices:
@@ -153,13 +210,17 @@ def get_ls():
 
         except UserError as exc:
             LOGGER.error(exc.msg)
-            return jsonify({'msg':exc.msg}), 401
+            raise InvalidUsage(exc.msg, 401)
+
+    raise InvalidUsage('Error, no response from LG cloud', 401)
             
-@api.route('/mon/<device>', methods=['GET' ])
+@api.route('/mon/<device_id>', methods=['GET' ])
 def mon( device_id):
     """Monitor any device, displaying generic information about its
     status.
     """
+
+    check_headers( request.headers)
 
     client = wideq.Client.load(state)
     device = client.get_device(device_id)
@@ -167,9 +228,9 @@ def mon( device_id):
 
     with wideq.Monitor(client.session, device_id) as mon:
         try:
-            while True:
-                time.sleep(1)
-                print('Polling...')
+            i = 0
+            while i < 10:
+                i += 1
                 data = mon.poll()
                 if data:
                     try:
@@ -177,22 +238,36 @@ def mon( device_id):
                     except ValueError:
                         print('status data: {!r}'.format(data))
                     else:
+                        result = {}
                         for key, value in res.items():
                             try:
                                 desc = model.value(key)
                             except KeyError:
                                 print('- {}: {}'.format(key, value))
                             if isinstance(desc, wideq.EnumValue):
-                                print('- {}: {}'.format(
-                                    key, desc.options.get(value, value)
-                                ))
+                                # print('- {}: {}'.format( key, desc.options.get(value, value) ))
+                                result[key] = desc.options.get(value, value)
                             elif isinstance(desc, wideq.RangeValue):
-                                print('- {0}: {1} ({2.min}-{2.max})'.format(
-                                    key, value, desc,
-                                ))
+                                # print('- {0}: {1} ({2.min}-{2.max})'.format( key, value, desc, ))
+                                result[key] = value
+                                result[key + '.min'] = desc.min
+                                result[key + '.max'] = desc.max
+
+                        return jsonify(result), 200                                
+
+                time.sleep(1)
+                print('Polling...')
 
         except KeyboardInterrupt:
             pass
+
+    raise InvalidUsage('Error, no response from LG cloud', 401)
+
+#
+#
+#   list of not available commands, TODO
+#
+#
 
 
 def ac_mon(client, device_id):
@@ -278,6 +353,7 @@ def ac_config(client, device_id):
     print(ac.get_light())
     print(ac.get_zones())
 
+
 def _build_ssl_context(maximum_version=None, minimum_version=None):
     if not hasattr(ssl, "SSLContext"):
         raise RuntimeError("httplib2 requires Python 3.2+ for ssl.SSLContext")
@@ -307,6 +383,30 @@ def _build_ssl_context(maximum_version=None, minimum_version=None):
     return context 
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='server.log',level=logging.INFO)
+    """The main command-line entry point.
+    """
+    parser = argparse.ArgumentParser(
+        description='REST API for the LG SmartThinQ wideq Lib.'
+    )
+
+    parser.add_argument(
+        '--port', '-p', type=int,
+        help='port for server (default: 5025)',
+        default=5025
+    )
+    parser.add_argument(
+        '--verbose', '-v',
+        help='verbose mode to help debugging',
+        action='store_true', default=False
+    )
+
+    args = parser.parse_args()
+        
+    if args.verbose:
+        logLevel=logging.DEBUG
+    else:
+        logLevel=logging.INFO
+
+    logging.basicConfig(filename='server.log',level=logLevel)
     context = _build_ssl_context( 'TLSv1', 'TLSv1')
-    api.run(port=5025)
+    api.run(port=args.port, debug=args.verbose)
