@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import wideq
 import ssl
 import time
 import argparse
@@ -13,15 +12,22 @@ import traceback
 from typing import List
 from flask import Flask, json, jsonify, request
 
+import wideq
+
 api = Flask(__name__)
 
 LOGGER = logging.getLogger("wideq.server")
 STATE_FILE = 'wideq_state.json'
+TOKEN_KEY = 'jeedom_token'
 
 # state is the client global config
-state = {}
-# jeedom token
-jeedom_token = '';
+# state = {}
+client = None
+# the token value
+token_value = '';
+# starting datetime
+starting = time.time()
+
 
 class InvalidUsage(Exception):
     status_code = 400
@@ -40,11 +46,12 @@ class InvalidUsage(Exception):
         
 
 def check_headers(headers):
-    """ check authentication with access token and refresh token from the header request."""
-    if 'jeedom_token' not in headers:
+    """ check authentication with access token from the header request."""
+    if TOKEN_KEY not in headers:
+        LOGGER.debug('request without token ' + str(headers))
         raise InvalidUsage('No jeedom token.' , status_code=401)
-    if headers['jeedom_token'] != jeedom_token:
-        raise InvalidUsage('Invalid jeedom token ###' +  headers['jeedom_token'] +'###'+ jeedom_token +'###', status_code=401)
+    if headers[TOKEN_KEY] != token_value:
+        raise InvalidUsage('Invalid jeedom token ###' +  headers[TOKEN_KEY] +'###'+ token_value +'###', status_code=401)
 
 
 @api.errorhandler(InvalidUsage)
@@ -69,7 +76,8 @@ def server_error(e):
 @api.route('/ping', methods=['GET'])
 def get_ping():
     """check if server is alive"""
-    return jsonify({"running": "ok"}), 200
+    LOGGER.debug('ping token ' + str(token_value))
+    return jsonify({"state": "ok", "starting": starting, TOKEN_KEY: token_value != ''}), 200
 
 @api.route('/log/<string:level>', methods=['GET', 'POST'])
 def set_log(level):
@@ -95,7 +103,7 @@ def set_log(level):
 @api.route('/gateway/<string:country>/<string:language>', methods=['GET'])
 def get_auth(country, language):
     """get the auth Url for country and market"""
-    global state
+    global client
 
     LOGGER.debug('get auth with country %s and lang %s ', country, language)
 
@@ -122,7 +130,7 @@ def get_auth(country, language):
 
     LOGGER.info("auth country=%s, lang=%s", country, language )
 
-    client = wideq.Client.load(state)
+    client = wideq.Client.load({}) # state vide = {}
     if country:
         client._country = country
     if language:
@@ -131,7 +139,7 @@ def get_auth(country, language):
     gateway = client.gateway
     login_url = gateway.oauth_url()
     # Save the updated state.
-    state = client.dump()
+    # state = client.dump()
         
     return jsonify({'url':login_url}), 200
 
@@ -143,15 +151,15 @@ def get_auth_default():
 @api.route('/token/<path:token>', methods=['GET', 'POST'])
 def get_token(token):
     """URL from LG login with the token"""
-    global state, jeedom_token
+    global client, token_value  # , state
 
-    client = wideq.Client.load(state)
+    # client = wideq.Client.load(state)
     client._auth = wideq.Auth.from_url(client.gateway, token)
     # Save the updated state.
-    state = client.dump()
+    # state = client.dump()
     # generate jeedom token
-    jeedom_token = str(uuid.uuid4())
-    return jsonify({'token':'ok', 'jeedom_token': jeedom_token}), 200
+    token_value = str(uuid.uuid4())
+    return jsonify({'token':'ok', TOKEN_KEY: token_value}), 200
 
 
 #
@@ -170,22 +178,23 @@ def get_save(file):
     """Save the updated state to a local json file"""
     check_headers( request.headers)
     with open(file, 'w') as f:
-        # add jeedom_token
-        backup = dict(state)
-        backup['jeedom_token'] = jeedom_token
+        # add token_value
+        backup = dict(client.dump()) # state
+        backup[TOKEN_KEY] = token_value
         json.dump(backup, f)
         LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
-    return jsonify({'result':'ok'}), 200
+    return jsonify({'config': backup, 'file': file}), 200
 
 
 @api.route('/ls', methods=['GET' ])
 def get_ls():
     """List the user's devices."""
-    global state
+    global client
     
+    LOGGER.debug('request for ls: ' + str(request))
     check_headers( request.headers)
 
-    client = wideq.Client.load(state)
+    # client = wideq.Client.load(state)
     client.refresh()
     
     # Loop to retry if session has expired.
@@ -200,7 +209,7 @@ def get_ls():
             LOGGER.debug(str(len(result)) + ' elements: ' + str(result))
 
             # Save the updated state.
-            state = client.dump()
+            # state = client.dump()
             
             return jsonify(result), 200
 
@@ -222,7 +231,7 @@ def mon( device_id):
 
     check_headers( request.headers)
 
-    client = wideq.Client.load(state)
+    # client = wideq.Client.load(state)
     device = client.get_device(device_id)
     model = client.model_info(device)
 
@@ -355,6 +364,8 @@ def ac_config(client, device_id):
 
 
 def _build_ssl_context(maximum_version=None, minimum_version=None):
+    """Configure the default SSLContext with min and max version
+    """
     if not hasattr(ssl, "SSLContext"):
         raise RuntimeError("httplib2 requires Python 3.2+ for ssl.SSLContext")
 
@@ -407,6 +418,7 @@ if __name__ == '__main__':
     else:
         logLevel=logging.INFO
 
-    logging.basicConfig(filename='server.log',level=logLevel)
+    logging.basicConfig(level=logLevel)
     context = _build_ssl_context( 'TLSv1', 'TLSv1')
+    logging.debug('Starting {0} server at {1.tm_year}/{1.tm_mon}/{1.tm_mday} at {1.tm_hour}:{1.tm_min}:{1.tm_sec}'.format('debug' if args.verbose else '', time.localtime(starting)))
     api.run(port=args.port, debug=args.verbose)
