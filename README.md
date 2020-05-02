@@ -34,19 +34,14 @@ There is a small HTTP Flask server wideqServer.py, using the following syntax:
 
 Then, with another command-line, you can send some basic HTTP requests, using wget command:
 
-check if the server is alive with ping
-* `wget -qO- http://127.0.0.1:5025/ping`
-change the log level
-* `wget -qO- http://127.0.0.1:5025/log/debug`
-initialize the client gateway with country and language, the response send you the URL to login with your LG account
-* `wget -qO- http://127.0.0.1:5025/gateway/FR/fr-FR`
-get back the redirect LG accoutn URL and _apply URL-encoding_ for the next command:
-* `wget -qO- http://127.0.0.1:5025/token/https%3A%2F%2Ffr.m.lgaccount.com%2Flogin%2FiabClose%3Faccess_token%3D<the token>%26refresh_token%3D<refresh token>%26oauth2_backend_url%3Dhttps%3A%2F%2Fgb.lgeapi.com%2F`
-get the list of connected devices
-* `wget -qO- http://127.0.0.1:5025/ls`
-get monitoring values for one device:
-* `wget -qO- https://127.0.0.1:5025/mon/33d29e50-7196-11e7-a90d-b4e62a6453c5`
+* `wget -qO- http://127.0.0.1:5025/ping` : check if the server is alive with ping
+* `wget -qO- http://127.0.0.1:5025/log/debug` : change the log level
+* `wget -qO- http://127.0.0.1:5025/gateway/FR/fr-FR` : initialize the client gateway with country and language, the response send you the URL to login with your LG account
+* `wget -qO- http://127.0.0.1:5025/token/https%3A%2F%2Ffr.m.lgaccount.com%2Flogin%2FiabClose%3Faccess_token%3D<access token>%26refresh_token%3D<refresh token>%26oauth2_backend_url%3Dhttps%3A%2F%2Fgb.lgeapi.com%2F` : get back the redirect LG accoutn URL and ***apply URL-encoding*** for the next command:
+* `wget -qO- http://127.0.0.1:5025/ls` : get the list of connected devices
+* `wget -qO- https://127.0.0.1:5025/mon/33d29e50-7196-11e7-a90d-b4e62a6453c5` : get monitoring values for one device
 
+Default port is 5025, but you can change it with -p arg when launching the server.
 
 
 Credits
