@@ -1,22 +1,19 @@
-#!/usr/bin/env python3
-
 import ssl
 import time
 import argparse
-import sys
 import re
 import uuid
 import os.path
 import logging
-import traceback
-from typing import List
+import requests
 from flask import Flask, json, jsonify, request
+from flask.logging import create_logger
+from werkzeug.exceptions import HTTPException
 
 import wideq
 
 api = Flask(__name__)
 
-LOGGER = logging.getLogger("wideq.server")
 STATE_FILE = 'wideq_state.json'
 TOKEN_KEY = 'jeedom_token'
 
@@ -24,12 +21,24 @@ TOKEN_KEY = 'jeedom_token'
 # state = {}
 client = None
 # the token value
-token_value = '';
+token_value = ''
 # starting datetime
 starting = time.time()
 
 
+@api.errorhandler(Exception)
+def handle_error(e):
+    code = 500
+    if isinstance(e, HTTPException):
+        code = e.code
+    logging.debug(e, exc_info=True)
+    return jsonify(error=str(e)), code
+
+
 class InvalidUsage(Exception):
+    """
+    generic exception errorhandler
+    """
     status_code = 400
 
     def __init__(self, message, status_code=None, payload=None):
@@ -40,48 +49,61 @@ class InvalidUsage(Exception):
         self.payload = payload
 
     def to_dict(self):
+        """
+        generate a message with value
+        """
         rv = dict(self.payload or ())
         rv['message'] = self.message
         return rv
-        
+
 
 def check_headers(headers):
-    """ check authentication with access token from the header request."""
+    """
+    check authentication with access token from the header request.
+    """
     if TOKEN_KEY not in headers:
-        LOGGER.debug('request without token ' + str(headers))
-        raise InvalidUsage('No jeedom token.' , status_code=401)
+        logging.debug('request without token ' + str(headers))
+        raise InvalidUsage('No jeedom token.', status_code=401)
     if headers[TOKEN_KEY] != token_value:
-        raise InvalidUsage('Invalid jeedom token ###' +  headers[TOKEN_KEY] +'###'+ token_value +'###', status_code=401)
+        raise InvalidUsage('Invalid jeedom token ###' +  headers[TOKEN_KEY] + \
+          '###'+ token_value +'###', status_code=401)
+
+def Response(dico, code=200, mimetype='application/json'):
+    """
+    Response of this REST API is:
+    'state'= 'ok' or 'error'
+    'result' contains json encoded data
+    'code' = error code (404 , 500, ...) or 200 if OK
+    """
+    state = ('ok' if code < 300 else 'error')
+    r = jsonify(result=dico, state=state, code=code)
+    r.status_code = code
+    r.headers['Content-Type'] = mimetype
+    return r
 
 
 @api.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
-    
- 
-@api.errorhandler(404)
-def not_found(e):
-    """Error 404 page not found"""
-    return jsonify({'msg':'Error 404 page not found!', 'err':str(e), 'url': request.url}), 404
+    """
+    default error handler
+    """
+    logging.debug(error, exc_info=True)
+    return Response(error.to_dict(), error.status_code)
 
- 
-@api.errorhandler(500)
-def server_error(e):
-    """Server Error 500"""
-    return jsonify({ 'msg':'Server Error 500!', 'err':str(e), 'url': request.url, 'type':str(type(e)) }), 500
 
-  
 @api.route('/ping', methods=['GET'])
 def get_ping():
-    """check if server is alive"""
-    LOGGER.debug('ping token ' + str(token_value))
-    return jsonify({"state": "ok", "starting": starting, TOKEN_KEY: token_value != ''}), 200
+    """
+    check if server is alive
+    """
+    logging.debug('ping token ' + str(token_value))
+    return Response({'starting': starting, TOKEN_KEY: (token_value != '')})
 
 @api.route('/log/<string:level>', methods=['GET', 'POST'])
 def set_log(level):
-    """change log level for application: [debug|info|warn|error]"""
+    """
+    change log level for application: [debug|info|warn|error]
+    """
     level = level.lower()
     if level == 'debug':
         lvl = logging.DEBUG
@@ -92,12 +114,12 @@ def set_log(level):
     elif level == 'error':
         lvl = logging.ERROR
     else:
-        raise InvalidUsage('Unknown Log level {}'.format(level) , status_code=410)
+        raise InvalidUsage('Unknown Log level {}'.format(level) ,status_code=410)
 
     wideq.set_log_level(lvl)
-    LOGGER.setLevel(lvl)
-    api.logger.setLevel(lvl)    
-    return jsonify({'log':level,'result':'ok'}), 200
+    logging.setLevel(lvl)
+    create_logger(api).setLevel(lvl)
+    return Response({'log':level})
 
 
 @api.route('/gateway/<string:country>/<string:language>', methods=['GET'])
@@ -105,7 +127,7 @@ def get_auth(country, language):
     """get the auth Url for country and market"""
     global client
 
-    LOGGER.debug('get auth with country %s and lang %s ', country, language)
+    logging.debug('get auth with country %s and lang %s ', country, language)
 
     if not country:
         country = wideq.DEFAULT_COUNTRY
@@ -113,8 +135,8 @@ def get_auth(country, language):
     country_regex = re.compile(r"^[A-Z]{2,3}$")
     if not country_regex.match(country):
         msg = "Country must be two or three letters" \
-           " all upper case (e.g. US, NO, KR) got: '{}'".format( country)
-        LOGGER.error(msg)
+           " all upper case (e.g. US, NO, KR) got: '{}'".format(country)
+        logging.error(msg)
         raise InvalidUsage(msg, 410)
 
     if not language:
@@ -125,10 +147,10 @@ def get_auth(country, language):
         msg = "Language must be a combination of language" \
            " and country (e.g. en-US, no-NO, kr-KR)" \
            " got: '{}'".format(language)
-        LOGGER.error(msg)
+        logging.error(msg)
         raise InvalidUsage(msg, 410)
 
-    LOGGER.info("auth country=%s, lang=%s", country, language )
+    logging.info("auth country=%s, lang=%s", country, language)
 
     client = wideq.Client.load({}) # state vide = {}
     if country:
@@ -140,17 +162,19 @@ def get_auth(country, language):
     login_url = gateway.oauth_url()
     # Save the updated state.
     # state = client.dump()
-        
-    return jsonify({'url':login_url}), 200
+
+    return Response({'url':login_url})
 
 @api.route('/auth', methods=['GET'])
 def get_auth_default():
-    LOGGER.debug('get default auth')
+    logging.debug('get default auth')
     return get_auth(wideq.DEFAULT_COUNTRY, wideq.DEFAULT_LANGUAGE)
 
 @api.route('/token/<path:token>', methods=['GET', 'POST'])
 def get_token(token):
-    """URL from LG login with the token"""
+    """
+    URL from LG login with the token
+    """
     global client, token_value  # , state
 
     # client = wideq.Client.load(state)
@@ -159,44 +183,51 @@ def get_token(token):
     # state = client.dump()
     # generate jeedom token
     token_value = str(uuid.uuid4())
-    return jsonify({'token':'ok', TOKEN_KEY: token_value}), 200
+    return Response({TOKEN_KEY: token_value})
 
 
 #
 #
-#   list of available commands, requieres authentication with headers
+#   list of available commands, requiere authentication with headers
 #
 #
 
 
 @api.route('/save', methods=['GET'])
 def get_save_default():
+    """
+    Save the updated state to a default json file
+    """
     return get_save(STATE_FILE)
 
 @api.route('/save/<string:file>', methods=['GET'])
 def get_save(file):
-    """Save the updated state to a local json file"""
-    check_headers( request.headers)
-    with open(file, 'w') as f:
+    """
+    Save the updated state to a local json file
+    """
+    check_headers(request.headers)
+    with open(file, 'w') as wri:
         # add token_value
         backup = dict(client.dump()) # state
         backup[TOKEN_KEY] = token_value
-        json.dump(backup, f)
-        LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
-    return jsonify({'config': backup, 'file': file}), 200
+        json.dump(backup, wri)
+        logging.debug("Wrote state file '%s'", os.path.abspath(file))
+    return Response({'config':backup, 'file':file})
 
 
 @api.route('/ls', methods=['GET' ])
 def get_ls():
-    """List the user's devices."""
+    """
+    List the user's devices.
+    """
     global client
-    
-    LOGGER.debug('request for ls: ' + str(request))
-    check_headers( request.headers)
+
+    logging.debug('request for ls: ' + str(request))
+    check_headers(request.headers)
 
     # client = wideq.Client.load(state)
     client.refresh()
-    
+
     # Loop to retry if session has expired.
     i = 0
     while i < 10:
@@ -204,32 +235,33 @@ def get_ls():
         try:
             result = []
             for device in client.devices:
-                LOGGER.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'.format(device))
-                result.append({'id':device.id, 'name':device.name, 'type':device.type.name, 'model':device.model_id})
-            LOGGER.debug(str(len(result)) + ' elements: ' + str(result))
+                logging.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'.format(device))
+                result.append({'id':device.id, 'name':device.name,
+                  'type':device.type.name, 'model':device.model_id})
+            logging.debug(str(len(result)) + ' elements: ' + str(result))
 
             # Save the updated state.
             # state = client.dump()
-            
-            return jsonify(result), 200
+
+            return Response(result)
 
         except wideq.NotLoggedInError:
-            LOGGER.info('Session expired.')
+            logging.info('Session expired.')
             client.refresh()
 
         except UserError as exc:
-            LOGGER.error(exc.msg)
+            logging.error(exc.msg)
             raise InvalidUsage(exc.msg, 401)
 
     raise InvalidUsage('Error, no response from LG cloud', 401)
-            
-@api.route('/mon/<device_id>', methods=['GET' ])
-def mon( device_id):
+
+@api.route('/mon/<device_id>', methods=['GET'])
+def monitor(device_id):
     """Monitor any device, displaying generic information about its
     status.
     """
 
-    check_headers( request.headers)
+    check_headers(request.headers)
 
     # client = wideq.Client.load(state)
     device = client.get_device(device_id)
@@ -262,7 +294,7 @@ def mon( device_id):
                                 result[key + '.min'] = desc.min
                                 result[key + '.max'] = desc.max
 
-                        return jsonify(result), 200                                
+                        return Response(result)
 
                 time.sleep(1)
                 print('Polling...')
@@ -272,6 +304,45 @@ def mon( device_id):
 
     raise InvalidUsage('Error, no response from LG cloud', 401)
 
+
+
+@api.route('/set/<command>/<device_id>/<value>', methods=['GET'])
+def set_command(client, device_id, temp):
+    """
+    Set the configured command for an AC or refrigerator device.
+    command is: temp, temp_freezer, turn
+    """
+
+    device = client.get_device(device_id)
+
+    if command == 'temp':
+        if device.type == wideq.client.DeviceType.AC:
+            ac = wideq.ACDevice(client, _force_device(client, device_id))
+            ac.set_fahrenheit(int(temp))
+        elif device.type == wideq.client.DeviceType.REFRIGERATOR:
+            refrigerator = wideq.RefrigeratorDevice(
+                client, _force_device(client, device_id))
+            refrigerator.set_temp_refrigerator_c(int(temp))
+        else:
+            raise raise InvalidUsage(
+                'set-temp only suported for AC or refrigerator devices', 401)
+
+    elif command == 'temp_freezer':
+        if device.type == wideq.client.DeviceType.REFRIGERATOR:
+            refrigerator = wideq.RefrigeratorDevice(
+                client, _force_device(client, device_id))
+            refrigerator.set_temp_freezer_c(int(temp))
+        else:
+            raise InvalidUsage(
+                'set-temp-freezer only suported for refrigerator devices', 401)
+
+    elif command == 'turn':
+        _ac = wideq.ACDevice(client, _force_device(device_id))
+        _ac.set_on(on_off == 'on')
+
+    else:
+        raise InvalidUsage('unsupported command: {}'.format(command), 401)
+
 #
 #
 #   list of not available commands, TODO
@@ -279,7 +350,7 @@ def mon( device_id):
 #
 
 
-def ac_mon(client, device_id):
+def ac_mon(device_id):
     """Monitor an AC/HVAC device, showing higher-level information about
     its status such as its temperature and operation mode.
     """
@@ -327,40 +398,30 @@ class UserError(Exception):
         self.msg = msg
 
 
-def _force_device(client, device_id):
+def _force_device(device_id):
     """Look up a device in the client (using `get_device`), but raise
-    UserError if the device is not found.
+    InvalidUsage if the device is not found.
     """
     device = client.get_device(device_id)
     if not device:
-        raise UserError('device "{}" not found'.format(device_id))
+        raise InvalidUsage('device "{}" not found'.format(device_id), 401)
     return device
 
 
-def set_temp(client, device_id, temp):
-    """Set the configured temperature for an AC device."""
 
-    ac = wideq.ACDevice(client, _force_device(client, device_id))
-    ac.set_fahrenheit(int(temp))
-
-
-def turn(client, device_id, on_off):
-    """Turn on/off an AC device."""
-
-    ac = wideq.ACDevice(client, _force_device(client, device_id))
-    ac.set_on(on_off == 'on')
-
-
-def ac_config(client, device_id):
-    ac = wideq.ACDevice(client, _force_device(client, device_id))
-    print(ac.get_filter_state())
-    print(ac.get_mfilter_state())
-    print(ac.get_energy_target())
-    print(ac.get_power(), " watts")
-    print(ac.get_outdoor_power(), " watts")
-    print(ac.get_volume())
-    print(ac.get_light())
-    print(ac.get_zones())
+def ac_config(device_id):
+    """
+    config for Air Climatized device
+    """
+    _ac = wideq.ACDevice(client, _force_device(device_id))
+    print(_ac.get_filter_state())
+    print(_ac.get_mfilter_state())
+    print(_ac.get_energy_target())
+    print(_ac.get_power(), " watts")
+    print(_ac.get_outdoor_power(), " watts")
+    print(_ac.get_volume())
+    print(_ac.get_light())
+    print(_ac.get_zones())
 
 
 def _build_ssl_context(maximum_version=None, minimum_version=None):
@@ -368,6 +429,14 @@ def _build_ssl_context(maximum_version=None, minimum_version=None):
     """
     if not hasattr(ssl, "SSLContext"):
         raise RuntimeError("httplib2 requires Python 3.2+ for ssl.SSLContext")
+
+    # fix ssl.SSLError: [SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:1056)
+    requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
+    try:
+      requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST += 'HIGH:!DH:!aNULL'
+    except AttributeError:
+      # no pyopenssl support used / needed / available
+      pass
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     context.verify_mode = ssl.CERT_NONE
@@ -391,9 +460,9 @@ def _build_ssl_context(maximum_version=None, minimum_version=None):
     if hasattr(context, "check_hostname"):
         context.check_hostname = False
 
-    return context 
+    return context
 
-if __name__ == '__main__':
+def main():
     """The main command-line entry point.
     """
     parser = argparse.ArgumentParser(
@@ -412,7 +481,7 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-        
+
     if args.verbose:
         logLevel=logging.DEBUG
     else:
@@ -420,5 +489,11 @@ if __name__ == '__main__':
 
     logging.basicConfig(level=logLevel)
     context = _build_ssl_context( 'TLSv1', 'TLSv1')
-    logging.debug('Starting {0} server at {1.tm_year}/{1.tm_mon}/{1.tm_mday} at {1.tm_hour}:{1.tm_min}:{1.tm_sec}'.format('debug' if args.verbose else '', time.localtime(starting)))
+    logging.debug(
+      'Starting {0} server at {1.tm_year}/{1.tm_mon}/{1.tm_mday} at {1.tm_hour}:{1.tm_min}:{1.tm_sec}'.format(
+        'debug' if args.verbose else '', time.localtime(starting)))
     api.run(port=args.port, debug=args.verbose)
+
+
+if __name__ == '__main__':
+    main()
