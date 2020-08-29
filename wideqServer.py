@@ -65,8 +65,9 @@ def check_headers(headers):
         logging.debug('request without token ' + str(headers))
         raise InvalidUsage('No jeedom token.', status_code=401)
     if headers[TOKEN_KEY] != token_value:
-        raise InvalidUsage('Invalid jeedom token ###' +  headers[TOKEN_KEY] + \
-          '###'+ token_value +'###', status_code=401)
+        raise InvalidUsage('Invalid jeedom token ###' + headers[TOKEN_KEY] +
+            '###' + token_value + '###', status_code=401)
+
 
 def Response(dico, code=200, mimetype='application/json'):
     """
@@ -99,6 +100,7 @@ def get_ping():
     logging.debug('ping token ' + str(token_value))
     return Response({'starting': starting, TOKEN_KEY: (token_value != '')})
 
+
 @api.route('/log/<string:level>', methods=['GET', 'POST'])
 def set_log(level):
     """
@@ -114,12 +116,13 @@ def set_log(level):
     elif level == 'error':
         lvl = logging.ERROR
     else:
-        raise InvalidUsage('Unknown Log level {}'.format(level) ,status_code=410)
+        raise InvalidUsage('Unknown Log level {}'.format(level),
+            status_code=410)
 
     wideq.set_log_level(lvl)
     logging.setLevel(lvl)
     create_logger(api).setLevel(lvl)
-    return Response({'log':level})
+    return Response({'log': level})
 
 
 @api.route('/gateway/<string:country>/<string:language>', methods=['GET'])
@@ -165,10 +168,12 @@ def get_auth(country, language):
 
     return Response({'url':login_url})
 
+
 @api.route('/auth', methods=['GET'])
 def get_auth_default():
     logging.debug('get default auth')
     return get_auth(wideq.DEFAULT_COUNTRY, wideq.DEFAULT_LANGUAGE)
+
 
 @api.route('/token/<path:token>', methods=['GET', 'POST'])
 def get_token(token):
@@ -199,6 +204,7 @@ def get_save_default():
     Save the updated state to a default json file
     """
     return get_save(STATE_FILE)
+
 
 @api.route('/save/<string:file>', methods=['GET'])
 def get_save(file):
@@ -235,9 +241,10 @@ def get_ls():
         try:
             result = []
             for device in client.devices:
-                logging.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'.format(device))
-                result.append({'id':device.id, 'name':device.name,
-                  'type':device.type.name, 'model':device.model_id})
+                logging.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'
+                    .format(device))
+                result.append({'id':device.id, 'name': device.name,
+                  'type': device.type.name, 'model': device.model_id})
             logging.debug(str(len(result)) + ' elements: ' + str(result))
 
             # Save the updated state.
@@ -254,6 +261,7 @@ def get_ls():
             raise InvalidUsage(exc.msg, 401)
 
     raise InvalidUsage('Error, no response from LG cloud', 401)
+
 
 @api.route('/mon/<device_id>', methods=['GET'])
 def monitor(device_id):
@@ -408,7 +416,6 @@ def _force_device(device_id):
     return device
 
 
-
 def ac_config(device_id):
     """
     config for Air Climatized device
@@ -461,6 +468,7 @@ def _build_ssl_context(maximum_version=None, minimum_version=None):
         context.check_hostname = False
 
     return context
+
 
 def main():
     """The main command-line entry point.
