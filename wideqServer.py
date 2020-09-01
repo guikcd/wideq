@@ -166,7 +166,7 @@ def get_auth(country, language):
     # Save the updated state.
     # state = client.dump()
 
-    return Response({'url':login_url})
+    return Response({'url': login_url})
 
 
 @api.route('/auth', methods=['GET'])
