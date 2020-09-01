@@ -218,7 +218,7 @@ def get_save(file):
         backup[TOKEN_KEY] = token_value
         json.dump(backup, wri)
         logging.debug("Wrote state file '%s'", os.path.abspath(file))
-    return Response({'config':backup, 'file':file})
+    return Response({'config': backup, 'file': file})
 
 
 @api.route('/ls', methods=['GET' ])
@@ -243,7 +243,7 @@ def get_ls():
             for device in client.devices:
                 logging.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'
                     .format(device))
-                result.append({'id':device.id, 'name': device.name,
+                result.append({'id': device.id, 'name': device.name,
                   'type': device.type.name, 'model': device.model_id})
             logging.debug(str(len(result)) + ' elements: ' + str(result))
 
@@ -332,7 +332,7 @@ def set_command(client, device_id, temp):
                 client, _force_device(client, device_id))
             refrigerator.set_temp_refrigerator_c(int(temp))
         else:
-            raise raise InvalidUsage(
+            raise InvalidUsage(
                 'set-temp only suported for AC or refrigerator devices', 401)
 
     elif command == 'temp_freezer':
