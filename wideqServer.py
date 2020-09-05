@@ -244,7 +244,8 @@ def get_ls():
                 logging.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'
                               .format(device))
                 result.append({'id': device.id, 'name': device.name,
-                               'type': device.type.name, 'model': device.model_id})
+                               'type': device.type.name,
+                               'model': device.model_id})
             logging.debug(str(len(result)) + ' elements: ' + str(result))
 
             # Save the updated state.
@@ -294,10 +295,12 @@ def monitor(device_id):
                             except KeyError:
                                 print('- {}: {}'.format(key, value))
                             if isinstance(desc, wideq.EnumValue):
-                                # print('- {}: {}'.format( key, desc.options.get(value, value) ))
+                                # print('- {}: {}'
+                                # .format( key, desc.options.get(value, value) ))
                                 result[key] = desc.options.get(value, value)
                             elif isinstance(desc, wideq.RangeValue):
-                                # print('- {0}: {1} ({2.min}-{2.max})'.format( key, value, desc, ))
+                                # print('- {0}: {1} ({2.min}-{2.max})'
+                                # .format( key, value, desc, ))
                                 result[key] = value
                                 result[key + '.min'] = desc.min
                                 result[key + '.max'] = desc.max
@@ -496,16 +499,16 @@ def main():
     args = parser.parse_args()
 
     if args.verbose:
-        logLevel=logging.DEBUG
+        logLevel = logging.DEBUG
     else:
-        logLevel=logging.INFO
+        logLevel = logging.INFO
 
     logging.basicConfig(level=logLevel)
-    context = _build_ssl_context('TLSv1', 'TLSv1')
-    logging.debug(
+    _build_ssl_context('TLSv1', 'TLSv1')
+    logging.debug((
       'Starting {0} server at {1.tm_year}/{1.tm_mon}/{1.tm_mday}' +
       ' at {1.tm_hour}:{1.tm_min}:{1.tm_sec}'
-      .format('debug' if args.verbose else '', time.localtime(starting)))
+      ).format('debug' if args.verbose else '', time.localtime(starting)))
     api.run(port=args.port, debug=args.verbose)
 
 
