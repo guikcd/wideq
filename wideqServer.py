@@ -439,7 +439,7 @@ def _build_ssl_context(maximum_version=None, minimum_version=None):
     # fix ssl.SSLError: [SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:1056)
     requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
     try:
-        requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST
+        requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST \
             += 'HIGH:!DH:!aNULL'
     except AttributeError:
         # no pyopenssl support used / needed / available
