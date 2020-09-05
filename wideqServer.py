@@ -66,7 +66,7 @@ def check_headers(headers):
         raise InvalidUsage('No jeedom token.', status_code=401)
     if headers[TOKEN_KEY] != token_value:
         raise InvalidUsage('Invalid jeedom token ###' + headers[TOKEN_KEY] +
-            '###' + token_value + '###', status_code=401)
+                           '###' + token_value + '###', status_code=401)
 
 
 def Response(dico, code=200, mimetype='application/json'):
@@ -117,7 +117,7 @@ def set_log(level):
         lvl = logging.ERROR
     else:
         raise InvalidUsage('Unknown Log level {}'.format(level),
-            status_code=410)
+                           status_code=410)
 
     wideq.set_log_level(lvl)
     logging.setLevel(lvl)
@@ -155,7 +155,7 @@ def get_auth(country, language):
 
     logging.info("auth country=%s, lang=%s", country, language)
 
-    client = wideq.Client.load({}) # state vide = {}
+    client = wideq.Client.load({})  # state vide = {}
     if country:
         client._country = country
     if language:
@@ -214,14 +214,14 @@ def get_save(file):
     check_headers(request.headers)
     with open(file, 'w') as wri:
         # add token_value
-        backup = dict(client.dump()) # state
+        backup = dict(client.dump())  # state
         backup[TOKEN_KEY] = token_value
         json.dump(backup, wri)
         logging.debug("Wrote state file '%s'", os.path.abspath(file))
     return Response({'config': backup, 'file': file})
 
 
-@api.route('/ls', methods=['GET' ])
+@api.route('/ls', methods=['GET'])
 def get_ls():
     """
     List the user's devices.
@@ -242,9 +242,9 @@ def get_ls():
             result = []
             for device in client.devices:
                 logging.debug('{0.id}: {0.name} ({0.type.name} {0.model_id})'
-                    .format(device))
+                              .format(device))
                 result.append({'id': device.id, 'name': device.name,
-                  'type': device.type.name, 'model': device.model_id})
+                               'type': device.type.name, 'model': device.model_id})
             logging.debug(str(len(result)) + ' elements: ' + str(result))
 
             # Save the updated state.
@@ -313,7 +313,6 @@ def monitor(device_id):
     raise InvalidUsage('Error, no response from LG cloud', 401)
 
 
-
 @api.route('/set/<command>/<device_id>/<value>', methods=['GET'])
 def set_command(client, command, device_id, value):
     """
@@ -346,7 +345,7 @@ def set_command(client, command, device_id, value):
 
     elif command == 'turn':
         _ac = wideq.ACDevice(client, _force_device(device_id))
-        _ac.set_on(on_off == 'on')
+        _ac.set_on(value == 'on')
 
     else:
         raise InvalidUsage('unsupported command: {}'.format(command), 401)
@@ -440,29 +439,35 @@ def _build_ssl_context(maximum_version=None, minimum_version=None):
     # fix ssl.SSLError: [SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:1056)
     requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
     try:
-      requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST += 'HIGH:!DH:!aNULL'
+        requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST
+            += 'HIGH:!DH:!aNULL'
     except AttributeError:
-      # no pyopenssl support used / needed / available
-      pass
+        # no pyopenssl support used / needed / available
+        pass
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     context.verify_mode = ssl.CERT_NONE
 
-    # SSLContext.maximum_version and SSLContext.minimum_version are python 3.7+.
-    # source: https://docs.python.org/3/library/ssl.html#ssl.SSLContext.maximum_version
+    # SSLContext.maximum_version and
+    # SSLContext.minimum_version are python 3.7+.
+    # source:
+    # https://docs.python.org/3/library/ssl.html#ssl.SSLContext.maximum_version
     if maximum_version is not None:
         if hasattr(context, "maximum_version"):
             context.maximum_version = getattr(ssl.TLSVersion, maximum_version)
         else:
-            raise RuntimeError("setting tls_maximum_version requires Python 3.7 and OpenSSL 1.1 or newer")
+            raise RuntimeError("setting tls_maximum_version requires " +
+                               "Python 3.7 and OpenSSL 1.1 or newer")
     if minimum_version is not None:
         if hasattr(context, "minimum_version"):
             context.minimum_version = getattr(ssl.TLSVersion, minimum_version)
         else:
-            raise RuntimeError("setting tls_minimum_version requires Python 3.7 and OpenSSL 1.1 or newer")
+            raise RuntimeError("setting tls_minimum_version requires " +
+                               "Python 3.7 and OpenSSL 1.1 or newer")
 
     # check_hostname requires python 3.4+
-    # we will perform the equivalent in HTTPSConnectionWithTimeout.connect() by calling ssl.match_hostname
+    # we will perform the equivalent in HTTPSConnectionWithTimeout.connect()
+    # by calling ssl.match_hostname
     # if check_hostname is not supported.
     if hasattr(context, "check_hostname"):
         context.check_hostname = False
@@ -496,10 +501,11 @@ def main():
         logLevel=logging.INFO
 
     logging.basicConfig(level=logLevel)
-    context = _build_ssl_context( 'TLSv1', 'TLSv1')
+    context = _build_ssl_context('TLSv1', 'TLSv1')
     logging.debug(
-      'Starting {0} server at {1.tm_year}/{1.tm_mon}/{1.tm_mday} at {1.tm_hour}:{1.tm_min}:{1.tm_sec}'.format(
-        'debug' if args.verbose else '', time.localtime(starting)))
+      'Starting {0} server at {1.tm_year}/{1.tm_mon}/{1.tm_mday}' +
+      ' at {1.tm_hour}:{1.tm_min}:{1.tm_sec}'
+      .format('debug' if args.verbose else '', time.localtime(starting)))
     api.run(port=args.port, debug=args.verbose)
 
 
