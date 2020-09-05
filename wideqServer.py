@@ -315,10 +315,10 @@ def monitor(device_id):
 
 
 @api.route('/set/<command>/<device_id>/<value>', methods=['GET'])
-def set_command(client, device_id, temp):
+def set_command(client, command, device_id, value):
     """
     Set the configured command for an AC or refrigerator device.
-    command is: temp, temp_freezer, turn
+    command is: value, temp_freezer, turn
     """
 
     device = client.get_device(device_id)
@@ -326,11 +326,11 @@ def set_command(client, device_id, temp):
     if command == 'temp':
         if device.type == wideq.client.DeviceType.AC:
             ac = wideq.ACDevice(client, _force_device(client, device_id))
-            ac.set_fahrenheit(int(temp))
+            ac.set_fahrenheit(int(value))
         elif device.type == wideq.client.DeviceType.REFRIGERATOR:
             refrigerator = wideq.RefrigeratorDevice(
                 client, _force_device(client, device_id))
-            refrigerator.set_temp_refrigerator_c(int(temp))
+            refrigerator.set_temp_refrigerator_c(int(value))
         else:
             raise InvalidUsage(
                 'set-temp only suported for AC or refrigerator devices', 401)
@@ -339,7 +339,7 @@ def set_command(client, device_id, temp):
         if device.type == wideq.client.DeviceType.REFRIGERATOR:
             refrigerator = wideq.RefrigeratorDevice(
                 client, _force_device(client, device_id))
-            refrigerator.set_temp_freezer_c(int(temp))
+            refrigerator.set_temp_freezer_c(int(value))
         else:
             raise InvalidUsage(
                 'set-temp-freezer only suported for refrigerator devices', 401)
