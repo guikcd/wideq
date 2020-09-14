@@ -1,9 +1,9 @@
 import unittest
-from flask import Flask, json, jsonify, request
-from flask.logging import create_logger
-from werkzeug.exceptions import HTTPException
-
 import server
+
+from flask import json
+from wideq.client import Client
+
 
 POLL_DATA = {
     'APCourse': '10',
@@ -47,7 +47,7 @@ class WideqServerTest(unittest.TestCase):
         self.app = app.test_client()
 
     ###############
-    #### tests ####
+    ###  tests ####
     ###############
 
     def test_main_page(self):
