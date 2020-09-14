@@ -1,9 +1,8 @@
 import unittest
-import server
 
 from flask import json
 from wideq.client import Client
-
+from wideq.server import create_app
 
 POLL_DATA = {
     'APCourse': '10',
@@ -42,15 +41,14 @@ class WideqServerTest(unittest.TestCase):
             state = json.load(fp)
         self.client = Client.load(state)
 
-        app = server.create_app()
+        app = create_app()
         app.debug = True
         self.app = app.test_client()
 
-    ###############
-    ###  tests ####
-    ###############
-
     def test_main_page(self):
+        """
+        test main page
+        """
         response = self.app.get('/ping', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
