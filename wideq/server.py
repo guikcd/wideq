@@ -11,6 +11,7 @@ from flask import Flask, jsonify
 
 TOKEN_KEY = 'jeedom_token'
 
+
 def create_app(config=None):
     app = Flask(__name__)
 
