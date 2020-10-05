@@ -1,0 +1,2027 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>wideq.ac API documentation</title>
+<meta name="description" content="A `Device` class representing air conditioning/climate devices." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>wideq.ac</code></h1>
+</header>
+<section id="section-intro">
+<p>A <code>Device</code> class representing air conditioning/climate devices.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;A `Device` class representing air conditioning/climate devices.
+&#34;&#34;&#34;
+import enum
+
+from .client import Device
+from .util import lookup_enum
+from .core import FailedRequestError
+
+
+class ACJetMode(enum.Enum):
+    &#34;&#34;&#34;JET mode puts your AC into highest cooling or dry or
+    heat mode(for a certain amount of time) depending on what you choose
+
+    This mode Overrides following setting:
+    1. Vertical swing is set to @100
+    2. Temperature gets set to 18 after jet mode turns off
+    3. Fan speed is set to HIGH (@AC_MAIN_WIND_STRENGTH_HIGH_W)
+    after jet mode turns off
+    &#34;&#34;&#34;
+
+    OFF = &#34;@OFF&#34;
+    COOL = &#34;@COOL_JET&#34;
+    HEAT = &#34;@HEAT_JET&#34;
+    DRY = &#34;@DRY_JET_W&#34;
+    HIMALAYAS = &#34;@HIMALAYAS_COOL&#34;
+
+
+class ACVSwingMode(enum.Enum):
+    &#34;&#34;&#34;The vertical swing mode for an AC/HVAC device.
+
+    Blades are numbered vertically from 1 (topmost)
+    to 6.
+
+    All is 100.
+    &#34;&#34;&#34;
+    OFF = &#34;@OFF&#34;
+    ONE = &#34;@1&#34;
+    TWO = &#34;@2&#34;
+    THREE = &#34;@3&#34;
+    FOUR = &#34;@4&#34;
+    FIVE = &#34;@5&#34;
+    SIX = &#34;@6&#34;
+    ALL = &#34;@100&#34;
+
+
+class ACHSwingMode(enum.Enum):
+    &#34;&#34;&#34;The horizontal swing mode for an AC/HVAC device.
+
+    Blades are numbered horizontally from 1 (leftmost)
+    to 5.
+
+    Left half goes from 1-3, and right half goes from
+    3-5.
+
+    All is 100.
+    &#34;&#34;&#34;
+    OFF = &#34;@OFF&#34;
+    ONE = &#34;@1&#34;
+    TWO = &#34;@2&#34;
+    THREE = &#34;@3&#34;
+    FOUR = &#34;@4&#34;
+    FIVE = &#34;@5&#34;
+    LEFT_HALF = &#34;@13&#34;
+    RIGHT_HALF = &#34;@35&#34;
+    ALL = &#34;@100&#34;
+
+
+class ACMode(enum.Enum):
+    &#34;&#34;&#34;The operation mode for an AC/HVAC device.&#34;&#34;&#34;
+
+    COOL = &#34;@AC_MAIN_OPERATION_MODE_COOL_W&#34;
+    DRY = &#34;@AC_MAIN_OPERATION_MODE_DRY_W&#34;
+    FAN = &#34;@AC_MAIN_OPERATION_MODE_FAN_W&#34;
+    AI = &#34;@AC_MAIN_OPERATION_MODE_AI_W&#34;
+    HEAT = &#34;@AC_MAIN_OPERATION_MODE_HEAT_W&#34;
+    AIRCLEAN = &#34;@AC_MAIN_OPERATION_MODE_AIRCLEAN_W&#34;
+    ACO = &#34;@AC_MAIN_OPERATION_MODE_ACO_W&#34;
+    AROMA = &#34;@AC_MAIN_OPERATION_MODE_AROMA_W&#34;
+    ENERGY_SAVING = &#34;@AC_MAIN_OPERATION_MODE_ENERGY_SAVING_W&#34;
+    ENERGY_SAVER = &#34;@AC_MAIN_OPERATION_MODE_ENERGY_SAVER_W&#34;
+
+
+class ACFanSpeed(enum.Enum):
+    &#34;&#34;&#34;The fan speed for an AC/HVAC device.&#34;&#34;&#34;
+
+    SLOW = &#39;@AC_MAIN_WIND_STRENGTH_SLOW_W&#39;
+    SLOW_LOW = &#39;@AC_MAIN_WIND_STRENGTH_SLOW_LOW_W&#39;
+    LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_W&#39;
+    LOW_MID = &#39;@AC_MAIN_WIND_STRENGTH_LOW_MID_W&#39;
+    MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_W&#39;
+    MID_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_MID_HIGH_W&#39;
+    HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_W&#39;
+    POWER = &#39;@AC_MAIN_WIND_STRENGTH_POWER_W&#39;
+    AUTO = &#39;@AC_MAIN_WIND_STRENGTH_AUTO_W&#39;
+    NATURE = &#39;@AC_MAIN_WIND_STRENGTH_NATURE_W&#39;
+    R_LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    R_MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    R_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    L_LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W&#39;
+    L_MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W&#39;
+    L_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W&#39;
+    L_LOWR_LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    L_LOWR_MID = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    L_LOWR_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    L_MIDR_LOW = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    L_MIDR_MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    L_MIDR_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    L_HIGHR_LOW = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    L_HIGHR_MID = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    L_HIGHR_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    AUTO_2 = &#39;@AC_MAIN_WIND_STRENGTH_AUTO_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_AUTO_RIGHT_W&#39;
+    POWER_2 = &#39;@AC_MAIN_WIND_STRENGTH_POWER_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_POWER_RIGHT_W&#39;
+    LONGPOWER = &#39;@AC_MAIN_WIND_STRENGTH_LONGPOWER_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LONGPOWER_RIGHT_W&#39;
+
+
+class ACOp(enum.Enum):
+    &#34;&#34;&#34;Whether a device is on or off.&#34;&#34;&#34;
+
+    OFF = &#34;@AC_MAIN_OPERATION_OFF_W&#34;
+    RIGHT_ON = &#34;@AC_MAIN_OPERATION_RIGHT_ON_W&#34;  # Right fan only.
+    LEFT_ON = &#34;@AC_MAIN_OPERATION_LEFT_ON_W&#34;  # Left fan only.
+    ALL_ON = &#34;@AC_MAIN_OPERATION_ALL_ON_W&#34;  # Both fans (or only fan) on.
+
+
+class ACDevice(Device):
+    &#34;&#34;&#34;Higher-level operations on an AC/HVAC device, such as a heat
+    pump.
+    &#34;&#34;&#34;
+
+    @property
+    def f2c(self):
+        &#34;&#34;&#34;Get a dictionary mapping Fahrenheit to Celsius temperatures for
+        this device.
+
+        Unbelievably, SmartThinQ devices have their own lookup tables
+        for mapping the two temperature scales. You can get *close* by
+        using a real conversion between the two temperature scales, but
+        precise control requires using the custom LUT.
+        &#34;&#34;&#34;
+
+        mapping = self.model.value(&#39;TempFahToCel&#39;).options
+        return {int(f): c for f, c in mapping.items()}
+
+    @property
+    def c2f(self):
+        &#34;&#34;&#34;Get an inverse mapping from Celsius to Fahrenheit.
+
+        Just as unbelievably, this is not exactly the inverse of the
+        `f2c` map. There are a few values in this reverse mapping that
+        are not in the other.
+        &#34;&#34;&#34;
+
+        mapping = self.model.value(&#39;TempCelToFah&#39;).options
+        out = {}
+        for c, f in mapping.items():
+            try:
+                c_num = int(c)
+            except ValueError:
+                c_num = float(c)
+            out[c_num] = f
+        return out
+
+    @property
+    def supported_operations(self):
+        &#34;&#34;&#34;Get a list of the ACOp Operations the device supports.
+        &#34;&#34;&#34;
+
+        mapping = self.model.value(&#39;Operation&#39;).options
+        return [ACOp(o) for i, o in mapping.items()]
+
+    @property
+    def supported_on_operation(self):
+        &#34;&#34;&#34;Get the most correct &#34;On&#34; operation the device supports.
+        :raises ValueError: If ALL_ON is not supported, but there are
+            multiple supported ON operations. If a model raises this,
+            its behaviour needs to be determined so this function can
+            make a better decision.
+        &#34;&#34;&#34;
+
+        operations = self.supported_operations
+        operations.remove(ACOp.OFF)
+
+        # This ON operation appears to be supported in newer AC models
+        if ACOp.ALL_ON in operations:
+            return ACOp.ALL_ON
+
+        # Older models, or possibly just the LP1419IVSM, do not support ALL_ON,
+        # instead advertising only a single operation of RIGHT_ON.
+        # Thus, if there&#39;s only one ON operation, we use that.
+        if len(operations) == 1:
+            return operations[0]
+
+        # Hypothetically, the API could return multiple ON operations, neither
+        # of which are ALL_ON. This will raise in that case, as we don&#39;t know
+        # what that model will expect us to do to turn everything on.
+        # Or, this code will never actually be reached! We can only hope. :)
+        raise ValueError(
+            f&#34;could not determine correct &#39;on&#39; operation:&#34;
+            f&#34; too many reported operations: &#39;{str(operations)}&#39;&#34;)
+
+    def set_celsius(self, c):
+        &#34;&#34;&#34;Set the device&#39;s target temperature in Celsius degrees.
+        &#34;&#34;&#34;
+
+        self._set_control(&#39;TempCfg&#39;, c)
+
+    def set_fahrenheit(self, f):
+        &#34;&#34;&#34;Set the device&#39;s target temperature in Fahrenheit degrees.
+        &#34;&#34;&#34;
+
+        self.set_celsius(self.f2c[f])
+
+    def set_zones(self, zones):
+        &#34;&#34;&#34;Turn off or on the device&#39;s zones.
+
+        The `zones` parameter is a list of dicts with these keys:
+        - &#34;No&#34;: The zone index. A string containing a number,
+          starting from 1.
+        - &#34;Cfg&#34;: Whether the zone is enabled. A string, either &#34;1&#34; or
+          &#34;0&#34;.
+        - &#34;State&#34;: Whether the zone is open. Also &#34;1&#34; or &#34;0&#34;.
+        &#34;&#34;&#34;
+
+        # Ensure at least one zone is enabled: we can&#39;t turn all zones
+        # off simultaneously.
+        on_count = sum(int(zone[&#39;State&#39;]) for zone in zones)
+        if on_count &gt; 0:
+            zone_cmd = &#39;/&#39;.join(
+                &#39;{}_{}&#39;.format(zone[&#39;No&#39;], zone[&#39;State&#39;])
+                for zone in zones if zone[&#39;Cfg&#39;] == &#39;1&#39;
+            )
+            self._set_control(&#39;DuctZone&#39;, zone_cmd)
+
+    def get_zones(self):
+        &#34;&#34;&#34;Get the status of the zones, including whether a zone is
+        configured.
+
+        The result is a list of dicts with the same format as described in
+        `set_zones`.
+        &#34;&#34;&#34;
+
+        return self._get_config(&#39;DuctZone&#39;)
+
+    def set_jet_mode(self, jet_opt):
+        &#34;&#34;&#34;Set jet mode to a value from the `ACJetMode` enum.
+        &#34;&#34;&#34;
+
+        jet_opt_value = self.model.enum_value(&#39;Jet&#39;, jet_opt.value)
+        self._set_control(&#39;Jet&#39;, jet_opt_value)
+
+    def set_fan_speed(self, speed):
+        &#34;&#34;&#34;Set the fan speed to a value from the `ACFanSpeed` enum.
+        &#34;&#34;&#34;
+
+        speed_value = self.model.enum_value(&#39;WindStrength&#39;, speed.value)
+        self._set_control(&#39;WindStrength&#39;, speed_value)
+
+    def set_horz_swing(self, swing):
+        &#34;&#34;&#34;Set the horizontal swing to a value from the `ACHSwingMode` enum.
+        &#34;&#34;&#34;
+
+        swing_value = self.model.enum_value(&#39;WDirHStep&#39;, swing.value)
+        self._set_control(&#39;WDirHStep&#39;, swing_value)
+
+    def set_vert_swing(self, swing):
+        &#34;&#34;&#34;Set the vertical swing to a value from the `ACVSwingMode` enum.
+        &#34;&#34;&#34;
+
+        swing_value = self.model.enum_value(&#39;WDirVStep&#39;, swing.value)
+        self._set_control(&#39;WDirVStep&#39;, swing_value)
+
+    def set_mode(self, mode):
+        &#34;&#34;&#34;Set the device&#39;s operating mode to an `OpMode` value.
+        &#34;&#34;&#34;
+
+        mode_value = self.model.enum_value(&#39;OpMode&#39;, mode.value)
+        self._set_control(&#39;OpMode&#39;, mode_value)
+
+    def set_on(self, is_on):
+        &#34;&#34;&#34;Turn on or off the device (according to a boolean).
+        &#34;&#34;&#34;
+
+        op = self.supported_on_operation if is_on else ACOp.OFF
+        op_value = self.model.enum_value(&#39;Operation&#39;, op.value)
+        self._set_control(&#39;Operation&#39;, op_value)
+
+    def get_filter_state(self):
+        &#34;&#34;&#34;Get information about the filter.&#34;&#34;&#34;
+
+        return self._get_config(&#39;Filter&#39;)
+
+    def get_mfilter_state(self):
+        &#34;&#34;&#34;Get information about the &#34;MFilter&#34; (not sure what this is).
+        &#34;&#34;&#34;
+
+        return self._get_config(&#39;MFilter&#39;)
+
+    def get_energy_target(self):
+        &#34;&#34;&#34;Get the configured energy target data.&#34;&#34;&#34;
+
+        return self._get_config(&#39;EnergyDesiredValue&#39;)
+
+    def get_outdoor_power(self):
+        &#34;&#34;&#34;Get instant power usage in watts of the outdoor unit&#34;&#34;&#34;
+
+        value = self._get_config(&#39;OutTotalInstantPower&#39;)
+        return value[&#39;OutTotalInstantPower&#39;]
+
+    def get_power(self):
+        &#34;&#34;&#34;Get the instant power usage in watts of the whole unit&#34;&#34;&#34;
+
+        value = self._get_config(&#39;InOutInstantPower&#39;)
+        return value[&#39;InOutInstantPower&#39;]
+
+    def get_light(self):
+        &#34;&#34;&#34;Get a Boolean indicating whether the display light is on.&#34;&#34;&#34;
+
+        try:
+            value = self._get_control(&#39;DisplayControl&#39;)
+            return value == &#39;0&#39;  # Seems backwards, but isn&#39;t.
+        except FailedRequestError:
+            # Device does not support reporting display light status.
+            # Since it&#39;s probably not changeable the it must be on.
+            return True
+
+    def get_volume(self):
+        &#34;&#34;&#34;Get the speaker volume level.&#34;&#34;&#34;
+
+        try:
+            value = self._get_control(&#39;SpkVolume&#39;)
+            return int(value)
+        except FailedRequestError:
+            return 0  # Device does not support volume control.
+
+    def poll(self):
+        &#34;&#34;&#34;Poll the device&#39;s current state.
+
+        Monitoring must be started first with `monitor_start`. Return
+        either an `ACStatus` object or `None` if the status is not yet
+        available.
+        &#34;&#34;&#34;
+
+        # Abort if monitoring has not started yet.
+        if not hasattr(self, &#39;mon&#39;):
+            return None
+
+        res = self.mon.poll_json()
+        if res:
+            return ACStatus(self, res)
+        else:
+            return None
+
+
+class ACStatus(object):
+    &#34;&#34;&#34;Higher-level information about an AC device&#39;s current status.
+    &#34;&#34;&#34;
+
+    def __init__(self, ac, data):
+        self.ac = ac
+        self.data = data
+
+    @staticmethod
+    def _str_to_num(s):
+        &#34;&#34;&#34;Convert a string to either an `int` or a `float`.
+
+        Troublingly, the API likes values like &#34;18&#34;, without a trailing
+        &#34;.0&#34;, for whole numbers. So we use `int`s for integers and
+        `float`s for non-whole numbers.
+        &#34;&#34;&#34;
+
+        f = float(s)
+        if f == int(f):
+            return int(f)
+        else:
+            return f
+
+    @property
+    def temp_cur_c(self):
+        return self._str_to_num(self.data[&#39;TempCur&#39;])
+
+    @property
+    def temp_cur_f(self):
+        return self.ac.c2f[self.temp_cur_c]
+
+    @property
+    def temp_cfg_c(self):
+        return self._str_to_num(self.data[&#39;TempCfg&#39;])
+
+    @property
+    def temp_cfg_f(self):
+        return self.ac.c2f[self.temp_cfg_c]
+
+    @property
+    def mode(self):
+        return ACMode(lookup_enum(&#39;OpMode&#39;, self.data, self.ac))
+
+    @property
+    def fan_speed(self):
+        return ACFanSpeed(lookup_enum(&#39;WindStrength&#39;, self.data, self.ac))
+
+    @property
+    def horz_swing(self):
+        return ACHSwingMode(lookup_enum(&#39;WDirHStep&#39;, self.data, self.ac))
+
+    @property
+    def vert_swing(self):
+        return ACVSwingMode(lookup_enum(&#39;WDirVStep&#39;, self.data, self.ac))
+
+    @property
+    def is_on(self):
+        op = ACOp(lookup_enum(&#39;Operation&#39;, self.data, self.ac))
+        return op != ACOp.OFF</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="wideq.ac.ACDevice"><code class="flex name class">
+<span>class <span class="ident">ACDevice</span></span>
+<span>(</span><span>client: <a title="wideq.client.Client" href="client.html#wideq.client.Client">Client</a>, device: <a title="wideq.client.DeviceInfo" href="client.html#wideq.client.DeviceInfo">DeviceInfo</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Higher-level operations on an AC/HVAC device, such as a heat
+pump.</p>
+<p>Create a wrapper for a <code>DeviceInfo</code> object associated with a
+<code>Client</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACDevice(Device):
+    &#34;&#34;&#34;Higher-level operations on an AC/HVAC device, such as a heat
+    pump.
+    &#34;&#34;&#34;
+
+    @property
+    def f2c(self):
+        &#34;&#34;&#34;Get a dictionary mapping Fahrenheit to Celsius temperatures for
+        this device.
+
+        Unbelievably, SmartThinQ devices have their own lookup tables
+        for mapping the two temperature scales. You can get *close* by
+        using a real conversion between the two temperature scales, but
+        precise control requires using the custom LUT.
+        &#34;&#34;&#34;
+
+        mapping = self.model.value(&#39;TempFahToCel&#39;).options
+        return {int(f): c for f, c in mapping.items()}
+
+    @property
+    def c2f(self):
+        &#34;&#34;&#34;Get an inverse mapping from Celsius to Fahrenheit.
+
+        Just as unbelievably, this is not exactly the inverse of the
+        `f2c` map. There are a few values in this reverse mapping that
+        are not in the other.
+        &#34;&#34;&#34;
+
+        mapping = self.model.value(&#39;TempCelToFah&#39;).options
+        out = {}
+        for c, f in mapping.items():
+            try:
+                c_num = int(c)
+            except ValueError:
+                c_num = float(c)
+            out[c_num] = f
+        return out
+
+    @property
+    def supported_operations(self):
+        &#34;&#34;&#34;Get a list of the ACOp Operations the device supports.
+        &#34;&#34;&#34;
+
+        mapping = self.model.value(&#39;Operation&#39;).options
+        return [ACOp(o) for i, o in mapping.items()]
+
+    @property
+    def supported_on_operation(self):
+        &#34;&#34;&#34;Get the most correct &#34;On&#34; operation the device supports.
+        :raises ValueError: If ALL_ON is not supported, but there are
+            multiple supported ON operations. If a model raises this,
+            its behaviour needs to be determined so this function can
+            make a better decision.
+        &#34;&#34;&#34;
+
+        operations = self.supported_operations
+        operations.remove(ACOp.OFF)
+
+        # This ON operation appears to be supported in newer AC models
+        if ACOp.ALL_ON in operations:
+            return ACOp.ALL_ON
+
+        # Older models, or possibly just the LP1419IVSM, do not support ALL_ON,
+        # instead advertising only a single operation of RIGHT_ON.
+        # Thus, if there&#39;s only one ON operation, we use that.
+        if len(operations) == 1:
+            return operations[0]
+
+        # Hypothetically, the API could return multiple ON operations, neither
+        # of which are ALL_ON. This will raise in that case, as we don&#39;t know
+        # what that model will expect us to do to turn everything on.
+        # Or, this code will never actually be reached! We can only hope. :)
+        raise ValueError(
+            f&#34;could not determine correct &#39;on&#39; operation:&#34;
+            f&#34; too many reported operations: &#39;{str(operations)}&#39;&#34;)
+
+    def set_celsius(self, c):
+        &#34;&#34;&#34;Set the device&#39;s target temperature in Celsius degrees.
+        &#34;&#34;&#34;
+
+        self._set_control(&#39;TempCfg&#39;, c)
+
+    def set_fahrenheit(self, f):
+        &#34;&#34;&#34;Set the device&#39;s target temperature in Fahrenheit degrees.
+        &#34;&#34;&#34;
+
+        self.set_celsius(self.f2c[f])
+
+    def set_zones(self, zones):
+        &#34;&#34;&#34;Turn off or on the device&#39;s zones.
+
+        The `zones` parameter is a list of dicts with these keys:
+        - &#34;No&#34;: The zone index. A string containing a number,
+          starting from 1.
+        - &#34;Cfg&#34;: Whether the zone is enabled. A string, either &#34;1&#34; or
+          &#34;0&#34;.
+        - &#34;State&#34;: Whether the zone is open. Also &#34;1&#34; or &#34;0&#34;.
+        &#34;&#34;&#34;
+
+        # Ensure at least one zone is enabled: we can&#39;t turn all zones
+        # off simultaneously.
+        on_count = sum(int(zone[&#39;State&#39;]) for zone in zones)
+        if on_count &gt; 0:
+            zone_cmd = &#39;/&#39;.join(
+                &#39;{}_{}&#39;.format(zone[&#39;No&#39;], zone[&#39;State&#39;])
+                for zone in zones if zone[&#39;Cfg&#39;] == &#39;1&#39;
+            )
+            self._set_control(&#39;DuctZone&#39;, zone_cmd)
+
+    def get_zones(self):
+        &#34;&#34;&#34;Get the status of the zones, including whether a zone is
+        configured.
+
+        The result is a list of dicts with the same format as described in
+        `set_zones`.
+        &#34;&#34;&#34;
+
+        return self._get_config(&#39;DuctZone&#39;)
+
+    def set_jet_mode(self, jet_opt):
+        &#34;&#34;&#34;Set jet mode to a value from the `ACJetMode` enum.
+        &#34;&#34;&#34;
+
+        jet_opt_value = self.model.enum_value(&#39;Jet&#39;, jet_opt.value)
+        self._set_control(&#39;Jet&#39;, jet_opt_value)
+
+    def set_fan_speed(self, speed):
+        &#34;&#34;&#34;Set the fan speed to a value from the `ACFanSpeed` enum.
+        &#34;&#34;&#34;
+
+        speed_value = self.model.enum_value(&#39;WindStrength&#39;, speed.value)
+        self._set_control(&#39;WindStrength&#39;, speed_value)
+
+    def set_horz_swing(self, swing):
+        &#34;&#34;&#34;Set the horizontal swing to a value from the `ACHSwingMode` enum.
+        &#34;&#34;&#34;
+
+        swing_value = self.model.enum_value(&#39;WDirHStep&#39;, swing.value)
+        self._set_control(&#39;WDirHStep&#39;, swing_value)
+
+    def set_vert_swing(self, swing):
+        &#34;&#34;&#34;Set the vertical swing to a value from the `ACVSwingMode` enum.
+        &#34;&#34;&#34;
+
+        swing_value = self.model.enum_value(&#39;WDirVStep&#39;, swing.value)
+        self._set_control(&#39;WDirVStep&#39;, swing_value)
+
+    def set_mode(self, mode):
+        &#34;&#34;&#34;Set the device&#39;s operating mode to an `OpMode` value.
+        &#34;&#34;&#34;
+
+        mode_value = self.model.enum_value(&#39;OpMode&#39;, mode.value)
+        self._set_control(&#39;OpMode&#39;, mode_value)
+
+    def set_on(self, is_on):
+        &#34;&#34;&#34;Turn on or off the device (according to a boolean).
+        &#34;&#34;&#34;
+
+        op = self.supported_on_operation if is_on else ACOp.OFF
+        op_value = self.model.enum_value(&#39;Operation&#39;, op.value)
+        self._set_control(&#39;Operation&#39;, op_value)
+
+    def get_filter_state(self):
+        &#34;&#34;&#34;Get information about the filter.&#34;&#34;&#34;
+
+        return self._get_config(&#39;Filter&#39;)
+
+    def get_mfilter_state(self):
+        &#34;&#34;&#34;Get information about the &#34;MFilter&#34; (not sure what this is).
+        &#34;&#34;&#34;
+
+        return self._get_config(&#39;MFilter&#39;)
+
+    def get_energy_target(self):
+        &#34;&#34;&#34;Get the configured energy target data.&#34;&#34;&#34;
+
+        return self._get_config(&#39;EnergyDesiredValue&#39;)
+
+    def get_outdoor_power(self):
+        &#34;&#34;&#34;Get instant power usage in watts of the outdoor unit&#34;&#34;&#34;
+
+        value = self._get_config(&#39;OutTotalInstantPower&#39;)
+        return value[&#39;OutTotalInstantPower&#39;]
+
+    def get_power(self):
+        &#34;&#34;&#34;Get the instant power usage in watts of the whole unit&#34;&#34;&#34;
+
+        value = self._get_config(&#39;InOutInstantPower&#39;)
+        return value[&#39;InOutInstantPower&#39;]
+
+    def get_light(self):
+        &#34;&#34;&#34;Get a Boolean indicating whether the display light is on.&#34;&#34;&#34;
+
+        try:
+            value = self._get_control(&#39;DisplayControl&#39;)
+            return value == &#39;0&#39;  # Seems backwards, but isn&#39;t.
+        except FailedRequestError:
+            # Device does not support reporting display light status.
+            # Since it&#39;s probably not changeable the it must be on.
+            return True
+
+    def get_volume(self):
+        &#34;&#34;&#34;Get the speaker volume level.&#34;&#34;&#34;
+
+        try:
+            value = self._get_control(&#39;SpkVolume&#39;)
+            return int(value)
+        except FailedRequestError:
+            return 0  # Device does not support volume control.
+
+    def poll(self):
+        &#34;&#34;&#34;Poll the device&#39;s current state.
+
+        Monitoring must be started first with `monitor_start`. Return
+        either an `ACStatus` object or `None` if the status is not yet
+        available.
+        &#34;&#34;&#34;
+
+        # Abort if monitoring has not started yet.
+        if not hasattr(self, &#39;mon&#39;):
+            return None
+
+        res = self.mon.poll_json()
+        if res:
+            return ACStatus(self, res)
+        else:
+            return None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.client.Device" href="client.html#wideq.client.Device">Device</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="wideq.ac.ACDevice.c2f"><code class="name">var <span class="ident">c2f</span></code></dt>
+<dd>
+<div class="desc"><p>Get an inverse mapping from Celsius to Fahrenheit.</p>
+<p>Just as unbelievably, this is not exactly the inverse of the
+<code>f2c</code> map. There are a few values in this reverse mapping that
+are not in the other.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def c2f(self):
+    &#34;&#34;&#34;Get an inverse mapping from Celsius to Fahrenheit.
+
+    Just as unbelievably, this is not exactly the inverse of the
+    `f2c` map. There are a few values in this reverse mapping that
+    are not in the other.
+    &#34;&#34;&#34;
+
+    mapping = self.model.value(&#39;TempCelToFah&#39;).options
+    out = {}
+    for c, f in mapping.items():
+        try:
+            c_num = int(c)
+        except ValueError:
+            c_num = float(c)
+        out[c_num] = f
+    return out</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.f2c"><code class="name">var <span class="ident">f2c</span></code></dt>
+<dd>
+<div class="desc"><p>Get a dictionary mapping Fahrenheit to Celsius temperatures for
+this device.</p>
+<p>Unbelievably, SmartThinQ devices have their own lookup tables
+for mapping the two temperature scales. You can get <em>close</em> by
+using a real conversion between the two temperature scales, but
+precise control requires using the custom LUT.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def f2c(self):
+    &#34;&#34;&#34;Get a dictionary mapping Fahrenheit to Celsius temperatures for
+    this device.
+
+    Unbelievably, SmartThinQ devices have their own lookup tables
+    for mapping the two temperature scales. You can get *close* by
+    using a real conversion between the two temperature scales, but
+    precise control requires using the custom LUT.
+    &#34;&#34;&#34;
+
+    mapping = self.model.value(&#39;TempFahToCel&#39;).options
+    return {int(f): c for f, c in mapping.items()}</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.supported_on_operation"><code class="name">var <span class="ident">supported_on_operation</span></code></dt>
+<dd>
+<div class="desc"><p>Get the most correct "On" operation the device supports.
+:raises ValueError: If ALL_ON is not supported, but there are
+multiple supported ON operations. If a model raises this,
+its behaviour needs to be determined so this function can
+make a better decision.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def supported_on_operation(self):
+    &#34;&#34;&#34;Get the most correct &#34;On&#34; operation the device supports.
+    :raises ValueError: If ALL_ON is not supported, but there are
+        multiple supported ON operations. If a model raises this,
+        its behaviour needs to be determined so this function can
+        make a better decision.
+    &#34;&#34;&#34;
+
+    operations = self.supported_operations
+    operations.remove(ACOp.OFF)
+
+    # This ON operation appears to be supported in newer AC models
+    if ACOp.ALL_ON in operations:
+        return ACOp.ALL_ON
+
+    # Older models, or possibly just the LP1419IVSM, do not support ALL_ON,
+    # instead advertising only a single operation of RIGHT_ON.
+    # Thus, if there&#39;s only one ON operation, we use that.
+    if len(operations) == 1:
+        return operations[0]
+
+    # Hypothetically, the API could return multiple ON operations, neither
+    # of which are ALL_ON. This will raise in that case, as we don&#39;t know
+    # what that model will expect us to do to turn everything on.
+    # Or, this code will never actually be reached! We can only hope. :)
+    raise ValueError(
+        f&#34;could not determine correct &#39;on&#39; operation:&#34;
+        f&#34; too many reported operations: &#39;{str(operations)}&#39;&#34;)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.supported_operations"><code class="name">var <span class="ident">supported_operations</span></code></dt>
+<dd>
+<div class="desc"><p>Get a list of the ACOp Operations the device supports.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def supported_operations(self):
+    &#34;&#34;&#34;Get a list of the ACOp Operations the device supports.
+    &#34;&#34;&#34;
+
+    mapping = self.model.value(&#39;Operation&#39;).options
+    return [ACOp(o) for i, o in mapping.items()]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="wideq.ac.ACDevice.get_energy_target"><code class="name flex">
+<span>def <span class="ident">get_energy_target</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the configured energy target data.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_energy_target(self):
+    &#34;&#34;&#34;Get the configured energy target data.&#34;&#34;&#34;
+
+    return self._get_config(&#39;EnergyDesiredValue&#39;)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_filter_state"><code class="name flex">
+<span>def <span class="ident">get_filter_state</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get information about the filter.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_filter_state(self):
+    &#34;&#34;&#34;Get information about the filter.&#34;&#34;&#34;
+
+    return self._get_config(&#39;Filter&#39;)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_light"><code class="name flex">
+<span>def <span class="ident">get_light</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a Boolean indicating whether the display light is on.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_light(self):
+    &#34;&#34;&#34;Get a Boolean indicating whether the display light is on.&#34;&#34;&#34;
+
+    try:
+        value = self._get_control(&#39;DisplayControl&#39;)
+        return value == &#39;0&#39;  # Seems backwards, but isn&#39;t.
+    except FailedRequestError:
+        # Device does not support reporting display light status.
+        # Since it&#39;s probably not changeable the it must be on.
+        return True</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_mfilter_state"><code class="name flex">
+<span>def <span class="ident">get_mfilter_state</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get information about the "MFilter" (not sure what this is).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_mfilter_state(self):
+    &#34;&#34;&#34;Get information about the &#34;MFilter&#34; (not sure what this is).
+    &#34;&#34;&#34;
+
+    return self._get_config(&#39;MFilter&#39;)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_outdoor_power"><code class="name flex">
+<span>def <span class="ident">get_outdoor_power</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get instant power usage in watts of the outdoor unit</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_outdoor_power(self):
+    &#34;&#34;&#34;Get instant power usage in watts of the outdoor unit&#34;&#34;&#34;
+
+    value = self._get_config(&#39;OutTotalInstantPower&#39;)
+    return value[&#39;OutTotalInstantPower&#39;]</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_power"><code class="name flex">
+<span>def <span class="ident">get_power</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the instant power usage in watts of the whole unit</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_power(self):
+    &#34;&#34;&#34;Get the instant power usage in watts of the whole unit&#34;&#34;&#34;
+
+    value = self._get_config(&#39;InOutInstantPower&#39;)
+    return value[&#39;InOutInstantPower&#39;]</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_volume"><code class="name flex">
+<span>def <span class="ident">get_volume</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the speaker volume level.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_volume(self):
+    &#34;&#34;&#34;Get the speaker volume level.&#34;&#34;&#34;
+
+    try:
+        value = self._get_control(&#39;SpkVolume&#39;)
+        return int(value)
+    except FailedRequestError:
+        return 0  # Device does not support volume control.</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.get_zones"><code class="name flex">
+<span>def <span class="ident">get_zones</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the status of the zones, including whether a zone is
+configured.</p>
+<p>The result is a list of dicts with the same format as described in
+<code>set_zones</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_zones(self):
+    &#34;&#34;&#34;Get the status of the zones, including whether a zone is
+    configured.
+
+    The result is a list of dicts with the same format as described in
+    `set_zones`.
+    &#34;&#34;&#34;
+
+    return self._get_config(&#39;DuctZone&#39;)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.poll"><code class="name flex">
+<span>def <span class="ident">poll</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Poll the device's current state.</p>
+<p>Monitoring must be started first with <code>monitor_start</code>. Return
+either an <code><a title="wideq.ac.ACStatus" href="#wideq.ac.ACStatus">ACStatus</a></code> object or <code>None</code> if the status is not yet
+available.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def poll(self):
+    &#34;&#34;&#34;Poll the device&#39;s current state.
+
+    Monitoring must be started first with `monitor_start`. Return
+    either an `ACStatus` object or `None` if the status is not yet
+    available.
+    &#34;&#34;&#34;
+
+    # Abort if monitoring has not started yet.
+    if not hasattr(self, &#39;mon&#39;):
+        return None
+
+    res = self.mon.poll_json()
+    if res:
+        return ACStatus(self, res)
+    else:
+        return None</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_celsius"><code class="name flex">
+<span>def <span class="ident">set_celsius</span></span>(<span>self, c)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the device's target temperature in Celsius degrees.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_celsius(self, c):
+    &#34;&#34;&#34;Set the device&#39;s target temperature in Celsius degrees.
+    &#34;&#34;&#34;
+
+    self._set_control(&#39;TempCfg&#39;, c)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_fahrenheit"><code class="name flex">
+<span>def <span class="ident">set_fahrenheit</span></span>(<span>self, f)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the device's target temperature in Fahrenheit degrees.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_fahrenheit(self, f):
+    &#34;&#34;&#34;Set the device&#39;s target temperature in Fahrenheit degrees.
+    &#34;&#34;&#34;
+
+    self.set_celsius(self.f2c[f])</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_fan_speed"><code class="name flex">
+<span>def <span class="ident">set_fan_speed</span></span>(<span>self, speed)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the fan speed to a value from the <code><a title="wideq.ac.ACFanSpeed" href="#wideq.ac.ACFanSpeed">ACFanSpeed</a></code> enum.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_fan_speed(self, speed):
+    &#34;&#34;&#34;Set the fan speed to a value from the `ACFanSpeed` enum.
+    &#34;&#34;&#34;
+
+    speed_value = self.model.enum_value(&#39;WindStrength&#39;, speed.value)
+    self._set_control(&#39;WindStrength&#39;, speed_value)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_horz_swing"><code class="name flex">
+<span>def <span class="ident">set_horz_swing</span></span>(<span>self, swing)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the horizontal swing to a value from the <code><a title="wideq.ac.ACHSwingMode" href="#wideq.ac.ACHSwingMode">ACHSwingMode</a></code> enum.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_horz_swing(self, swing):
+    &#34;&#34;&#34;Set the horizontal swing to a value from the `ACHSwingMode` enum.
+    &#34;&#34;&#34;
+
+    swing_value = self.model.enum_value(&#39;WDirHStep&#39;, swing.value)
+    self._set_control(&#39;WDirHStep&#39;, swing_value)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_jet_mode"><code class="name flex">
+<span>def <span class="ident">set_jet_mode</span></span>(<span>self, jet_opt)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set jet mode to a value from the <code><a title="wideq.ac.ACJetMode" href="#wideq.ac.ACJetMode">ACJetMode</a></code> enum.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_jet_mode(self, jet_opt):
+    &#34;&#34;&#34;Set jet mode to a value from the `ACJetMode` enum.
+    &#34;&#34;&#34;
+
+    jet_opt_value = self.model.enum_value(&#39;Jet&#39;, jet_opt.value)
+    self._set_control(&#39;Jet&#39;, jet_opt_value)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_mode"><code class="name flex">
+<span>def <span class="ident">set_mode</span></span>(<span>self, mode)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the device's operating mode to an <code>OpMode</code> value.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_mode(self, mode):
+    &#34;&#34;&#34;Set the device&#39;s operating mode to an `OpMode` value.
+    &#34;&#34;&#34;
+
+    mode_value = self.model.enum_value(&#39;OpMode&#39;, mode.value)
+    self._set_control(&#39;OpMode&#39;, mode_value)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_on"><code class="name flex">
+<span>def <span class="ident">set_on</span></span>(<span>self, is_on)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Turn on or off the device (according to a boolean).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_on(self, is_on):
+    &#34;&#34;&#34;Turn on or off the device (according to a boolean).
+    &#34;&#34;&#34;
+
+    op = self.supported_on_operation if is_on else ACOp.OFF
+    op_value = self.model.enum_value(&#39;Operation&#39;, op.value)
+    self._set_control(&#39;Operation&#39;, op_value)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_vert_swing"><code class="name flex">
+<span>def <span class="ident">set_vert_swing</span></span>(<span>self, swing)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the vertical swing to a value from the <code><a title="wideq.ac.ACVSwingMode" href="#wideq.ac.ACVSwingMode">ACVSwingMode</a></code> enum.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_vert_swing(self, swing):
+    &#34;&#34;&#34;Set the vertical swing to a value from the `ACVSwingMode` enum.
+    &#34;&#34;&#34;
+
+    swing_value = self.model.enum_value(&#39;WDirVStep&#39;, swing.value)
+    self._set_control(&#39;WDirVStep&#39;, swing_value)</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACDevice.set_zones"><code class="name flex">
+<span>def <span class="ident">set_zones</span></span>(<span>self, zones)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Turn off or on the device's zones.</p>
+<p>The <code>zones</code> parameter is a list of dicts with these keys:
+- "No": The zone index. A string containing a number,
+starting from 1.
+- "Cfg": Whether the zone is enabled. A string, either "1" or
+"0".
+- "State": Whether the zone is open. Also "1" or "0".</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_zones(self, zones):
+    &#34;&#34;&#34;Turn off or on the device&#39;s zones.
+
+    The `zones` parameter is a list of dicts with these keys:
+    - &#34;No&#34;: The zone index. A string containing a number,
+      starting from 1.
+    - &#34;Cfg&#34;: Whether the zone is enabled. A string, either &#34;1&#34; or
+      &#34;0&#34;.
+    - &#34;State&#34;: Whether the zone is open. Also &#34;1&#34; or &#34;0&#34;.
+    &#34;&#34;&#34;
+
+    # Ensure at least one zone is enabled: we can&#39;t turn all zones
+    # off simultaneously.
+    on_count = sum(int(zone[&#39;State&#39;]) for zone in zones)
+    if on_count &gt; 0:
+        zone_cmd = &#39;/&#39;.join(
+            &#39;{}_{}&#39;.format(zone[&#39;No&#39;], zone[&#39;State&#39;])
+            for zone in zones if zone[&#39;Cfg&#39;] == &#39;1&#39;
+        )
+        self._set_control(&#39;DuctZone&#39;, zone_cmd)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="wideq.client.Device" href="client.html#wideq.client.Device">Device</a></b></code>:
+<ul class="hlist">
+<li><code><a title="wideq.client.Device.monitor_start" href="client.html#wideq.client.Device.monitor_start">monitor_start</a></code></li>
+<li><code><a title="wideq.client.Device.monitor_stop" href="client.html#wideq.client.Device.monitor_stop">monitor_stop</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="wideq.ac.ACFanSpeed"><code class="flex name class">
+<span>class <span class="ident">ACFanSpeed</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The fan speed for an AC/HVAC device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACFanSpeed(enum.Enum):
+    &#34;&#34;&#34;The fan speed for an AC/HVAC device.&#34;&#34;&#34;
+
+    SLOW = &#39;@AC_MAIN_WIND_STRENGTH_SLOW_W&#39;
+    SLOW_LOW = &#39;@AC_MAIN_WIND_STRENGTH_SLOW_LOW_W&#39;
+    LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_W&#39;
+    LOW_MID = &#39;@AC_MAIN_WIND_STRENGTH_LOW_MID_W&#39;
+    MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_W&#39;
+    MID_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_MID_HIGH_W&#39;
+    HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_W&#39;
+    POWER = &#39;@AC_MAIN_WIND_STRENGTH_POWER_W&#39;
+    AUTO = &#39;@AC_MAIN_WIND_STRENGTH_AUTO_W&#39;
+    NATURE = &#39;@AC_MAIN_WIND_STRENGTH_NATURE_W&#39;
+    R_LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    R_MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    R_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    L_LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W&#39;
+    L_MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W&#39;
+    L_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W&#39;
+    L_LOWR_LOW = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    L_LOWR_MID = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    L_LOWR_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_LOW_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    L_MIDR_LOW = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    L_MIDR_MID = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    L_MIDR_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_MID_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    L_HIGHR_LOW = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LOW_RIGHT_W&#39;
+    L_HIGHR_MID = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_MID_RIGHT_W&#39;
+    L_HIGHR_HIGH = &#39;@AC_MAIN_WIND_STRENGTH_HIGH_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_HIGH_RIGHT_W&#39;
+    AUTO_2 = &#39;@AC_MAIN_WIND_STRENGTH_AUTO_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_AUTO_RIGHT_W&#39;
+    POWER_2 = &#39;@AC_MAIN_WIND_STRENGTH_POWER_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_POWER_RIGHT_W&#39;
+    LONGPOWER = &#39;@AC_MAIN_WIND_STRENGTH_LONGPOWER_LEFT_W|&#39; \
+        &#39;AC_MAIN_WIND_STRENGTH_LONGPOWER_RIGHT_W&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="wideq.ac.ACFanSpeed.AUTO"><code class="name">var <span class="ident">AUTO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.AUTO_2"><code class="name">var <span class="ident">AUTO_2</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.HIGH"><code class="name">var <span class="ident">HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.LONGPOWER"><code class="name">var <span class="ident">LONGPOWER</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.LOW"><code class="name">var <span class="ident">LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.LOW_MID"><code class="name">var <span class="ident">LOW_MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_HIGH"><code class="name">var <span class="ident">L_HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_HIGHR_HIGH"><code class="name">var <span class="ident">L_HIGHR_HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_HIGHR_LOW"><code class="name">var <span class="ident">L_HIGHR_LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_HIGHR_MID"><code class="name">var <span class="ident">L_HIGHR_MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_LOW"><code class="name">var <span class="ident">L_LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_LOWR_HIGH"><code class="name">var <span class="ident">L_LOWR_HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_LOWR_LOW"><code class="name">var <span class="ident">L_LOWR_LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_LOWR_MID"><code class="name">var <span class="ident">L_LOWR_MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_MID"><code class="name">var <span class="ident">L_MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_MIDR_HIGH"><code class="name">var <span class="ident">L_MIDR_HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_MIDR_LOW"><code class="name">var <span class="ident">L_MIDR_LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.L_MIDR_MID"><code class="name">var <span class="ident">L_MIDR_MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.MID"><code class="name">var <span class="ident">MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.MID_HIGH"><code class="name">var <span class="ident">MID_HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.NATURE"><code class="name">var <span class="ident">NATURE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.POWER"><code class="name">var <span class="ident">POWER</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.POWER_2"><code class="name">var <span class="ident">POWER_2</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.R_HIGH"><code class="name">var <span class="ident">R_HIGH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.R_LOW"><code class="name">var <span class="ident">R_LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.R_MID"><code class="name">var <span class="ident">R_MID</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.SLOW"><code class="name">var <span class="ident">SLOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACFanSpeed.SLOW_LOW"><code class="name">var <span class="ident">SLOW_LOW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.ac.ACHSwingMode"><code class="flex name class">
+<span>class <span class="ident">ACHSwingMode</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The horizontal swing mode for an AC/HVAC device.</p>
+<p>Blades are numbered horizontally from 1 (leftmost)
+to 5.</p>
+<p>Left half goes from 1-3, and right half goes from
+3-5.</p>
+<p>All is 100.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACHSwingMode(enum.Enum):
+    &#34;&#34;&#34;The horizontal swing mode for an AC/HVAC device.
+
+    Blades are numbered horizontally from 1 (leftmost)
+    to 5.
+
+    Left half goes from 1-3, and right half goes from
+    3-5.
+
+    All is 100.
+    &#34;&#34;&#34;
+    OFF = &#34;@OFF&#34;
+    ONE = &#34;@1&#34;
+    TWO = &#34;@2&#34;
+    THREE = &#34;@3&#34;
+    FOUR = &#34;@4&#34;
+    FIVE = &#34;@5&#34;
+    LEFT_HALF = &#34;@13&#34;
+    RIGHT_HALF = &#34;@35&#34;
+    ALL = &#34;@100&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="wideq.ac.ACHSwingMode.ALL"><code class="name">var <span class="ident">ALL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.FIVE"><code class="name">var <span class="ident">FIVE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.FOUR"><code class="name">var <span class="ident">FOUR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.LEFT_HALF"><code class="name">var <span class="ident">LEFT_HALF</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.OFF"><code class="name">var <span class="ident">OFF</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.ONE"><code class="name">var <span class="ident">ONE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.RIGHT_HALF"><code class="name">var <span class="ident">RIGHT_HALF</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.THREE"><code class="name">var <span class="ident">THREE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACHSwingMode.TWO"><code class="name">var <span class="ident">TWO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.ac.ACJetMode"><code class="flex name class">
+<span>class <span class="ident">ACJetMode</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>JET mode puts your AC into highest cooling or dry or
+heat mode(for a certain amount of time) depending on what you choose</p>
+<p>This mode Overrides following setting:
+1. Vertical swing is set to @100
+2. Temperature gets set to 18 after jet mode turns off
+3. Fan speed is set to HIGH (@AC_MAIN_WIND_STRENGTH_HIGH_W)
+after jet mode turns off</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACJetMode(enum.Enum):
+    &#34;&#34;&#34;JET mode puts your AC into highest cooling or dry or
+    heat mode(for a certain amount of time) depending on what you choose
+
+    This mode Overrides following setting:
+    1. Vertical swing is set to @100
+    2. Temperature gets set to 18 after jet mode turns off
+    3. Fan speed is set to HIGH (@AC_MAIN_WIND_STRENGTH_HIGH_W)
+    after jet mode turns off
+    &#34;&#34;&#34;
+
+    OFF = &#34;@OFF&#34;
+    COOL = &#34;@COOL_JET&#34;
+    HEAT = &#34;@HEAT_JET&#34;
+    DRY = &#34;@DRY_JET_W&#34;
+    HIMALAYAS = &#34;@HIMALAYAS_COOL&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="wideq.ac.ACJetMode.COOL"><code class="name">var <span class="ident">COOL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACJetMode.DRY"><code class="name">var <span class="ident">DRY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACJetMode.HEAT"><code class="name">var <span class="ident">HEAT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACJetMode.HIMALAYAS"><code class="name">var <span class="ident">HIMALAYAS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACJetMode.OFF"><code class="name">var <span class="ident">OFF</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.ac.ACMode"><code class="flex name class">
+<span>class <span class="ident">ACMode</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The operation mode for an AC/HVAC device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACMode(enum.Enum):
+    &#34;&#34;&#34;The operation mode for an AC/HVAC device.&#34;&#34;&#34;
+
+    COOL = &#34;@AC_MAIN_OPERATION_MODE_COOL_W&#34;
+    DRY = &#34;@AC_MAIN_OPERATION_MODE_DRY_W&#34;
+    FAN = &#34;@AC_MAIN_OPERATION_MODE_FAN_W&#34;
+    AI = &#34;@AC_MAIN_OPERATION_MODE_AI_W&#34;
+    HEAT = &#34;@AC_MAIN_OPERATION_MODE_HEAT_W&#34;
+    AIRCLEAN = &#34;@AC_MAIN_OPERATION_MODE_AIRCLEAN_W&#34;
+    ACO = &#34;@AC_MAIN_OPERATION_MODE_ACO_W&#34;
+    AROMA = &#34;@AC_MAIN_OPERATION_MODE_AROMA_W&#34;
+    ENERGY_SAVING = &#34;@AC_MAIN_OPERATION_MODE_ENERGY_SAVING_W&#34;
+    ENERGY_SAVER = &#34;@AC_MAIN_OPERATION_MODE_ENERGY_SAVER_W&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="wideq.ac.ACMode.ACO"><code class="name">var <span class="ident">ACO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.AI"><code class="name">var <span class="ident">AI</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.AIRCLEAN"><code class="name">var <span class="ident">AIRCLEAN</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.AROMA"><code class="name">var <span class="ident">AROMA</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.COOL"><code class="name">var <span class="ident">COOL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.DRY"><code class="name">var <span class="ident">DRY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.ENERGY_SAVER"><code class="name">var <span class="ident">ENERGY_SAVER</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.ENERGY_SAVING"><code class="name">var <span class="ident">ENERGY_SAVING</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.FAN"><code class="name">var <span class="ident">FAN</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACMode.HEAT"><code class="name">var <span class="ident">HEAT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.ac.ACOp"><code class="flex name class">
+<span>class <span class="ident">ACOp</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Whether a device is on or off.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACOp(enum.Enum):
+    &#34;&#34;&#34;Whether a device is on or off.&#34;&#34;&#34;
+
+    OFF = &#34;@AC_MAIN_OPERATION_OFF_W&#34;
+    RIGHT_ON = &#34;@AC_MAIN_OPERATION_RIGHT_ON_W&#34;  # Right fan only.
+    LEFT_ON = &#34;@AC_MAIN_OPERATION_LEFT_ON_W&#34;  # Left fan only.
+    ALL_ON = &#34;@AC_MAIN_OPERATION_ALL_ON_W&#34;  # Both fans (or only fan) on.</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="wideq.ac.ACOp.ALL_ON"><code class="name">var <span class="ident">ALL_ON</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACOp.LEFT_ON"><code class="name">var <span class="ident">LEFT_ON</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACOp.OFF"><code class="name">var <span class="ident">OFF</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACOp.RIGHT_ON"><code class="name">var <span class="ident">RIGHT_ON</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.ac.ACStatus"><code class="flex name class">
+<span>class <span class="ident">ACStatus</span></span>
+<span>(</span><span>ac, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Higher-level information about an AC device's current status.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACStatus(object):
+    &#34;&#34;&#34;Higher-level information about an AC device&#39;s current status.
+    &#34;&#34;&#34;
+
+    def __init__(self, ac, data):
+        self.ac = ac
+        self.data = data
+
+    @staticmethod
+    def _str_to_num(s):
+        &#34;&#34;&#34;Convert a string to either an `int` or a `float`.
+
+        Troublingly, the API likes values like &#34;18&#34;, without a trailing
+        &#34;.0&#34;, for whole numbers. So we use `int`s for integers and
+        `float`s for non-whole numbers.
+        &#34;&#34;&#34;
+
+        f = float(s)
+        if f == int(f):
+            return int(f)
+        else:
+            return f
+
+    @property
+    def temp_cur_c(self):
+        return self._str_to_num(self.data[&#39;TempCur&#39;])
+
+    @property
+    def temp_cur_f(self):
+        return self.ac.c2f[self.temp_cur_c]
+
+    @property
+    def temp_cfg_c(self):
+        return self._str_to_num(self.data[&#39;TempCfg&#39;])
+
+    @property
+    def temp_cfg_f(self):
+        return self.ac.c2f[self.temp_cfg_c]
+
+    @property
+    def mode(self):
+        return ACMode(lookup_enum(&#39;OpMode&#39;, self.data, self.ac))
+
+    @property
+    def fan_speed(self):
+        return ACFanSpeed(lookup_enum(&#39;WindStrength&#39;, self.data, self.ac))
+
+    @property
+    def horz_swing(self):
+        return ACHSwingMode(lookup_enum(&#39;WDirHStep&#39;, self.data, self.ac))
+
+    @property
+    def vert_swing(self):
+        return ACVSwingMode(lookup_enum(&#39;WDirVStep&#39;, self.data, self.ac))
+
+    @property
+    def is_on(self):
+        op = ACOp(lookup_enum(&#39;Operation&#39;, self.data, self.ac))
+        return op != ACOp.OFF</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="wideq.ac.ACStatus.fan_speed"><code class="name">var <span class="ident">fan_speed</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def fan_speed(self):
+    return ACFanSpeed(lookup_enum(&#39;WindStrength&#39;, self.data, self.ac))</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.horz_swing"><code class="name">var <span class="ident">horz_swing</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def horz_swing(self):
+    return ACHSwingMode(lookup_enum(&#39;WDirHStep&#39;, self.data, self.ac))</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.is_on"><code class="name">var <span class="ident">is_on</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def is_on(self):
+    op = ACOp(lookup_enum(&#39;Operation&#39;, self.data, self.ac))
+    return op != ACOp.OFF</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.mode"><code class="name">var <span class="ident">mode</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def mode(self):
+    return ACMode(lookup_enum(&#39;OpMode&#39;, self.data, self.ac))</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.temp_cfg_c"><code class="name">var <span class="ident">temp_cfg_c</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def temp_cfg_c(self):
+    return self._str_to_num(self.data[&#39;TempCfg&#39;])</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.temp_cfg_f"><code class="name">var <span class="ident">temp_cfg_f</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def temp_cfg_f(self):
+    return self.ac.c2f[self.temp_cfg_c]</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.temp_cur_c"><code class="name">var <span class="ident">temp_cur_c</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def temp_cur_c(self):
+    return self._str_to_num(self.data[&#39;TempCur&#39;])</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.temp_cur_f"><code class="name">var <span class="ident">temp_cur_f</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def temp_cur_f(self):
+    return self.ac.c2f[self.temp_cur_c]</code></pre>
+</details>
+</dd>
+<dt id="wideq.ac.ACStatus.vert_swing"><code class="name">var <span class="ident">vert_swing</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def vert_swing(self):
+    return ACVSwingMode(lookup_enum(&#39;WDirVStep&#39;, self.data, self.ac))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.ac.ACVSwingMode"><code class="flex name class">
+<span>class <span class="ident">ACVSwingMode</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The vertical swing mode for an AC/HVAC device.</p>
+<p>Blades are numbered vertically from 1 (topmost)
+to 6.</p>
+<p>All is 100.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ACVSwingMode(enum.Enum):
+    &#34;&#34;&#34;The vertical swing mode for an AC/HVAC device.
+
+    Blades are numbered vertically from 1 (topmost)
+    to 6.
+
+    All is 100.
+    &#34;&#34;&#34;
+    OFF = &#34;@OFF&#34;
+    ONE = &#34;@1&#34;
+    TWO = &#34;@2&#34;
+    THREE = &#34;@3&#34;
+    FOUR = &#34;@4&#34;
+    FIVE = &#34;@5&#34;
+    SIX = &#34;@6&#34;
+    ALL = &#34;@100&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="wideq.ac.ACVSwingMode.ALL"><code class="name">var <span class="ident">ALL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.FIVE"><code class="name">var <span class="ident">FIVE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.FOUR"><code class="name">var <span class="ident">FOUR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.OFF"><code class="name">var <span class="ident">OFF</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.ONE"><code class="name">var <span class="ident">ONE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.SIX"><code class="name">var <span class="ident">SIX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.THREE"><code class="name">var <span class="ident">THREE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="wideq.ac.ACVSwingMode.TWO"><code class="name">var <span class="ident">TWO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="wideq" href="index.html">wideq</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="wideq.ac.ACDevice" href="#wideq.ac.ACDevice">ACDevice</a></code></h4>
+<ul class="">
+<li><code><a title="wideq.ac.ACDevice.c2f" href="#wideq.ac.ACDevice.c2f">c2f</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.f2c" href="#wideq.ac.ACDevice.f2c">f2c</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_energy_target" href="#wideq.ac.ACDevice.get_energy_target">get_energy_target</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_filter_state" href="#wideq.ac.ACDevice.get_filter_state">get_filter_state</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_light" href="#wideq.ac.ACDevice.get_light">get_light</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_mfilter_state" href="#wideq.ac.ACDevice.get_mfilter_state">get_mfilter_state</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_outdoor_power" href="#wideq.ac.ACDevice.get_outdoor_power">get_outdoor_power</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_power" href="#wideq.ac.ACDevice.get_power">get_power</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_volume" href="#wideq.ac.ACDevice.get_volume">get_volume</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.get_zones" href="#wideq.ac.ACDevice.get_zones">get_zones</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.poll" href="#wideq.ac.ACDevice.poll">poll</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_celsius" href="#wideq.ac.ACDevice.set_celsius">set_celsius</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_fahrenheit" href="#wideq.ac.ACDevice.set_fahrenheit">set_fahrenheit</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_fan_speed" href="#wideq.ac.ACDevice.set_fan_speed">set_fan_speed</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_horz_swing" href="#wideq.ac.ACDevice.set_horz_swing">set_horz_swing</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_jet_mode" href="#wideq.ac.ACDevice.set_jet_mode">set_jet_mode</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_mode" href="#wideq.ac.ACDevice.set_mode">set_mode</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_on" href="#wideq.ac.ACDevice.set_on">set_on</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_vert_swing" href="#wideq.ac.ACDevice.set_vert_swing">set_vert_swing</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.set_zones" href="#wideq.ac.ACDevice.set_zones">set_zones</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.supported_on_operation" href="#wideq.ac.ACDevice.supported_on_operation">supported_on_operation</a></code></li>
+<li><code><a title="wideq.ac.ACDevice.supported_operations" href="#wideq.ac.ACDevice.supported_operations">supported_operations</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACFanSpeed" href="#wideq.ac.ACFanSpeed">ACFanSpeed</a></code></h4>
+<ul class="two-column">
+<li><code><a title="wideq.ac.ACFanSpeed.AUTO" href="#wideq.ac.ACFanSpeed.AUTO">AUTO</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.AUTO_2" href="#wideq.ac.ACFanSpeed.AUTO_2">AUTO_2</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.HIGH" href="#wideq.ac.ACFanSpeed.HIGH">HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.LONGPOWER" href="#wideq.ac.ACFanSpeed.LONGPOWER">LONGPOWER</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.LOW" href="#wideq.ac.ACFanSpeed.LOW">LOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.LOW_MID" href="#wideq.ac.ACFanSpeed.LOW_MID">LOW_MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_HIGH" href="#wideq.ac.ACFanSpeed.L_HIGH">L_HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_HIGHR_HIGH" href="#wideq.ac.ACFanSpeed.L_HIGHR_HIGH">L_HIGHR_HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_HIGHR_LOW" href="#wideq.ac.ACFanSpeed.L_HIGHR_LOW">L_HIGHR_LOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_HIGHR_MID" href="#wideq.ac.ACFanSpeed.L_HIGHR_MID">L_HIGHR_MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_LOW" href="#wideq.ac.ACFanSpeed.L_LOW">L_LOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_LOWR_HIGH" href="#wideq.ac.ACFanSpeed.L_LOWR_HIGH">L_LOWR_HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_LOWR_LOW" href="#wideq.ac.ACFanSpeed.L_LOWR_LOW">L_LOWR_LOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_LOWR_MID" href="#wideq.ac.ACFanSpeed.L_LOWR_MID">L_LOWR_MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_MID" href="#wideq.ac.ACFanSpeed.L_MID">L_MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_MIDR_HIGH" href="#wideq.ac.ACFanSpeed.L_MIDR_HIGH">L_MIDR_HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_MIDR_LOW" href="#wideq.ac.ACFanSpeed.L_MIDR_LOW">L_MIDR_LOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.L_MIDR_MID" href="#wideq.ac.ACFanSpeed.L_MIDR_MID">L_MIDR_MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.MID" href="#wideq.ac.ACFanSpeed.MID">MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.MID_HIGH" href="#wideq.ac.ACFanSpeed.MID_HIGH">MID_HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.NATURE" href="#wideq.ac.ACFanSpeed.NATURE">NATURE</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.POWER" href="#wideq.ac.ACFanSpeed.POWER">POWER</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.POWER_2" href="#wideq.ac.ACFanSpeed.POWER_2">POWER_2</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.R_HIGH" href="#wideq.ac.ACFanSpeed.R_HIGH">R_HIGH</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.R_LOW" href="#wideq.ac.ACFanSpeed.R_LOW">R_LOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.R_MID" href="#wideq.ac.ACFanSpeed.R_MID">R_MID</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.SLOW" href="#wideq.ac.ACFanSpeed.SLOW">SLOW</a></code></li>
+<li><code><a title="wideq.ac.ACFanSpeed.SLOW_LOW" href="#wideq.ac.ACFanSpeed.SLOW_LOW">SLOW_LOW</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACHSwingMode" href="#wideq.ac.ACHSwingMode">ACHSwingMode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="wideq.ac.ACHSwingMode.ALL" href="#wideq.ac.ACHSwingMode.ALL">ALL</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.FIVE" href="#wideq.ac.ACHSwingMode.FIVE">FIVE</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.FOUR" href="#wideq.ac.ACHSwingMode.FOUR">FOUR</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.LEFT_HALF" href="#wideq.ac.ACHSwingMode.LEFT_HALF">LEFT_HALF</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.OFF" href="#wideq.ac.ACHSwingMode.OFF">OFF</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.ONE" href="#wideq.ac.ACHSwingMode.ONE">ONE</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.RIGHT_HALF" href="#wideq.ac.ACHSwingMode.RIGHT_HALF">RIGHT_HALF</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.THREE" href="#wideq.ac.ACHSwingMode.THREE">THREE</a></code></li>
+<li><code><a title="wideq.ac.ACHSwingMode.TWO" href="#wideq.ac.ACHSwingMode.TWO">TWO</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACJetMode" href="#wideq.ac.ACJetMode">ACJetMode</a></code></h4>
+<ul class="">
+<li><code><a title="wideq.ac.ACJetMode.COOL" href="#wideq.ac.ACJetMode.COOL">COOL</a></code></li>
+<li><code><a title="wideq.ac.ACJetMode.DRY" href="#wideq.ac.ACJetMode.DRY">DRY</a></code></li>
+<li><code><a title="wideq.ac.ACJetMode.HEAT" href="#wideq.ac.ACJetMode.HEAT">HEAT</a></code></li>
+<li><code><a title="wideq.ac.ACJetMode.HIMALAYAS" href="#wideq.ac.ACJetMode.HIMALAYAS">HIMALAYAS</a></code></li>
+<li><code><a title="wideq.ac.ACJetMode.OFF" href="#wideq.ac.ACJetMode.OFF">OFF</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACMode" href="#wideq.ac.ACMode">ACMode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="wideq.ac.ACMode.ACO" href="#wideq.ac.ACMode.ACO">ACO</a></code></li>
+<li><code><a title="wideq.ac.ACMode.AI" href="#wideq.ac.ACMode.AI">AI</a></code></li>
+<li><code><a title="wideq.ac.ACMode.AIRCLEAN" href="#wideq.ac.ACMode.AIRCLEAN">AIRCLEAN</a></code></li>
+<li><code><a title="wideq.ac.ACMode.AROMA" href="#wideq.ac.ACMode.AROMA">AROMA</a></code></li>
+<li><code><a title="wideq.ac.ACMode.COOL" href="#wideq.ac.ACMode.COOL">COOL</a></code></li>
+<li><code><a title="wideq.ac.ACMode.DRY" href="#wideq.ac.ACMode.DRY">DRY</a></code></li>
+<li><code><a title="wideq.ac.ACMode.ENERGY_SAVER" href="#wideq.ac.ACMode.ENERGY_SAVER">ENERGY_SAVER</a></code></li>
+<li><code><a title="wideq.ac.ACMode.ENERGY_SAVING" href="#wideq.ac.ACMode.ENERGY_SAVING">ENERGY_SAVING</a></code></li>
+<li><code><a title="wideq.ac.ACMode.FAN" href="#wideq.ac.ACMode.FAN">FAN</a></code></li>
+<li><code><a title="wideq.ac.ACMode.HEAT" href="#wideq.ac.ACMode.HEAT">HEAT</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACOp" href="#wideq.ac.ACOp">ACOp</a></code></h4>
+<ul class="">
+<li><code><a title="wideq.ac.ACOp.ALL_ON" href="#wideq.ac.ACOp.ALL_ON">ALL_ON</a></code></li>
+<li><code><a title="wideq.ac.ACOp.LEFT_ON" href="#wideq.ac.ACOp.LEFT_ON">LEFT_ON</a></code></li>
+<li><code><a title="wideq.ac.ACOp.OFF" href="#wideq.ac.ACOp.OFF">OFF</a></code></li>
+<li><code><a title="wideq.ac.ACOp.RIGHT_ON" href="#wideq.ac.ACOp.RIGHT_ON">RIGHT_ON</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACStatus" href="#wideq.ac.ACStatus">ACStatus</a></code></h4>
+<ul class="two-column">
+<li><code><a title="wideq.ac.ACStatus.fan_speed" href="#wideq.ac.ACStatus.fan_speed">fan_speed</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.horz_swing" href="#wideq.ac.ACStatus.horz_swing">horz_swing</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.is_on" href="#wideq.ac.ACStatus.is_on">is_on</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.mode" href="#wideq.ac.ACStatus.mode">mode</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.temp_cfg_c" href="#wideq.ac.ACStatus.temp_cfg_c">temp_cfg_c</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.temp_cfg_f" href="#wideq.ac.ACStatus.temp_cfg_f">temp_cfg_f</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.temp_cur_c" href="#wideq.ac.ACStatus.temp_cur_c">temp_cur_c</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.temp_cur_f" href="#wideq.ac.ACStatus.temp_cur_f">temp_cur_f</a></code></li>
+<li><code><a title="wideq.ac.ACStatus.vert_swing" href="#wideq.ac.ACStatus.vert_swing">vert_swing</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.ac.ACVSwingMode" href="#wideq.ac.ACVSwingMode">ACVSwingMode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="wideq.ac.ACVSwingMode.ALL" href="#wideq.ac.ACVSwingMode.ALL">ALL</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.FIVE" href="#wideq.ac.ACVSwingMode.FIVE">FIVE</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.FOUR" href="#wideq.ac.ACVSwingMode.FOUR">FOUR</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.OFF" href="#wideq.ac.ACVSwingMode.OFF">OFF</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.ONE" href="#wideq.ac.ACVSwingMode.ONE">ONE</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.SIX" href="#wideq.ac.ACVSwingMode.SIX">SIX</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.THREE" href="#wideq.ac.ACVSwingMode.THREE">THREE</a></code></li>
+<li><code><a title="wideq.ac.ACVSwingMode.TWO" href="#wideq.ac.ACVSwingMode.TWO">TWO</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

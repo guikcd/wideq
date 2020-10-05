@@ -1,0 +1,1703 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>wideq.core API documentation</title>
+<meta name="description" content="A low-level, general abstraction for the LG SmartThinQ API." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>wideq.core</code></h1>
+</header>
+<section id="section-intro">
+<p>A low-level, general abstraction for the LG SmartThinQ API.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;A low-level, general abstraction for the LG SmartThinQ API.
+&#34;&#34;&#34;
+import base64
+import uuid
+from urllib.parse import urljoin, urlencode, urlparse, parse_qs
+import hashlib
+import hmac
+import datetime
+import requests
+import logging
+from typing import Any, Dict, List, Tuple
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+GATEWAY_URL = &#39;https://kic.lgthinq.com:46030/api/common/gatewayUriList&#39;
+APP_KEY = &#39;wideq&#39;
+SECURITY_KEY = &#39;nuts_securitykey&#39;
+DATA_ROOT = &#39;lgedmRoot&#39;
+SVC_CODE = &#39;SVC202&#39;
+CLIENT_ID = &#39;LGAO221A02&#39;
+OAUTH_SECRET_KEY = &#39;c053c2a6ddeb7ad97cb0eed0dcb31cf8&#39;
+OAUTH_CLIENT_KEY = &#39;LGAO221A02&#39;
+DATE_FORMAT = &#39;%a, %d %b %Y %H:%M:%S +0000&#39;
+DEFAULT_COUNTRY = &#39;US&#39;
+DEFAULT_LANGUAGE = &#39;en-US&#39;
+
+RETRY_COUNT = 5  # Anecdotally this seems sufficient.
+RETRY_FACTOR = 0.5
+RETRY_STATUSES = (502, 503, 504)
+
+
+def get_wideq_logger() -&gt; logging.Logger:
+    level = logging.INFO
+    fmt = &#34;%(asctime)s %(levelname)s [%(name)s] %(message)s&#34;
+    datefmt = &#34;%Y-%m-%d %H:%M:%S&#34;
+    logger = logging.getLogger(&#34;wideq&#34;)
+    logger.setLevel(level)
+
+    try:
+        import colorlog  # type: ignore
+        colorfmt = f&#34;%(log_color)s{fmt}%(reset)s&#34;
+        handler = colorlog.StreamHandler()
+        handler.setFormatter(
+            colorlog.ColoredFormatter(
+                colorfmt,
+                datefmt=datefmt,
+                reset=True,
+                log_colors={
+                    &#34;DEBUG&#34;: &#34;cyan&#34;,
+                    &#34;INFO&#34;: &#34;green&#34;,
+                    &#34;WARNING&#34;: &#34;yellow&#34;,
+                    &#34;ERROR&#34;: &#34;red&#34;,
+                    &#34;CRITICAL&#34;: &#34;red&#34;,
+                },
+            )
+        )
+    except ImportError:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter(fmt=fmt, datefmt=datefmt))
+
+    logger.addHandler(handler)
+    return logger
+
+
+LOGGER = get_wideq_logger()
+
+
+def retry_session():
+    &#34;&#34;&#34;Get a Requests session that retries HTTP and HTTPS requests.
+    &#34;&#34;&#34;
+    # Adapted from:
+    # https://www.peterbe.com/plog/best-practice-with-retries-with-requests
+    session = requests.Session()
+    retry = Retry(
+        total=RETRY_COUNT,
+        read=RETRY_COUNT,
+        connect=RETRY_COUNT,
+        backoff_factor=RETRY_FACTOR,
+        status_forcelist=RETRY_STATUSES,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount(&#39;http://&#39;, adapter)
+    session.mount(&#39;https://&#39;, adapter)
+    return session
+
+
+def set_log_level(level: int):
+    logger = get_wideq_logger()
+    logger.setLevel(level)
+
+
+def gen_uuid() -&gt; str:
+    return str(uuid.uuid4())
+
+
+def oauth2_signature(message: str, secret: str) -&gt; bytes:
+    &#34;&#34;&#34;Get the base64-encoded SHA-1 HMAC digest of a string, as used in
+    OAauth2 request signatures.
+
+    Both the `secret` and `message` are given as text strings. We use
+    their UTF-8 equivalents.
+    &#34;&#34;&#34;
+
+    secret_bytes = secret.encode(&#39;utf8&#39;)
+    hashed = hmac.new(secret_bytes, message.encode(&#39;utf8&#39;), hashlib.sha1)
+    digest = hashed.digest()
+    return base64.b64encode(digest)
+
+
+def get_list(obj, key: str) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;Look up a list using a key from an object.
+
+    If `obj[key]` is a list, return it unchanged. If is something else,
+    return a single-element list containing it. If the key does not
+    exist, return an empty list.
+    &#34;&#34;&#34;
+
+    try:
+        val = obj[key]
+    except KeyError:
+        return []
+
+    if isinstance(val, list):
+        return val
+    else:
+        return [val]
+
+
+class APIError(Exception):
+    &#34;&#34;&#34;An error reported by the API.&#34;&#34;&#34;
+
+    def __init__(self, code, message):
+        self.code = code
+        self.message = message
+
+
+class NotLoggedInError(APIError):
+    &#34;&#34;&#34;The session is not valid or expired.&#34;&#34;&#34;
+
+
+class NotConnectedError(APIError):
+    &#34;&#34;&#34;The service can&#39;t contact the specified device.&#34;&#34;&#34;
+
+
+class TokenError(APIError):
+    &#34;&#34;&#34;An authentication token was rejected.&#34;&#34;&#34;
+
+    def __init__(self):
+        pass
+
+
+class FailedRequestError(APIError):
+    &#34;&#34;&#34;A failed request typically indicates an unsupported control on a
+    device.
+    &#34;&#34;&#34;
+
+
+class InvalidRequestError(APIError):
+    &#34;&#34;&#34;The server rejected a request as invalid.&#34;&#34;&#34;
+
+
+class MonitorError(APIError):
+    &#34;&#34;&#34;Monitoring a device failed, possibly because the monitoring
+    session failed and needs to be restarted.
+    &#34;&#34;&#34;
+
+    def __init__(self, device_id, code):
+        self.device_id = device_id
+        self.code = code
+
+
+API_ERRORS = {
+    &#34;0102&#34;: NotLoggedInError,
+    &#34;0106&#34;: NotConnectedError,
+    &#34;0100&#34;: FailedRequestError,
+    9000: InvalidRequestError,  # Surprisingly, an integer (not a string).
+}
+
+
+def lgedm_post(url, data=None, access_token=None, session_id=None):
+    &#34;&#34;&#34;Make an HTTP request in the format used by the API servers.
+
+    In this format, the request POST data sent as JSON under a special
+    key; authentication sent in headers. Return the JSON data extracted
+    from the response.
+
+    The `access_token` and `session_id` are required for most normal,
+    authenticated requests. They are not required, for example, to load
+    the gateway server data or to start a session.
+    &#34;&#34;&#34;
+    headers = {
+        &#39;x-thinq-application-key&#39;: APP_KEY,
+        &#39;x-thinq-security-key&#39;: SECURITY_KEY,
+        &#39;Accept&#39;: &#39;application/json&#39;,
+    }
+    if access_token:
+        headers[&#39;x-thinq-token&#39;] = access_token
+    if session_id:
+        headers[&#39;x-thinq-jsessionId&#39;] = session_id
+
+    with retry_session() as session:
+        res = session.post(url, json={DATA_ROOT: data}, headers=headers)
+    out = res.json()[DATA_ROOT]
+
+    # Check for API errors.
+    if &#39;returnCd&#39; in out:
+        code = out[&#39;returnCd&#39;]
+        if code != &#39;0000&#39;:
+            message = out[&#39;returnMsg&#39;]
+            if code in API_ERRORS:
+                raise API_ERRORS[code](code, message)
+            else:
+                raise APIError(code, message)
+
+    return out
+
+
+def oauth_url(auth_base, country, language):
+    &#34;&#34;&#34;Construct the URL for users to log in (in a browser) to start an
+    authenticated session.
+    &#34;&#34;&#34;
+
+    url = urljoin(auth_base, &#39;login/sign_in&#39;)
+    query = urlencode({
+        &#39;country&#39;: country,
+        &#39;language&#39;: language,
+        &#39;svcCode&#39;: SVC_CODE,
+        &#39;authSvr&#39;: &#39;oauth2&#39;,
+        &#39;client_id&#39;: CLIENT_ID,
+        &#39;division&#39;: &#39;ha&#39;,
+        &#39;grant_type&#39;: &#39;password&#39;,
+    })
+    return &#39;{}?{}&#39;.format(url, query)
+
+
+def parse_oauth_callback(url):
+    &#34;&#34;&#34;Parse the URL to which an OAuth login redirected to obtain two
+    tokens: an access token for API credentials, and a refresh token for
+    getting updated access tokens.
+    &#34;&#34;&#34;
+
+    params = parse_qs(urlparse(url).query)
+    return params[&#39;access_token&#39;][0], params[&#39;refresh_token&#39;][0]
+
+
+def login(api_root, access_token, country, language):
+    &#34;&#34;&#34;Use an access token to log into the API and obtain a session and
+    return information about the session.
+    &#34;&#34;&#34;
+
+    url = urljoin(api_root + &#39;/&#39;, &#39;member/login&#39;)
+    data = {
+        &#39;countryCode&#39;: country,
+        &#39;langCode&#39;: language,
+        &#39;loginType&#39;: &#39;EMP&#39;,
+        &#39;token&#39;: access_token,
+    }
+    return lgedm_post(url, data)
+
+
+def refresh_auth(oauth_root, refresh_token):
+    &#34;&#34;&#34;Get a new access_token using a refresh_token.
+
+    May raise a `TokenError`.
+    &#34;&#34;&#34;
+
+    token_url = urljoin(oauth_root, &#39;/oauth2/token&#39;)
+    data = {
+        &#39;grant_type&#39;: &#39;refresh_token&#39;,
+        &#39;refresh_token&#39;: refresh_token,
+    }
+
+    # The timestamp for labeling OAuth requests can be obtained
+    # through a request to the date/time endpoint:
+    # https://us.lgeapi.com/datetime
+    # But we can also just generate a timestamp.
+    timestamp = datetime.datetime.utcnow().strftime(DATE_FORMAT)
+
+    # The signature for the requests is on a string consisting of two
+    # parts: (1) a fake request URL containing the refresh token, and (2)
+    # the timestamp.
+    req_url = (&#39;/oauth2/token?grant_type=refresh_token&amp;refresh_token=&#39; +
+               refresh_token)
+    sig = oauth2_signature(&#39;{}\n{}&#39;.format(req_url, timestamp),
+                           OAUTH_SECRET_KEY)
+
+    headers = {
+        &#39;lgemp-x-app-key&#39;: OAUTH_CLIENT_KEY,
+        &#39;lgemp-x-signature&#39;: sig,
+        &#39;lgemp-x-date&#39;: timestamp,
+        &#39;Accept&#39;: &#39;application/json&#39;,
+    }
+
+    with retry_session() as session:
+        res = session.post(token_url, data=data, headers=headers)
+    res_data = res.json()
+
+    if res_data[&#39;status&#39;] != 1:
+        raise TokenError()
+    return res_data[&#39;access_token&#39;]
+
+
+class Gateway(object):
+    def __init__(self, auth_base, api_root, oauth_root, country, language):
+        self.auth_base = auth_base
+        self.api_root = api_root
+        self.oauth_root = oauth_root
+        self.country = country
+        self.language = language
+
+    @classmethod
+    def discover(cls, country, language) -&gt; &#39;Gateway&#39;:
+        &#34;&#34;&#34;Load information about the hosts to use for API interaction.
+
+        `country` and `language` are codes, like &#34;US&#34; and &#34;en-US,&#34;
+        respectively.
+        &#34;&#34;&#34;
+        gw = lgedm_post(GATEWAY_URL,
+                        {&#39;countryCode&#39;: country, &#39;langCode&#39;: language})
+        return cls(gw[&#39;empUri&#39;], gw[&#39;thinqUri&#39;], gw[&#39;oauthUri&#39;],
+                   country, language)
+
+    def oauth_url(self):
+        return oauth_url(self.auth_base, self.country, self.language)
+
+    def serialize(self) -&gt; Dict[str, str]:
+        return {
+            &#39;auth_base&#39;: self.auth_base,
+            &#39;api_root&#39;: self.api_root,
+            &#39;oauth_root&#39;: self.oauth_root,
+            &#39;country&#39;: self.country,
+            &#39;language&#39;: self.language,
+        }
+
+    @classmethod
+    def deserialize(cls, data: Dict[str, Any]) -&gt; &#39;Gateway&#39;:
+        return cls(data[&#39;auth_base&#39;], data[&#39;api_root&#39;], data[&#39;oauth_root&#39;],
+                   data.get(&#39;country&#39;, DEFAULT_COUNTRY),
+                   data.get(&#39;language&#39;, DEFAULT_LANGUAGE))
+
+
+class Auth(object):
+    def __init__(self, gateway, access_token, refresh_token):
+        self.gateway = gateway
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+
+    @classmethod
+    def from_url(cls, gateway, url):
+        &#34;&#34;&#34;Create an authentication using an OAuth callback URL.
+        &#34;&#34;&#34;
+
+        access_token, refresh_token = parse_oauth_callback(url)
+        return cls(gateway, access_token, refresh_token)
+
+    def start_session(self) -&gt; Tuple[&#39;Session&#39;, List[Dict[str, Any]]]:
+        &#34;&#34;&#34;Start an API session for the logged-in user. Return the
+        Session object and a list of the user&#39;s devices.
+        &#34;&#34;&#34;
+
+        session_info = login(self.gateway.api_root, self.access_token,
+                             self.gateway.country, self.gateway.language)
+        session_id = session_info[&#39;jsessionId&#39;]
+        return Session(self, session_id), get_list(session_info, &#39;item&#39;)
+
+    def refresh(self):
+        &#34;&#34;&#34;Refresh the authentication, returning a new Auth object.
+        &#34;&#34;&#34;
+
+        new_access_token = refresh_auth(self.gateway.oauth_root,
+                                        self.refresh_token)
+        return Auth(self.gateway, new_access_token, self.refresh_token)
+
+    def serialize(self) -&gt; Dict[str, str]:
+        return {
+            &#39;access_token&#39;: self.access_token,
+            &#39;refresh_token&#39;: self.refresh_token,
+        }
+
+
+class Session(object):
+    def __init__(self, auth, session_id) -&gt; None:
+        self.auth = auth
+        self.session_id = session_id
+
+    def post(self, path, data=None):
+        &#34;&#34;&#34;Make a POST request to the API server.
+
+        This is like `lgedm_post`, but it pulls the context for the
+        request from an active Session.
+        &#34;&#34;&#34;
+
+        url = urljoin(self.auth.gateway.api_root + &#39;/&#39;, path)
+        return lgedm_post(url, data, self.auth.access_token, self.session_id)
+
+    def get_devices(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;Get a list of devices associated with the user&#39;s account.
+
+        Return a list of dicts with information about the devices.
+        &#34;&#34;&#34;
+
+        return get_list(self.post(&#39;device/deviceList&#39;), &#39;item&#39;)
+
+    def monitor_start(self, device_id):
+        &#34;&#34;&#34;Begin monitoring a device&#39;s status.
+
+        Return a &#34;work ID&#34; that can be used to retrieve the result of
+        monitoring.
+        &#34;&#34;&#34;
+
+        res = self.post(&#39;rti/rtiMon&#39;, {
+            &#39;cmd&#39;: &#39;Mon&#39;,
+            &#39;cmdOpt&#39;: &#39;Start&#39;,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: gen_uuid(),
+        })
+        return res[&#39;workId&#39;]
+
+    def monitor_poll(self, device_id, work_id):
+        &#34;&#34;&#34;Get the result of a monitoring task.
+
+        `work_id` is a string ID retrieved from `monitor_start`. Return
+        a status result, which is a bytestring, or None if the
+        monitoring is not yet ready.
+
+        May raise a `MonitorError`, in which case the right course of
+        action is probably to restart the monitoring task.
+        &#34;&#34;&#34;
+
+        work_list = [{&#39;deviceId&#39;: device_id, &#39;workId&#39;: work_id}]
+        res = self.post(&#39;rti/rtiResult&#39;, {&#39;workList&#39;: work_list})[&#39;workList&#39;]
+
+        # When monitoring first starts, it usually takes a few
+        # iterations before data becomes available. In the initial
+        # &#34;warmup&#34; phase, `returnCode` is missing from the response.
+        if &#39;returnCode&#39; not in res:
+            return None
+
+        # Check for errors.
+        code = res.get(&#39;returnCode&#39;)  # returnCode can be missing.
+        if code != &#39;0000&#39;:
+            raise MonitorError(device_id, code)
+
+        # The return data may or may not be present, depending on the
+        # monitoring task status.
+        if &#39;returnData&#39; in res:
+            # The main response payload is base64-encoded binary data in
+            # the `returnData` field. This sometimes contains JSON data
+            # and sometimes other binary data.
+            return base64.b64decode(res[&#39;returnData&#39;])
+        else:
+            return None
+
+    def monitor_stop(self, device_id, work_id):
+        &#34;&#34;&#34;Stop monitoring a device.&#34;&#34;&#34;
+
+        self.post(&#39;rti/rtiMon&#39;, {
+            &#39;cmd&#39;: &#39;Mon&#39;,
+            &#39;cmdOpt&#39;: &#39;Stop&#39;,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: work_id,
+        })
+
+    def set_device_controls(self, device_id, values):
+        &#34;&#34;&#34;Control a device&#39;s settings.
+
+        `values` is a key/value map containing the settings to update.
+        &#34;&#34;&#34;
+
+        return self.post(&#39;rti/rtiControl&#39;, {
+            &#39;cmd&#39;: &#39;Control&#39;,
+            &#39;cmdOpt&#39;: &#39;Set&#39;,
+            &#39;value&#39;: values,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: gen_uuid(),
+            &#39;data&#39;: &#39;&#39;,
+        })
+
+    def get_device_config(self, device_id, key, category=&#39;Config&#39;):
+        &#34;&#34;&#34;Get a device configuration option.
+
+        The `category` string should probably either be &#34;Config&#34; or
+        &#34;Control&#34;; the right choice appears to depend on the key.
+        &#34;&#34;&#34;
+
+        res = self.post(&#39;rti/rtiControl&#39;, {
+            &#39;cmd&#39;: category,
+            &#39;cmdOpt&#39;: &#39;Get&#39;,
+            &#39;value&#39;: key,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: gen_uuid(),
+            &#39;data&#39;: &#39;&#39;,
+        })
+        return res[&#39;returnData&#39;]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="wideq.core.gen_uuid"><code class="name flex">
+<span>def <span class="ident">gen_uuid</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gen_uuid() -&gt; str:
+    return str(uuid.uuid4())</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.get_list"><code class="name flex">
+<span>def <span class="ident">get_list</span></span>(<span>obj, key: str) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Look up a list using a key from an object.</p>
+<p>If <code>obj[key]</code> is a list, return it unchanged. If is something else,
+return a single-element list containing it. If the key does not
+exist, return an empty list.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_list(obj, key: str) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;Look up a list using a key from an object.
+
+    If `obj[key]` is a list, return it unchanged. If is something else,
+    return a single-element list containing it. If the key does not
+    exist, return an empty list.
+    &#34;&#34;&#34;
+
+    try:
+        val = obj[key]
+    except KeyError:
+        return []
+
+    if isinstance(val, list):
+        return val
+    else:
+        return [val]</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.get_wideq_logger"><code class="name flex">
+<span>def <span class="ident">get_wideq_logger</span></span>(<span>) ‑> logging.Logger</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_wideq_logger() -&gt; logging.Logger:
+    level = logging.INFO
+    fmt = &#34;%(asctime)s %(levelname)s [%(name)s] %(message)s&#34;
+    datefmt = &#34;%Y-%m-%d %H:%M:%S&#34;
+    logger = logging.getLogger(&#34;wideq&#34;)
+    logger.setLevel(level)
+
+    try:
+        import colorlog  # type: ignore
+        colorfmt = f&#34;%(log_color)s{fmt}%(reset)s&#34;
+        handler = colorlog.StreamHandler()
+        handler.setFormatter(
+            colorlog.ColoredFormatter(
+                colorfmt,
+                datefmt=datefmt,
+                reset=True,
+                log_colors={
+                    &#34;DEBUG&#34;: &#34;cyan&#34;,
+                    &#34;INFO&#34;: &#34;green&#34;,
+                    &#34;WARNING&#34;: &#34;yellow&#34;,
+                    &#34;ERROR&#34;: &#34;red&#34;,
+                    &#34;CRITICAL&#34;: &#34;red&#34;,
+                },
+            )
+        )
+    except ImportError:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter(fmt=fmt, datefmt=datefmt))
+
+    logger.addHandler(handler)
+    return logger</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.lgedm_post"><code class="name flex">
+<span>def <span class="ident">lgedm_post</span></span>(<span>url, data=None, access_token=None, session_id=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Make an HTTP request in the format used by the API servers.</p>
+<p>In this format, the request POST data sent as JSON under a special
+key; authentication sent in headers. Return the JSON data extracted
+from the response.</p>
+<p>The <code>access_token</code> and <code>session_id</code> are required for most normal,
+authenticated requests. They are not required, for example, to load
+the gateway server data or to start a session.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lgedm_post(url, data=None, access_token=None, session_id=None):
+    &#34;&#34;&#34;Make an HTTP request in the format used by the API servers.
+
+    In this format, the request POST data sent as JSON under a special
+    key; authentication sent in headers. Return the JSON data extracted
+    from the response.
+
+    The `access_token` and `session_id` are required for most normal,
+    authenticated requests. They are not required, for example, to load
+    the gateway server data or to start a session.
+    &#34;&#34;&#34;
+    headers = {
+        &#39;x-thinq-application-key&#39;: APP_KEY,
+        &#39;x-thinq-security-key&#39;: SECURITY_KEY,
+        &#39;Accept&#39;: &#39;application/json&#39;,
+    }
+    if access_token:
+        headers[&#39;x-thinq-token&#39;] = access_token
+    if session_id:
+        headers[&#39;x-thinq-jsessionId&#39;] = session_id
+
+    with retry_session() as session:
+        res = session.post(url, json={DATA_ROOT: data}, headers=headers)
+    out = res.json()[DATA_ROOT]
+
+    # Check for API errors.
+    if &#39;returnCd&#39; in out:
+        code = out[&#39;returnCd&#39;]
+        if code != &#39;0000&#39;:
+            message = out[&#39;returnMsg&#39;]
+            if code in API_ERRORS:
+                raise API_ERRORS[code](code, message)
+            else:
+                raise APIError(code, message)
+
+    return out</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.login"><code class="name flex">
+<span>def <span class="ident">login</span></span>(<span>api_root, access_token, country, language)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Use an access token to log into the API and obtain a session and
+return information about the session.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def login(api_root, access_token, country, language):
+    &#34;&#34;&#34;Use an access token to log into the API and obtain a session and
+    return information about the session.
+    &#34;&#34;&#34;
+
+    url = urljoin(api_root + &#39;/&#39;, &#39;member/login&#39;)
+    data = {
+        &#39;countryCode&#39;: country,
+        &#39;langCode&#39;: language,
+        &#39;loginType&#39;: &#39;EMP&#39;,
+        &#39;token&#39;: access_token,
+    }
+    return lgedm_post(url, data)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.oauth2_signature"><code class="name flex">
+<span>def <span class="ident">oauth2_signature</span></span>(<span>message: str, secret: str) ‑> bytes</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the base64-encoded SHA-1 HMAC digest of a string, as used in
+OAauth2 request signatures.</p>
+<p>Both the <code>secret</code> and <code>message</code> are given as text strings. We use
+their UTF-8 equivalents.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def oauth2_signature(message: str, secret: str) -&gt; bytes:
+    &#34;&#34;&#34;Get the base64-encoded SHA-1 HMAC digest of a string, as used in
+    OAauth2 request signatures.
+
+    Both the `secret` and `message` are given as text strings. We use
+    their UTF-8 equivalents.
+    &#34;&#34;&#34;
+
+    secret_bytes = secret.encode(&#39;utf8&#39;)
+    hashed = hmac.new(secret_bytes, message.encode(&#39;utf8&#39;), hashlib.sha1)
+    digest = hashed.digest()
+    return base64.b64encode(digest)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.oauth_url"><code class="name flex">
+<span>def <span class="ident">oauth_url</span></span>(<span>auth_base, country, language)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Construct the URL for users to log in (in a browser) to start an
+authenticated session.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def oauth_url(auth_base, country, language):
+    &#34;&#34;&#34;Construct the URL for users to log in (in a browser) to start an
+    authenticated session.
+    &#34;&#34;&#34;
+
+    url = urljoin(auth_base, &#39;login/sign_in&#39;)
+    query = urlencode({
+        &#39;country&#39;: country,
+        &#39;language&#39;: language,
+        &#39;svcCode&#39;: SVC_CODE,
+        &#39;authSvr&#39;: &#39;oauth2&#39;,
+        &#39;client_id&#39;: CLIENT_ID,
+        &#39;division&#39;: &#39;ha&#39;,
+        &#39;grant_type&#39;: &#39;password&#39;,
+    })
+    return &#39;{}?{}&#39;.format(url, query)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.parse_oauth_callback"><code class="name flex">
+<span>def <span class="ident">parse_oauth_callback</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse the URL to which an OAuth login redirected to obtain two
+tokens: an access token for API credentials, and a refresh token for
+getting updated access tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse_oauth_callback(url):
+    &#34;&#34;&#34;Parse the URL to which an OAuth login redirected to obtain two
+    tokens: an access token for API credentials, and a refresh token for
+    getting updated access tokens.
+    &#34;&#34;&#34;
+
+    params = parse_qs(urlparse(url).query)
+    return params[&#39;access_token&#39;][0], params[&#39;refresh_token&#39;][0]</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.refresh_auth"><code class="name flex">
+<span>def <span class="ident">refresh_auth</span></span>(<span>oauth_root, refresh_token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a new access_token using a refresh_token.</p>
+<p>May raise a <code><a title="wideq.core.TokenError" href="#wideq.core.TokenError">TokenError</a></code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def refresh_auth(oauth_root, refresh_token):
+    &#34;&#34;&#34;Get a new access_token using a refresh_token.
+
+    May raise a `TokenError`.
+    &#34;&#34;&#34;
+
+    token_url = urljoin(oauth_root, &#39;/oauth2/token&#39;)
+    data = {
+        &#39;grant_type&#39;: &#39;refresh_token&#39;,
+        &#39;refresh_token&#39;: refresh_token,
+    }
+
+    # The timestamp for labeling OAuth requests can be obtained
+    # through a request to the date/time endpoint:
+    # https://us.lgeapi.com/datetime
+    # But we can also just generate a timestamp.
+    timestamp = datetime.datetime.utcnow().strftime(DATE_FORMAT)
+
+    # The signature for the requests is on a string consisting of two
+    # parts: (1) a fake request URL containing the refresh token, and (2)
+    # the timestamp.
+    req_url = (&#39;/oauth2/token?grant_type=refresh_token&amp;refresh_token=&#39; +
+               refresh_token)
+    sig = oauth2_signature(&#39;{}\n{}&#39;.format(req_url, timestamp),
+                           OAUTH_SECRET_KEY)
+
+    headers = {
+        &#39;lgemp-x-app-key&#39;: OAUTH_CLIENT_KEY,
+        &#39;lgemp-x-signature&#39;: sig,
+        &#39;lgemp-x-date&#39;: timestamp,
+        &#39;Accept&#39;: &#39;application/json&#39;,
+    }
+
+    with retry_session() as session:
+        res = session.post(token_url, data=data, headers=headers)
+    res_data = res.json()
+
+    if res_data[&#39;status&#39;] != 1:
+        raise TokenError()
+    return res_data[&#39;access_token&#39;]</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.retry_session"><code class="name flex">
+<span>def <span class="ident">retry_session</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a Requests session that retries HTTP and HTTPS requests.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retry_session():
+    &#34;&#34;&#34;Get a Requests session that retries HTTP and HTTPS requests.
+    &#34;&#34;&#34;
+    # Adapted from:
+    # https://www.peterbe.com/plog/best-practice-with-retries-with-requests
+    session = requests.Session()
+    retry = Retry(
+        total=RETRY_COUNT,
+        read=RETRY_COUNT,
+        connect=RETRY_COUNT,
+        backoff_factor=RETRY_FACTOR,
+        status_forcelist=RETRY_STATUSES,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount(&#39;http://&#39;, adapter)
+    session.mount(&#39;https://&#39;, adapter)
+    return session</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.set_log_level"><code class="name flex">
+<span>def <span class="ident">set_log_level</span></span>(<span>level: int)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_log_level(level: int):
+    logger = get_wideq_logger()
+    logger.setLevel(level)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="wideq.core.APIError"><code class="flex name class">
+<span>class <span class="ident">APIError</span></span>
+<span>(</span><span>code, message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error reported by the API.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class APIError(Exception):
+    &#34;&#34;&#34;An error reported by the API.&#34;&#34;&#34;
+
+    def __init__(self, code, message):
+        self.code = code
+        self.message = message</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="wideq.core.FailedRequestError" href="#wideq.core.FailedRequestError">FailedRequestError</a></li>
+<li><a title="wideq.core.InvalidRequestError" href="#wideq.core.InvalidRequestError">InvalidRequestError</a></li>
+<li><a title="wideq.core.MonitorError" href="#wideq.core.MonitorError">MonitorError</a></li>
+<li><a title="wideq.core.NotConnectedError" href="#wideq.core.NotConnectedError">NotConnectedError</a></li>
+<li><a title="wideq.core.NotLoggedInError" href="#wideq.core.NotLoggedInError">NotLoggedInError</a></li>
+<li><a title="wideq.core.TokenError" href="#wideq.core.TokenError">TokenError</a></li>
+</ul>
+</dd>
+<dt id="wideq.core.Auth"><code class="flex name class">
+<span>class <span class="ident">Auth</span></span>
+<span>(</span><span>gateway, access_token, refresh_token)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Auth(object):
+    def __init__(self, gateway, access_token, refresh_token):
+        self.gateway = gateway
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+
+    @classmethod
+    def from_url(cls, gateway, url):
+        &#34;&#34;&#34;Create an authentication using an OAuth callback URL.
+        &#34;&#34;&#34;
+
+        access_token, refresh_token = parse_oauth_callback(url)
+        return cls(gateway, access_token, refresh_token)
+
+    def start_session(self) -&gt; Tuple[&#39;Session&#39;, List[Dict[str, Any]]]:
+        &#34;&#34;&#34;Start an API session for the logged-in user. Return the
+        Session object and a list of the user&#39;s devices.
+        &#34;&#34;&#34;
+
+        session_info = login(self.gateway.api_root, self.access_token,
+                             self.gateway.country, self.gateway.language)
+        session_id = session_info[&#39;jsessionId&#39;]
+        return Session(self, session_id), get_list(session_info, &#39;item&#39;)
+
+    def refresh(self):
+        &#34;&#34;&#34;Refresh the authentication, returning a new Auth object.
+        &#34;&#34;&#34;
+
+        new_access_token = refresh_auth(self.gateway.oauth_root,
+                                        self.refresh_token)
+        return Auth(self.gateway, new_access_token, self.refresh_token)
+
+    def serialize(self) -&gt; Dict[str, str]:
+        return {
+            &#39;access_token&#39;: self.access_token,
+            &#39;refresh_token&#39;: self.refresh_token,
+        }</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="wideq.core.Auth.from_url"><code class="name flex">
+<span>def <span class="ident">from_url</span></span>(<span>gateway, url)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create an authentication using an OAuth callback URL.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_url(cls, gateway, url):
+    &#34;&#34;&#34;Create an authentication using an OAuth callback URL.
+    &#34;&#34;&#34;
+
+    access_token, refresh_token = parse_oauth_callback(url)
+    return cls(gateway, access_token, refresh_token)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="wideq.core.Auth.refresh"><code class="name flex">
+<span>def <span class="ident">refresh</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Refresh the authentication, returning a new Auth object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def refresh(self):
+    &#34;&#34;&#34;Refresh the authentication, returning a new Auth object.
+    &#34;&#34;&#34;
+
+    new_access_token = refresh_auth(self.gateway.oauth_root,
+                                    self.refresh_token)
+    return Auth(self.gateway, new_access_token, self.refresh_token)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Auth.serialize"><code class="name flex">
+<span>def <span class="ident">serialize</span></span>(<span>self) ‑> Dict[str, str]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def serialize(self) -&gt; Dict[str, str]:
+    return {
+        &#39;access_token&#39;: self.access_token,
+        &#39;refresh_token&#39;: self.refresh_token,
+    }</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Auth.start_session"><code class="name flex">
+<span>def <span class="ident">start_session</span></span>(<span>self) ‑> Tuple[<a title="wideq.core.Session" href="#wideq.core.Session">Session</a>, List[Dict[str, Any]]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Start an API session for the logged-in user. Return the
+Session object and a list of the user's devices.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start_session(self) -&gt; Tuple[&#39;Session&#39;, List[Dict[str, Any]]]:
+    &#34;&#34;&#34;Start an API session for the logged-in user. Return the
+    Session object and a list of the user&#39;s devices.
+    &#34;&#34;&#34;
+
+    session_info = login(self.gateway.api_root, self.access_token,
+                         self.gateway.country, self.gateway.language)
+    session_id = session_info[&#39;jsessionId&#39;]
+    return Session(self, session_id), get_list(session_info, &#39;item&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.core.FailedRequestError"><code class="flex name class">
+<span>class <span class="ident">FailedRequestError</span></span>
+<span>(</span><span>code, message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A failed request typically indicates an unsupported control on a
+device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FailedRequestError(APIError):
+    &#34;&#34;&#34;A failed request typically indicates an unsupported control on a
+    device.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="wideq.core.Gateway"><code class="flex name class">
+<span>class <span class="ident">Gateway</span></span>
+<span>(</span><span>auth_base, api_root, oauth_root, country, language)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Gateway(object):
+    def __init__(self, auth_base, api_root, oauth_root, country, language):
+        self.auth_base = auth_base
+        self.api_root = api_root
+        self.oauth_root = oauth_root
+        self.country = country
+        self.language = language
+
+    @classmethod
+    def discover(cls, country, language) -&gt; &#39;Gateway&#39;:
+        &#34;&#34;&#34;Load information about the hosts to use for API interaction.
+
+        `country` and `language` are codes, like &#34;US&#34; and &#34;en-US,&#34;
+        respectively.
+        &#34;&#34;&#34;
+        gw = lgedm_post(GATEWAY_URL,
+                        {&#39;countryCode&#39;: country, &#39;langCode&#39;: language})
+        return cls(gw[&#39;empUri&#39;], gw[&#39;thinqUri&#39;], gw[&#39;oauthUri&#39;],
+                   country, language)
+
+    def oauth_url(self):
+        return oauth_url(self.auth_base, self.country, self.language)
+
+    def serialize(self) -&gt; Dict[str, str]:
+        return {
+            &#39;auth_base&#39;: self.auth_base,
+            &#39;api_root&#39;: self.api_root,
+            &#39;oauth_root&#39;: self.oauth_root,
+            &#39;country&#39;: self.country,
+            &#39;language&#39;: self.language,
+        }
+
+    @classmethod
+    def deserialize(cls, data: Dict[str, Any]) -&gt; &#39;Gateway&#39;:
+        return cls(data[&#39;auth_base&#39;], data[&#39;api_root&#39;], data[&#39;oauth_root&#39;],
+                   data.get(&#39;country&#39;, DEFAULT_COUNTRY),
+                   data.get(&#39;language&#39;, DEFAULT_LANGUAGE))</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="wideq.core.Gateway.deserialize"><code class="name flex">
+<span>def <span class="ident">deserialize</span></span>(<span>data: Dict[str, Any]) ‑> <a title="wideq.core.Gateway" href="#wideq.core.Gateway">Gateway</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def deserialize(cls, data: Dict[str, Any]) -&gt; &#39;Gateway&#39;:
+    return cls(data[&#39;auth_base&#39;], data[&#39;api_root&#39;], data[&#39;oauth_root&#39;],
+               data.get(&#39;country&#39;, DEFAULT_COUNTRY),
+               data.get(&#39;language&#39;, DEFAULT_LANGUAGE))</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Gateway.discover"><code class="name flex">
+<span>def <span class="ident">discover</span></span>(<span>country, language) ‑> <a title="wideq.core.Gateway" href="#wideq.core.Gateway">Gateway</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load information about the hosts to use for API interaction.</p>
+<p><code>country</code> and <code>language</code> are codes, like "US" and "en-US,"
+respectively.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def discover(cls, country, language) -&gt; &#39;Gateway&#39;:
+    &#34;&#34;&#34;Load information about the hosts to use for API interaction.
+
+    `country` and `language` are codes, like &#34;US&#34; and &#34;en-US,&#34;
+    respectively.
+    &#34;&#34;&#34;
+    gw = lgedm_post(GATEWAY_URL,
+                    {&#39;countryCode&#39;: country, &#39;langCode&#39;: language})
+    return cls(gw[&#39;empUri&#39;], gw[&#39;thinqUri&#39;], gw[&#39;oauthUri&#39;],
+               country, language)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="wideq.core.Gateway.oauth_url"><code class="name flex">
+<span>def <span class="ident">oauth_url</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def oauth_url(self):
+    return oauth_url(self.auth_base, self.country, self.language)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Gateway.serialize"><code class="name flex">
+<span>def <span class="ident">serialize</span></span>(<span>self) ‑> Dict[str, str]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def serialize(self) -&gt; Dict[str, str]:
+    return {
+        &#39;auth_base&#39;: self.auth_base,
+        &#39;api_root&#39;: self.api_root,
+        &#39;oauth_root&#39;: self.oauth_root,
+        &#39;country&#39;: self.country,
+        &#39;language&#39;: self.language,
+    }</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.core.InvalidRequestError"><code class="flex name class">
+<span>class <span class="ident">InvalidRequestError</span></span>
+<span>(</span><span>code, message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The server rejected a request as invalid.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidRequestError(APIError):
+    &#34;&#34;&#34;The server rejected a request as invalid.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="wideq.core.MonitorError"><code class="flex name class">
+<span>class <span class="ident">MonitorError</span></span>
+<span>(</span><span>device_id, code)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Monitoring a device failed, possibly because the monitoring
+session failed and needs to be restarted.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MonitorError(APIError):
+    &#34;&#34;&#34;Monitoring a device failed, possibly because the monitoring
+    session failed and needs to be restarted.
+    &#34;&#34;&#34;
+
+    def __init__(self, device_id, code):
+        self.device_id = device_id
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="wideq.core.NotConnectedError"><code class="flex name class">
+<span>class <span class="ident">NotConnectedError</span></span>
+<span>(</span><span>code, message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The service can't contact the specified device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NotConnectedError(APIError):
+    &#34;&#34;&#34;The service can&#39;t contact the specified device.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="wideq.core.NotLoggedInError"><code class="flex name class">
+<span>class <span class="ident">NotLoggedInError</span></span>
+<span>(</span><span>code, message)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The session is not valid or expired.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NotLoggedInError(APIError):
+    &#34;&#34;&#34;The session is not valid or expired.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="wideq.core.Session"><code class="flex name class">
+<span>class <span class="ident">Session</span></span>
+<span>(</span><span>auth, session_id)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Session(object):
+    def __init__(self, auth, session_id) -&gt; None:
+        self.auth = auth
+        self.session_id = session_id
+
+    def post(self, path, data=None):
+        &#34;&#34;&#34;Make a POST request to the API server.
+
+        This is like `lgedm_post`, but it pulls the context for the
+        request from an active Session.
+        &#34;&#34;&#34;
+
+        url = urljoin(self.auth.gateway.api_root + &#39;/&#39;, path)
+        return lgedm_post(url, data, self.auth.access_token, self.session_id)
+
+    def get_devices(self) -&gt; List[Dict[str, Any]]:
+        &#34;&#34;&#34;Get a list of devices associated with the user&#39;s account.
+
+        Return a list of dicts with information about the devices.
+        &#34;&#34;&#34;
+
+        return get_list(self.post(&#39;device/deviceList&#39;), &#39;item&#39;)
+
+    def monitor_start(self, device_id):
+        &#34;&#34;&#34;Begin monitoring a device&#39;s status.
+
+        Return a &#34;work ID&#34; that can be used to retrieve the result of
+        monitoring.
+        &#34;&#34;&#34;
+
+        res = self.post(&#39;rti/rtiMon&#39;, {
+            &#39;cmd&#39;: &#39;Mon&#39;,
+            &#39;cmdOpt&#39;: &#39;Start&#39;,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: gen_uuid(),
+        })
+        return res[&#39;workId&#39;]
+
+    def monitor_poll(self, device_id, work_id):
+        &#34;&#34;&#34;Get the result of a monitoring task.
+
+        `work_id` is a string ID retrieved from `monitor_start`. Return
+        a status result, which is a bytestring, or None if the
+        monitoring is not yet ready.
+
+        May raise a `MonitorError`, in which case the right course of
+        action is probably to restart the monitoring task.
+        &#34;&#34;&#34;
+
+        work_list = [{&#39;deviceId&#39;: device_id, &#39;workId&#39;: work_id}]
+        res = self.post(&#39;rti/rtiResult&#39;, {&#39;workList&#39;: work_list})[&#39;workList&#39;]
+
+        # When monitoring first starts, it usually takes a few
+        # iterations before data becomes available. In the initial
+        # &#34;warmup&#34; phase, `returnCode` is missing from the response.
+        if &#39;returnCode&#39; not in res:
+            return None
+
+        # Check for errors.
+        code = res.get(&#39;returnCode&#39;)  # returnCode can be missing.
+        if code != &#39;0000&#39;:
+            raise MonitorError(device_id, code)
+
+        # The return data may or may not be present, depending on the
+        # monitoring task status.
+        if &#39;returnData&#39; in res:
+            # The main response payload is base64-encoded binary data in
+            # the `returnData` field. This sometimes contains JSON data
+            # and sometimes other binary data.
+            return base64.b64decode(res[&#39;returnData&#39;])
+        else:
+            return None
+
+    def monitor_stop(self, device_id, work_id):
+        &#34;&#34;&#34;Stop monitoring a device.&#34;&#34;&#34;
+
+        self.post(&#39;rti/rtiMon&#39;, {
+            &#39;cmd&#39;: &#39;Mon&#39;,
+            &#39;cmdOpt&#39;: &#39;Stop&#39;,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: work_id,
+        })
+
+    def set_device_controls(self, device_id, values):
+        &#34;&#34;&#34;Control a device&#39;s settings.
+
+        `values` is a key/value map containing the settings to update.
+        &#34;&#34;&#34;
+
+        return self.post(&#39;rti/rtiControl&#39;, {
+            &#39;cmd&#39;: &#39;Control&#39;,
+            &#39;cmdOpt&#39;: &#39;Set&#39;,
+            &#39;value&#39;: values,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: gen_uuid(),
+            &#39;data&#39;: &#39;&#39;,
+        })
+
+    def get_device_config(self, device_id, key, category=&#39;Config&#39;):
+        &#34;&#34;&#34;Get a device configuration option.
+
+        The `category` string should probably either be &#34;Config&#34; or
+        &#34;Control&#34;; the right choice appears to depend on the key.
+        &#34;&#34;&#34;
+
+        res = self.post(&#39;rti/rtiControl&#39;, {
+            &#39;cmd&#39;: category,
+            &#39;cmdOpt&#39;: &#39;Get&#39;,
+            &#39;value&#39;: key,
+            &#39;deviceId&#39;: device_id,
+            &#39;workId&#39;: gen_uuid(),
+            &#39;data&#39;: &#39;&#39;,
+        })
+        return res[&#39;returnData&#39;]</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="wideq.core.Session.get_device_config"><code class="name flex">
+<span>def <span class="ident">get_device_config</span></span>(<span>self, device_id, key, category='Config')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a device configuration option.</p>
+<p>The <code>category</code> string should probably either be "Config" or
+"Control"; the right choice appears to depend on the key.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_device_config(self, device_id, key, category=&#39;Config&#39;):
+    &#34;&#34;&#34;Get a device configuration option.
+
+    The `category` string should probably either be &#34;Config&#34; or
+    &#34;Control&#34;; the right choice appears to depend on the key.
+    &#34;&#34;&#34;
+
+    res = self.post(&#39;rti/rtiControl&#39;, {
+        &#39;cmd&#39;: category,
+        &#39;cmdOpt&#39;: &#39;Get&#39;,
+        &#39;value&#39;: key,
+        &#39;deviceId&#39;: device_id,
+        &#39;workId&#39;: gen_uuid(),
+        &#39;data&#39;: &#39;&#39;,
+    })
+    return res[&#39;returnData&#39;]</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Session.get_devices"><code class="name flex">
+<span>def <span class="ident">get_devices</span></span>(<span>self) ‑> List[Dict[str, Any]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a list of devices associated with the user's account.</p>
+<p>Return a list of dicts with information about the devices.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_devices(self) -&gt; List[Dict[str, Any]]:
+    &#34;&#34;&#34;Get a list of devices associated with the user&#39;s account.
+
+    Return a list of dicts with information about the devices.
+    &#34;&#34;&#34;
+
+    return get_list(self.post(&#39;device/deviceList&#39;), &#39;item&#39;)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Session.monitor_poll"><code class="name flex">
+<span>def <span class="ident">monitor_poll</span></span>(<span>self, device_id, work_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the result of a monitoring task.</p>
+<p><code>work_id</code> is a string ID retrieved from <code>monitor_start</code>. Return
+a status result, which is a bytestring, or None if the
+monitoring is not yet ready.</p>
+<p>May raise a <code><a title="wideq.core.MonitorError" href="#wideq.core.MonitorError">MonitorError</a></code>, in which case the right course of
+action is probably to restart the monitoring task.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def monitor_poll(self, device_id, work_id):
+    &#34;&#34;&#34;Get the result of a monitoring task.
+
+    `work_id` is a string ID retrieved from `monitor_start`. Return
+    a status result, which is a bytestring, or None if the
+    monitoring is not yet ready.
+
+    May raise a `MonitorError`, in which case the right course of
+    action is probably to restart the monitoring task.
+    &#34;&#34;&#34;
+
+    work_list = [{&#39;deviceId&#39;: device_id, &#39;workId&#39;: work_id}]
+    res = self.post(&#39;rti/rtiResult&#39;, {&#39;workList&#39;: work_list})[&#39;workList&#39;]
+
+    # When monitoring first starts, it usually takes a few
+    # iterations before data becomes available. In the initial
+    # &#34;warmup&#34; phase, `returnCode` is missing from the response.
+    if &#39;returnCode&#39; not in res:
+        return None
+
+    # Check for errors.
+    code = res.get(&#39;returnCode&#39;)  # returnCode can be missing.
+    if code != &#39;0000&#39;:
+        raise MonitorError(device_id, code)
+
+    # The return data may or may not be present, depending on the
+    # monitoring task status.
+    if &#39;returnData&#39; in res:
+        # The main response payload is base64-encoded binary data in
+        # the `returnData` field. This sometimes contains JSON data
+        # and sometimes other binary data.
+        return base64.b64decode(res[&#39;returnData&#39;])
+    else:
+        return None</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Session.monitor_start"><code class="name flex">
+<span>def <span class="ident">monitor_start</span></span>(<span>self, device_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Begin monitoring a device's status.</p>
+<p>Return a "work ID" that can be used to retrieve the result of
+monitoring.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def monitor_start(self, device_id):
+    &#34;&#34;&#34;Begin monitoring a device&#39;s status.
+
+    Return a &#34;work ID&#34; that can be used to retrieve the result of
+    monitoring.
+    &#34;&#34;&#34;
+
+    res = self.post(&#39;rti/rtiMon&#39;, {
+        &#39;cmd&#39;: &#39;Mon&#39;,
+        &#39;cmdOpt&#39;: &#39;Start&#39;,
+        &#39;deviceId&#39;: device_id,
+        &#39;workId&#39;: gen_uuid(),
+    })
+    return res[&#39;workId&#39;]</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Session.monitor_stop"><code class="name flex">
+<span>def <span class="ident">monitor_stop</span></span>(<span>self, device_id, work_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Stop monitoring a device.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def monitor_stop(self, device_id, work_id):
+    &#34;&#34;&#34;Stop monitoring a device.&#34;&#34;&#34;
+
+    self.post(&#39;rti/rtiMon&#39;, {
+        &#39;cmd&#39;: &#39;Mon&#39;,
+        &#39;cmdOpt&#39;: &#39;Stop&#39;,
+        &#39;deviceId&#39;: device_id,
+        &#39;workId&#39;: work_id,
+    })</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Session.post"><code class="name flex">
+<span>def <span class="ident">post</span></span>(<span>self, path, data=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Make a POST request to the API server.</p>
+<p>This is like <code><a title="wideq.core.lgedm_post" href="#wideq.core.lgedm_post">lgedm_post()</a></code>, but it pulls the context for the
+request from an active Session.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def post(self, path, data=None):
+    &#34;&#34;&#34;Make a POST request to the API server.
+
+    This is like `lgedm_post`, but it pulls the context for the
+    request from an active Session.
+    &#34;&#34;&#34;
+
+    url = urljoin(self.auth.gateway.api_root + &#39;/&#39;, path)
+    return lgedm_post(url, data, self.auth.access_token, self.session_id)</code></pre>
+</details>
+</dd>
+<dt id="wideq.core.Session.set_device_controls"><code class="name flex">
+<span>def <span class="ident">set_device_controls</span></span>(<span>self, device_id, values)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Control a device's settings.</p>
+<p><code>values</code> is a key/value map containing the settings to update.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_device_controls(self, device_id, values):
+    &#34;&#34;&#34;Control a device&#39;s settings.
+
+    `values` is a key/value map containing the settings to update.
+    &#34;&#34;&#34;
+
+    return self.post(&#39;rti/rtiControl&#39;, {
+        &#39;cmd&#39;: &#39;Control&#39;,
+        &#39;cmdOpt&#39;: &#39;Set&#39;,
+        &#39;value&#39;: values,
+        &#39;deviceId&#39;: device_id,
+        &#39;workId&#39;: gen_uuid(),
+        &#39;data&#39;: &#39;&#39;,
+    })</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="wideq.core.TokenError"><code class="flex name class">
+<span>class <span class="ident">TokenError</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An authentication token was rejected.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TokenError(APIError):
+    &#34;&#34;&#34;An authentication token was rejected.&#34;&#34;&#34;
+
+    def __init__(self):
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="wideq" href="index.html">wideq</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="wideq.core.gen_uuid" href="#wideq.core.gen_uuid">gen_uuid</a></code></li>
+<li><code><a title="wideq.core.get_list" href="#wideq.core.get_list">get_list</a></code></li>
+<li><code><a title="wideq.core.get_wideq_logger" href="#wideq.core.get_wideq_logger">get_wideq_logger</a></code></li>
+<li><code><a title="wideq.core.lgedm_post" href="#wideq.core.lgedm_post">lgedm_post</a></code></li>
+<li><code><a title="wideq.core.login" href="#wideq.core.login">login</a></code></li>
+<li><code><a title="wideq.core.oauth2_signature" href="#wideq.core.oauth2_signature">oauth2_signature</a></code></li>
+<li><code><a title="wideq.core.oauth_url" href="#wideq.core.oauth_url">oauth_url</a></code></li>
+<li><code><a title="wideq.core.parse_oauth_callback" href="#wideq.core.parse_oauth_callback">parse_oauth_callback</a></code></li>
+<li><code><a title="wideq.core.refresh_auth" href="#wideq.core.refresh_auth">refresh_auth</a></code></li>
+<li><code><a title="wideq.core.retry_session" href="#wideq.core.retry_session">retry_session</a></code></li>
+<li><code><a title="wideq.core.set_log_level" href="#wideq.core.set_log_level">set_log_level</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.Auth" href="#wideq.core.Auth">Auth</a></code></h4>
+<ul class="">
+<li><code><a title="wideq.core.Auth.from_url" href="#wideq.core.Auth.from_url">from_url</a></code></li>
+<li><code><a title="wideq.core.Auth.refresh" href="#wideq.core.Auth.refresh">refresh</a></code></li>
+<li><code><a title="wideq.core.Auth.serialize" href="#wideq.core.Auth.serialize">serialize</a></code></li>
+<li><code><a title="wideq.core.Auth.start_session" href="#wideq.core.Auth.start_session">start_session</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.core.FailedRequestError" href="#wideq.core.FailedRequestError">FailedRequestError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.Gateway" href="#wideq.core.Gateway">Gateway</a></code></h4>
+<ul class="">
+<li><code><a title="wideq.core.Gateway.deserialize" href="#wideq.core.Gateway.deserialize">deserialize</a></code></li>
+<li><code><a title="wideq.core.Gateway.discover" href="#wideq.core.Gateway.discover">discover</a></code></li>
+<li><code><a title="wideq.core.Gateway.oauth_url" href="#wideq.core.Gateway.oauth_url">oauth_url</a></code></li>
+<li><code><a title="wideq.core.Gateway.serialize" href="#wideq.core.Gateway.serialize">serialize</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.core.InvalidRequestError" href="#wideq.core.InvalidRequestError">InvalidRequestError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.MonitorError" href="#wideq.core.MonitorError">MonitorError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.NotConnectedError" href="#wideq.core.NotConnectedError">NotConnectedError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.NotLoggedInError" href="#wideq.core.NotLoggedInError">NotLoggedInError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.Session" href="#wideq.core.Session">Session</a></code></h4>
+<ul class="two-column">
+<li><code><a title="wideq.core.Session.get_device_config" href="#wideq.core.Session.get_device_config">get_device_config</a></code></li>
+<li><code><a title="wideq.core.Session.get_devices" href="#wideq.core.Session.get_devices">get_devices</a></code></li>
+<li><code><a title="wideq.core.Session.monitor_poll" href="#wideq.core.Session.monitor_poll">monitor_poll</a></code></li>
+<li><code><a title="wideq.core.Session.monitor_start" href="#wideq.core.Session.monitor_start">monitor_start</a></code></li>
+<li><code><a title="wideq.core.Session.monitor_stop" href="#wideq.core.Session.monitor_stop">monitor_stop</a></code></li>
+<li><code><a title="wideq.core.Session.post" href="#wideq.core.Session.post">post</a></code></li>
+<li><code><a title="wideq.core.Session.set_device_controls" href="#wideq.core.Session.set_device_controls">set_device_controls</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="wideq.core.TokenError" href="#wideq.core.TokenError">TokenError</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>
