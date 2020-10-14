@@ -9,4 +9,4 @@ from .refrigerator import *  # noqa
 from .washer import *  # noqa
 from .server import * # noqa
 
-__version__ = '1.4.0'
+__version__ = '1.5.0'
