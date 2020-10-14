@@ -169,6 +169,13 @@ class MonitorError(APIError):
         self.code = code
 
 
+class MalformedResponseError(APIError):
+    """The server produced malformed data, such as invalid JSON."""
+
+    def __init__(self, data):
+        self.data = data
+
+
 API_ERRORS = {
     "0102": NotLoggedInError,
     "0106": NotConnectedError,
