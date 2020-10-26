@@ -1,6 +1,8 @@
 [![PyPI](https://img.shields.io/pypi/v/wideq.svg)](https://pypi.org/project/wideq/)
 [![CircleCI](https://circleci.com/gh/sampsyo/wideq.svg?style=svg)](https://circleci.com/gh/sampsyo/wideq)
 
+![Style Check](https://github.com/pifou25/wideq/workflows/Style%20Check/badge.svg)
+
 WideQ
 =====
 

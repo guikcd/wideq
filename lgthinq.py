@@ -207,7 +207,10 @@ def example(jee: jeedom, verbose: bool,
         LOGGER.debug("No state file found (tried: '%s')",
                      os.path.abspath(STATE_FILE))
 
-    client = wideq.Client.load(state)
+    lgthinq = jee.plugin.byId('lgthinq')
+    # exit if lgthinq plugin is not installed
+    if "error" in lgthinq:
+        sys.exit(lgthinq["error"])
     
     country = jee.config.byKey('LgCountry', 'lgthinq')
     language = jee.config.byKey('LgLanguage', 'lgthinq')
@@ -218,6 +221,7 @@ def example(jee: jeedom, verbose: bool,
     LOGGER.info( 'jeedom "{}" lgthinq country:{} language:{} auth URL:"{}"'
         .format( jee.config.byKey('name'), country, language, auth))
 
+    client = wideq.Client.load(state)
     if country:
         client._country = country
     if language:
@@ -252,7 +256,9 @@ def example(jee: jeedom, verbose: bool,
 
 
 def main() -> None:
-    """The main command-line entry point.
+    """
+    The main command-line entry point.
+    require jeedom IP and API key.
     """
     parser = argparse.ArgumentParser(
         description='Connector between the LG SmartThinQ API and Jeedom.'
