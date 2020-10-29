@@ -139,7 +139,7 @@ class Client(object):
                 return device
         return None
 
-    def get_device_class(self, device_id):
+    def get_device_obj(self, device_id):
         """Look up a subclass of Device object by device ID.
 
         Return a Device instance if no subclass exists for the device type.
@@ -147,15 +147,15 @@ class Client(object):
         """
         from . import util
 
-        deviceInfo = self.get_device(device_id)
-        if not deviceInfo:
+        device_info = self.get_device(device_id)
+        if not device_info:
             return None
         classes = util.device_classes()
-        if deviceInfo.type in classes:
-            return classes.get(deviceInfo.type)(self, deviceInfo)
+        if device_info.type in classes:
+            return classes[device_info.type](self, device_info)
         LOGGER.debug('No specific subclass for deviceType %s, using default',
-                     deviceInfo.type)
-        return Device(self, deviceInfo)
+                     device_info.type)
+        return Device(self, device_info)
 
     @classmethod
     def load(cls, state: Dict[str, Any]) -> 'Client':
