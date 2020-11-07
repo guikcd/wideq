@@ -371,6 +371,9 @@ class ACStatus(object):
         self.ac = ac
         self.data = data
 
+    def __dict__(self):
+        return self.data
+
     @staticmethod
     def _str_to_num(s):
         """Convert a string to either an `int` or a `float`.

@@ -14,26 +14,7 @@ from werkzeug.exceptions import HTTPException
 from flask import Flask, jsonify, json
 from flask.logging import create_logger
 
-from . import client, core
-
-def singleton(classe_definie):
-    instances = {} # Dictionnaire de nos instances singletons
-    print(time.strftime('%d/%m/%Y %H:%M:%S'), "init singleton pour ", classe_definie)
-    def get_instance(*args, **kargs):
-        if classe_definie not in instances:
-            print(time.strftime('%d/%m/%Y %H:%M:%S'), "init classe: ", classe_definie)
-            # On crée notre premier objet de classe_definie
-            instances[classe_definie] = classe_definie(*args, **kargs)
-        else:
-            print(time.strftime('%d/%m/%Y %H:%M:%S'), "classe existe deja: ", classe_definie)
-        print(time.strftime('%d/%m/%Y %H:%M:%S'), instances[classe_definie])
-        return instances[classe_definie]
-    return get_instance
-  
-    
-@singleton
-class WClient(client.Client):
-    pass
+from . import client, core  
         
   
 class InvalidUsage(Exception):
@@ -115,37 +96,23 @@ def create_app(config=None, debug=False):
             "debug": debug,
         }
 
+
     @api.route('/ping', methods=['GET'])
     def get_ping():
         return hello_world()
 
-    @api.route("/foo/<someId>")
-    def foo_url_arg(someId):
-        """
-        this is just for test
-        """
-        return jsonify({"echo": someId})
 
     @api.route('/log/<string:level>', methods=['GET', 'POST'])
     def set_log(level):
         """
         change log level for application: [debug|info|warn|error]
         """
-        level = level.lower()
-        if level == 'debug':
-            lvl = logging.DEBUG
-        elif level == 'info':
-            lvl = logging.INFO
-        elif level == 'warn':
-            lvl = logging.WARNING
-        elif level == 'error':
-            lvl = logging.ERROR
-        else:
+        numeric_level = getattr(logging, level.upper(), None)
+        if not isinstance(numeric_level, int):
             raise InvalidUsage('Unknown Log level {}'.format(level) ,status_code=410)
-
-        core.set_log_level(lvl)
-        create_logger(api).setLevel(lvl)
-        return Response({'log':level})
+        core.set_log_level(numeric_level)
+        create_logger(api).setLevel(numeric_level)
+        return Response({'log':level.upper()})
 
 
     @api.route('/gateway/<string:country>/<string:language>', methods=['GET'])
