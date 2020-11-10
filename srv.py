@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logging.basicConfig(filename='lgthinq.log', format='%(asctime)s:%(levelname)s:%(message)s',
+    logging.basicConfig(filename=sys.stdout, format='%(asctime)s:%(levelname)s:%(message)s',
         level= logging.DEBUG if args.verbose else logging.INFO)
     LOGGER.setLevel(logging.DEBUG if args.verbose else logging.INFO)
 

@@ -309,6 +309,11 @@ def main() -> None:
         help='verbose mode to help debugging',
         action='store_true', default=False
     )
+    parser.add_argument(
+        '--id', '-j',
+        help='The Jeedom Command Id to monitor. Optional, default is monitoring everything.',
+        default=None
+    )
 
     args = parser.parse_args()
     if not args.key:
