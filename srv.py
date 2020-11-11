@@ -26,12 +26,12 @@ def create_app(app, debug=False):
         """
         check if server is alive
         """
-        return {
+        return jsonify({
             "message": "Hello World! This is the wideq-flask server, i'm alive :)",
             "starting":
             '{0.tm_year}/{0.tm_mon}/{0.tm_mday} at {0.tm_hour}:{0.tm_min}:{0.tm_sec}'.format(time.localtime( starting)),
             "debug": debug,
-        }
+        })
 
     @api.route('/token/<path:token>', methods=['GET', 'POST'])
     def get_token(token):
@@ -50,7 +50,7 @@ def create_app(app, debug=False):
         if cmd in app and callable(app[cmd]):
             LOGGER.debug('{} with arg {} and {}'.format(cmd, arg1, arg2))
             try:
-                return app[cmd](arg1, arg2)
+                return jsonify(app[cmd](arg1, arg2))
             except APIError as e:
                 rep = {'message': e.message, 'code': e.code}
                 LOGGER.error(str(e))
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logging.basicConfig(filename=sys.stdout, format='%(asctime)s:%(levelname)s:%(message)s',
+    logging.basicConfig(stream=sys.stdout, format='%(asctime)s:%(levelname)s:%(message)s',
         level= logging.DEBUG if args.verbose else logging.INFO)
     LOGGER.setLevel(logging.DEBUG if args.verbose else logging.INFO)
 
