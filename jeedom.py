@@ -24,7 +24,7 @@ def getClient(supplier = None):
     else: fail
     """
     global WClient
-    
+
     if WClient is None:
         # Load the current state for the example.
         try:
@@ -34,7 +34,7 @@ def getClient(supplier = None):
         except IOError:
             LOGGER.debug("No state file found (tried: '%s')",
                          os.path.abspath(STATE_FILE))
-    
+
     if WClient is None and not supplier is None:
         try:
             LOGGER.debug("Get wideq client with external supplier '%s'", supplier)
@@ -44,7 +44,7 @@ def getClient(supplier = None):
 
     if WClient is None:
         LOGGER.error("no Wideq client found")
-        
+
     return WClient
 
 
@@ -90,8 +90,8 @@ class jeedomConfig():
         numeric_level = getattr(logging, level.upper(), None)
         if not isinstance(numeric_level, int):
             raise wideq.APIError(404, "Unknown log level {}".format(level))
-        LOGGER.setLevel(logging.DEBUG)        
-        
+        LOGGER.setLevel(logging.DEBUG)
+
     def getClient(self):
         """ask jeedom to retrieve config parameters
         to initiate wideq client instance
@@ -184,10 +184,10 @@ class jeedomConfig():
         if eq.isEnable != '1':
             raise wideq.APIError(404,
                 "device not active in jeedom configuration (logicalId {})".format(logicalId))
-        
+
         LOGGER.info('lgthinq id({}) {} \'{}\' ({}-{}) contains {} commands'.format(eq.id,
             eq.name, eq.logicalId, eq.isVisible, eq.isEnable, len(eq.commands)))
-        
+
         try:
             device = self.client.get_device_obj(eq.logicalId)
         except wideq.core.NotLoggedInError:
@@ -198,7 +198,7 @@ class jeedomConfig():
             LOGGER.warning("no LG device for jeedom configuration {} id= {}".format(eq.name, eq.logicalId))
             raise wideq.APIError(404,
                 "no LG device for jeedom configuration {} id= {}".format(eq.name, eq.logicalId))
-        
+
         try:
             state = eq.mon(device)
         except wideq.core.NotLoggedInError:

@@ -117,7 +117,6 @@ if __name__ == "__main__":
         'mon': lambda u, v: jee.mon(u),
         'log': lambda u, v: jee.log(u),
         'gateway': lambda u, v: jee.gateway(u, v),
-        'tst': lambda u, v: print('test: ', u, ' ', v) or 'ok',
         'auth': lambda t: print(t),
     }
     api = create_app( funcs, debug=args.verbose)

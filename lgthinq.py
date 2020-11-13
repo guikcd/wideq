@@ -5,14 +5,14 @@ import json
 import time
 import argparse
 import sys
-import re
 import os.path
 import logging
 from typing import List
 
 from pyJeedom import jeedom
 
-logging.basicConfig(filename='lgthinq.log', format='%(asctime)s:%(levelname)s:%(message)s', level=logging.INFO)
+logging.basicConfig(filename='lgthinq.log',
+    format='%(asctime)s:%(levelname)s:%(message)s', level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
 STATE_FILE = 'wideq_state.json'
 
@@ -21,7 +21,8 @@ def ls(jee, client):
     """List the user's devices."""
 
     for device in client.devices:
-        LOGGER.info('{0.id}: {0.name} ({0.type.name} {0.model_id})'.format(device))
+        LOGGER.info('{0.id}: {0.name} ({0.type.name} {0.model_id})'
+            .format(device))
 
 
 def mon(jee, client, device_id):
@@ -42,13 +43,15 @@ def mon(jee, client, device_id):
                     try:
                         res = model.decode_monitor(data)
                     except ValueError:
-                        LOGGER.warning('device {}: status data: {!r}'.format(device_id, data))
+                        LOGGER.warning('device {}: status data: {!r}'
+                            .format(device_id, data))
                     else:
                         for key, value in res.items():
                             try:
                                 desc = model.value(key)
                             except KeyError:
-                                LOGGER.warning('device {}: - {}: {}'.format(device_id, key, value))
+                                LOGGER.warning('device {}: - {}: {}'
+                                    .format(device_id, key, value))
                             if isinstance(desc, wideq.EnumValue):
                                 print('- {}: {}'.format(
                                     key, desc.options.get(value, value)
@@ -211,15 +214,14 @@ def example(jee: jeedom, verbose: bool,
     # exit if lgthinq plugin is not installed
     if "error" in lgthinq:
         sys.exit(lgthinq["error"])
-    
+
     country = jee.config.byKey('LgCountry', 'lgthinq')
     language = jee.config.byKey('LgLanguage', 'lgthinq')
     auth = jee.config.byKey('LgAuthUrl', 'lgthinq')
-    logUrl = jee.config.byKey('LgGateway', 'lgthinq')
-    
+
     # display status config
-    LOGGER.info( 'jeedom "{}" lgthinq country:{} language:{} auth URL:"{}"'
-        .format( jee.config.byKey('name'), country, language, auth))
+    LOGGER.info('jeedom "{}" lgthinq country:{} language:{} auth URL:"{}"'
+        .format(jee.config.byKey('name'), country, language, auth))
 
     client = wideq.Client.load(state)
     if country:
@@ -227,7 +229,7 @@ def example(jee: jeedom, verbose: bool,
     if language:
         client._language = language
     if not auth:
-        jee.config.save('LgGateway', gateway.oauth_url(), 'lgthinq')
+        jee.config.save('LgGateway', client.gateway.oauth_url(), 'lgthinq')
         sys.exit('Missing configuration: auth URL')
 
     # Log in, if we don't already have an authentication.
