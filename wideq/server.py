@@ -6,7 +6,7 @@ See also https://www.python-boilerplate.com/flask
 import logging
 import time
 import ssl
-import requests 
+import requests
 import re
 import os.path
 
@@ -14,9 +14,9 @@ from werkzeug.exceptions import HTTPException
 from flask import Flask, jsonify, json
 from flask.logging import create_logger
 
-from . import client, core  
-        
-  
+from . import client, core
+
+
 class InvalidUsage(Exception):
     """
     generic exception errorhandler
@@ -120,7 +120,7 @@ def create_app(config=None, debug=False):
         """get the auth Url for country and market"""
 
         logging.info("auth country=%s, lang=%s", country, language)
-        
+
         if not country:
             country = core.DEFAULT_COUNTRY
 
@@ -301,4 +301,3 @@ def create_app(config=None, debug=False):
         'debug' if debug else '', time.localtime( starting)))
 
     return api
-

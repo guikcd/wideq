@@ -12,7 +12,8 @@ from typing import List
 from pyJeedom import jeedom
 
 logging.basicConfig(filename='lgthinq.log',
-                    format='%(asctime)s:%(levelname)s:%(message)s', level=logging.INFO)
+                    format='%(asctime)s:%(levelname)s:%(message)s',
+                    level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
 STATE_FILE = 'wideq_state.json'
 
@@ -295,7 +296,8 @@ def main() -> None:
         LOGGER.setLevel(logging.DEBUG)
 
     # command line:
-    # python jeedom.py --ip http://192.168.1.25 --key kLbmBWVeQSqbhluECyycGEeGAXXZOahS
+    # python jeedom.py --ip http://192.168.1.25 
+    # --key kLbmBWVeQSqbhluECyycGEeGAXXZOahS
     LOGGER.info('python jeedom.py --ip {} --key {}'.format(args.ip, args.key))
     jee = jeedom(args.ip, args.key)
     example(jee, args.verbose, args.cmd, args.args)

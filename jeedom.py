@@ -15,7 +15,8 @@ LOGGER = logging.getLogger("jeedom.py")
 WClient = None
 STATE_FILE = 'wideq_state.json'
 
-def getClient(supplier = None):
+
+def getClient(supplier=None):
     """
     The global common method to initialize wideq client.
     First, use the global variable
@@ -29,18 +30,21 @@ def getClient(supplier = None):
         # Load the current state for the example.
         try:
             with open(STATE_FILE) as f:
-                LOGGER.info("State file found '%s'", os.path.abspath(STATE_FILE))
+                LOGGER.info("State file found '%s'",
+                            os.path.abspath(STATE_FILE))
                 WClient = wideq.Client.load(json.load(f))
         except IOError:
             LOGGER.debug("No state file found (tried: '%s')",
                          os.path.abspath(STATE_FILE))
 
-    if WClient is None and not supplier is None:
+    if WClient is None and supplier is not None:
         try:
-            LOGGER.debug("Get wideq client with external supplier '%s'", supplier)
+            LOGGER.debug("Get wideq client with external supplier '%s'",
+                         supplier)
             WClient = supplier.getClient()
         except Exception as ex:
-            LOGGER.error("Cannot get wideq client with external supplier: '%s'", ex.msg)
+            LOGGER.error("Cannot get wideq client with external \
+                         supplier: '%s'", ex.msg)
 
     if WClient is None:
         LOGGER.error("no Wideq client found")
