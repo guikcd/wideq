@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
     print(' * python jeedom srv.py --ip {} --key {}'.format(args.ip, args.key))
     jee = jeedom.jeedomConfig(args.ip, args.key)
-    
+
     funcs = {
         'ls': lambda u, v: jee.devices,
         'mon': lambda u, v: jee.mon(u),

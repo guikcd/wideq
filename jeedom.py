@@ -223,7 +223,7 @@ class eqLogic():
         self.json = json
         self.jeedom = jeedom
         cmds = jeedom.cmd.byEqLogicId(json['id'])
-        
+
         # commands with logicalId as the index
         self.commands = {}
         for cmd in cmds:
@@ -284,7 +284,7 @@ class eqLogic():
         finally:
             device.monitor_stop()
 
-  
+
 def main() -> None:
     """
     The main command-line entry point.
@@ -325,7 +325,7 @@ def main() -> None:
         log_level = logging.DEBUG
     else:
         log_level = logging.INFO
-    
+
     logging.basicConfig(stream=sys.stdout, level=log_level,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
@@ -333,7 +333,7 @@ def main() -> None:
     # python jeedom.py --ip http://192.168.1.25 --key kLbmBWVeQSqbhluECyycGEeGAXXZOahS
     print('python jeedom.py --ip {} --key {}'.format(args.ip, args.key))
     jee = jeedomConfig(args.ip, args.key)
-    
+
     client = jee.client
     client.refresh()
     # get all LG connected devices
@@ -344,7 +344,7 @@ def main() -> None:
     pluginEqlogics = jee.eqLogics
     for eq in pluginEqlogics.values():
         jee.update(eq.logicalId)
-    
-    
+
+
 if __name__ == '__main__':
     main()

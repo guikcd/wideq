@@ -12,7 +12,7 @@ from typing import List
 from pyJeedom import jeedom
 
 logging.basicConfig(filename='lgthinq.log',
-    format='%(asctime)s:%(levelname)s:%(message)s', level=logging.INFO)
+                    format='%(asctime)s:%(levelname)s:%(message)s', level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
 STATE_FILE = 'wideq_state.json'
 
@@ -22,7 +22,7 @@ def ls(jee, client):
 
     for device in client.devices:
         LOGGER.info('{0.id}: {0.name} ({0.type.name} {0.model_id})'
-            .format(device))
+                    .format(device))
 
 
 def mon(jee, client, device_id):
@@ -44,14 +44,14 @@ def mon(jee, client, device_id):
                         res = model.decode_monitor(data)
                     except ValueError:
                         LOGGER.warning('device {}: status data: {!r}'
-                            .format(device_id, data))
+                                       .format(device_id, data))
                     else:
                         for key, value in res.items():
                             try:
                                 desc = model.value(key)
                             except KeyError:
                                 LOGGER.warning('device {}: - {}: {}'
-                                    .format(device_id, key, value))
+                                               .format(device_id, key, value))
                             if isinstance(desc, wideq.EnumValue):
                                 print('- {}: {}'.format(
                                     key, desc.options.get(value, value)
@@ -221,7 +221,7 @@ def example(jee: jeedom, verbose: bool,
 
     # display status config
     LOGGER.info('jeedom "{}" lgthinq country:{} language:{} auth URL:"{}"'
-        .format(jee.config.byKey('name'), country, language, auth))
+                .format(jee.config.byKey('name'), country, language, auth))
 
     client = wideq.Client.load(state)
     if country:
@@ -272,12 +272,12 @@ def main() -> None:
 
     parser.add_argument(
         '--ip', '-i',
-        help=f'IP adress of jeedom (default: http://192.168.1.10)',
+        help='IP adress of jeedom (default: http://192.168.1.10)',
         default='http://192.168.1.10'
     )
     parser.add_argument(
         '--key', '-k',
-        help=f'the jeedom API key',
+        help='the jeedom API key',
         default=None
     )
     parser.add_argument(
