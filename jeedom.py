@@ -69,13 +69,11 @@ class jeedomConfig():
         self._eqLogic = {}
         self._client = None
 
-
     @property
     def client(self):
         if not self._client:
             self._client = getClient(self)
         return self._client
-
 
     @property
     def devices(self):
@@ -85,7 +83,6 @@ class jeedomConfig():
             self.client.refresh()
             devices = self.client.devices
         return {device.id: device.__dict__ for device in devices}
-
 
     def _getKey(self, key):
         return self.jeedom.config.byKey(key, 'lgthinq')
@@ -104,8 +101,9 @@ class jeedomConfig():
         language = self._getKey('LgLanguage')
         auth = self._getKey('LgAuthUrl')
 
-        #Your Jeedom name:
-        LOGGER.debug( 'jeedom %s lgthinq country:%s language:%s auth URL:%s', self._getKey('name'), country, language, auth)
+        # Your Jeedom name:
+        LOGGER.debug('jeedom %s lgthinq country:%s language:%s auth URL:%s',
+                     self._getKey('name'), country, language, auth)
 
         client = wideq.Client.load({})
         client._country = country
@@ -148,14 +146,12 @@ class jeedomConfig():
                 self._eqLogic[eq['logicalId']] = eqLogic(eq, self.jeedom)
         return self._eqLogic
 
-
     def cmd(self, eqLogicId):
         """
         ask jeedom for commands configuration
         """
         result = self.jeedom.cmd.byEqLogicId(eqLogicId)
         return result
-
 
     def update(self, logicalId):
         """Monitor LG device, and update jeedom with result
@@ -171,10 +167,10 @@ class jeedomConfig():
                 # if jeedom has similar command:
                 if eq.hasCommand(key):
                     # maj jeedom with new value
-                    cmd = eq.getCommand(key)
                     eq.event(key, value)
                 else:
-                    LOGGER.debug("no command {} in object {}".format(key, eq.name))
+                    LOGGER.debug("no command {} in object {}"
+                                 .format(key, eq.name))
 
     def mon(self, logicalId):
         """

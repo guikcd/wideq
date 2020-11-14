@@ -296,7 +296,7 @@ def main() -> None:
         LOGGER.setLevel(logging.DEBUG)
 
     # command line:
-    # python jeedom.py --ip http://192.168.1.25 
+    # python jeedom.py --ip http://192.168.1.25
     # --key kLbmBWVeQSqbhluECyycGEeGAXXZOahS
     LOGGER.info('python jeedom.py --ip {} --key {}'.format(args.ip, args.key))
     jee = jeedom(args.ip, args.key)
