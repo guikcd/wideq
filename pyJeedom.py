@@ -1,4 +1,5 @@
 #-*- coding: UTF-8 -*-
+# flake8: noqa
 
 """ pyJeedom v0.3
     https://github.com/KiboOst/pyJeedom
@@ -24,8 +25,8 @@ else:
     quoteurl = urllib.parse.quote
 
 try:
-    reload(sys) # noqa
-    sys.setdefaultencoding('utf-8') # noqa
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 except:
     pass
 

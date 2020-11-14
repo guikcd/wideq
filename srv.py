@@ -4,7 +4,7 @@ import logging
 import time
 import jeedom
 
-from flask import Flask, abort,jsonify, make_response
+from flask import Flask, abort, jsonify, make_response
 from wideq import APIError
 
 LOGGER = logging.getLogger(__name__)
@@ -29,7 +29,7 @@ def create_app(app, debug=False):
             "message": "Hello World! This is the wideq-flask server,\
             i'm alive :)", "starting":
             '{0.tm_year}/{0.tm_mon}/{0.tm_mday} at {0.tm_hour}:\
-            {0.tm_min}:{0.tm_sec}'.format(time.localtime( starting)),
+            {0.tm_min}:{0.tm_sec}'.format(time.localtime(starting)),
             "debug": debug,
         })
 
@@ -59,7 +59,7 @@ def create_app(app, debug=False):
                 rep = {'message': str(e)}
                 LOGGER.error(e)
                 if debug:
-                    raise e # for Flask debugger display
+                    raise e  # for Flask debugger display
                 abort(make_response(jsonify(rep), 404))
         else:
             abort(make_response(jsonify(
@@ -81,7 +81,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='REST API for the LG SmartThinQ wideq Lib.'
     )
-
 
     parser.add_argument(
         '--ip', '-i',
