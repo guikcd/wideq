@@ -26,10 +26,10 @@ def create_app(app, debug=False):
         check if server is alive
         """
         return jsonify({
-            "message": "Hello World! This is the wideq-flask server,\
-            i'm alive :)", "starting":
-            '{0.tm_year}/{0.tm_mon}/{0.tm_mday} at {0.tm_hour}:\
-            {0.tm_min}:{0.tm_sec}'.format(time.localtime(starting)),
+            "message": "Hello World! This is the wideq-flask server, "
+            "i'm alive :)", "starting":
+            '{0.tm_year}/{0.tm_mon}/{0.tm_mday} at {0.tm_hour}: '
+            '{0.tm_min}:{0.tm_sec}'.format(time.localtime(starting)),
             "debug": debug,
         })
 
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     logging.basicConfig(stream=sys.stdout,
                         format='%(asctime)s:%(levelname)s:%(message)s',
                         level=logging.DEBUG if args.verbose
-                                             else logging.INFO)
+                        else logging.INFO)
     LOGGER.setLevel(logging.DEBUG if args.verbose else logging.INFO)
 
     print(' * python jeedom srv.py --ip {} --key {}'.format(args.ip,

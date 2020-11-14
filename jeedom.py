@@ -43,8 +43,8 @@ def getClient(supplier=None):
                          supplier)
             WClient = supplier.getClient()
         except Exception as ex:
-            LOGGER.error("Cannot get wideq client with external \
-                         supplier: '%s'", ex.msg)
+            LOGGER.error("Cannot get wideq client with external "
+                         "supplier: '%s'", ex.msg)
 
     if WClient is None:
         LOGGER.error("no Wideq client found")
@@ -62,6 +62,7 @@ class jeedomConfig():
     jeedom ( the pyJeedom instance )
     _eqLogic ( list of jeedom objects )
     """
+
     def __init__(self, ip, key):
         self.ip = ip
         self.key = key
@@ -183,8 +184,8 @@ class jeedomConfig():
         eq = self.eqLogics[logicalId]
         # monitor eq element if enabled
         if eq.isEnable != '1':
-            raise wideq.APIError(404, "device not active in jeedom \
-                                 configuration (logicalId {})"
+            raise wideq.APIError(404, "device not active in jeedom "
+                                 "configuration (logicalId {})"
                                  .format(logicalId))
 
         LOGGER.info('lgthinq id({}) {} \'{}\' ({}-{}) contains {} commands'
@@ -201,8 +202,8 @@ class jeedomConfig():
             LOGGER.warning("no LG device for jeedom configuration {} id= {}"
                            .format(eq.name, eq.logicalId))
             raise wideq.APIError(404,
-                                 "no LG device for jeedom configuration \
-                                 {} id= {}".format(eq.name, eq.logicalId))
+                                 "no LG device for jeedom configuration "
+                                 "{} id= {}".format(eq.name, eq.logicalId))
 
         try:
             state = eq.mon(device)
@@ -223,6 +224,7 @@ class eqLogic():
     this class contains jeedom eqLogic configuration and commands
     and real-time commands values
     """
+
     def __init__(self, json, jeedom):
         self.id = json['id']
         self.logicalId = json['logicalId']
@@ -320,8 +322,8 @@ def main() -> None:
     )
     parser.add_argument(
         '--id', '-j',
-        help='The Jeedom Command Id to monitor. Optional, default \
-             is monitoring everything.',
+        help='The Jeedom Command Id to monitor. Optional, default '
+             'is monitoring everything.',
         default=None
     )
 
@@ -337,8 +339,8 @@ def main() -> None:
         log_level = logging.INFO
 
     logging.basicConfig(stream=sys.stdout, level=log_level,
-                        format='%(asctime)s - %(name)s - \
-                                %(levelname)s - %(message)s')
+                        format='%(asctime)s - %(name)s - '
+                               '%(levelname)s - %(message)s')
 
     # command line:
     # python jeedom.py --ip http://192.168.1.25
