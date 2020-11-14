@@ -189,7 +189,7 @@ class jeedomConfig():
 
         LOGGER.info('lgthinq id({}) {} \'{}\' ({}-{}) contains {} commands'
                     .format(eq.id, eq.name, eq.logicalId, eq.isVisible,
-                    eq.isEnable, len(eq.commands)))
+                            eq.isEnable, len(eq.commands)))
 
         try:
             device = self.client.get_device_obj(eq.logicalId)
@@ -201,8 +201,8 @@ class jeedomConfig():
             LOGGER.warning("no LG device for jeedom configuration {} id= {}"
                            .format(eq.name, eq.logicalId))
             raise wideq.APIError(404,
-                "no LG device for jeedom configuration {} id= {}"
-                .format(eq.name, eq.logicalId))
+                                 "no LG device for jeedom configuration {} id= {}"
+                                .format(eq.name, eq.logicalId))
 
         try:
             state = eq.mon(device)
@@ -214,7 +214,8 @@ class jeedomConfig():
             return state.data
         else:
             raise wideq.APIError(404,
-                'no monitoring data for {}'.format(logicalId))
+                                 'no monitoring data for {}'
+                                 .format(logicalId))
 
 
 class eqLogic():
@@ -256,13 +257,12 @@ class eqLogic():
     # update jeedom command if the value changed
     def event(self, name, value):
         id = self.commands.get(name)['id']
-        if not id in self.values or not self.values[id] == value:
+        if id not in self.values or self.values[id] != value:
             # cache the new value
             self.values[id] = value
             # ma jeedom
             self.jeedom.cmd.event(id, value)
             LOGGER.debug("%s: maj %s = %s", self.name, name, value)
-
 
     def mon(self, device):
         """Monitor any device, return higher-level information about
@@ -305,12 +305,12 @@ def main() -> None:
 
     parser.add_argument(
         '--ip', '-i',
-        help=f'IP adress of jeedom (default: http://localhost)',
+        help='IP adress of jeedom (default: http://localhost)',
         default='http://localhost'
     )
     parser.add_argument(
         '--key', '-k',
-        help=f'the jeedom API key',
+        help='the jeedom API key',
         default=None
     )
     parser.add_argument(
@@ -337,7 +337,8 @@ def main() -> None:
         log_level = logging.INFO
 
     logging.basicConfig(stream=sys.stdout, level=log_level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                        format='%(asctime)s - %(name)s - \
+                                %(levelname)s - %(message)s')
 
     # command line:
     # python jeedom.py --ip http://192.168.1.25
@@ -352,7 +353,7 @@ def main() -> None:
         print(device, '{0.id}: {0.name} ({0.type.name} {0.model_id})'
               .format(device))
 
-    #Get all jeedom eqLogics:
+    # Get all jeedom eqLogics:
     pluginEqlogics = jee.eqLogics
     for eq in pluginEqlogics.values():
         jee.update(eq.logicalId)
