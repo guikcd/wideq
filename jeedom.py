@@ -201,8 +201,8 @@ class jeedomConfig():
             LOGGER.warning("no LG device for jeedom configuration {} id= {}"
                            .format(eq.name, eq.logicalId))
             raise wideq.APIError(404,
-                                 "no LG device for jeedom configuration {} id= {}"
-                                .format(eq.name, eq.logicalId))
+                                 "no LG device for jeedom configuration \
+                                 {} id= {}".format(eq.name, eq.logicalId))
 
         try:
             state = eq.mon(device)

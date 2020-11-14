@@ -24,8 +24,8 @@ else:
     quoteurl = urllib.parse.quote
 
 try:
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
+    reload(sys) # noqa
+    sys.setdefaultencoding('utf-8') # noqa
 except:
     pass
 
