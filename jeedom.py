@@ -176,17 +176,20 @@ class jeedomConfig():
         """
         Monitor LG device and return json formatted information
         """
-        if not logicalId in self.eqLogics:
-            raise wideq.APIError(404, "no LG device for logicalId {}".format(logicalId))
+        if logicalId not in self.eqLogics:
+            raise wideq.APIError(404, "no LG device for logicalId {}"
+                                 .format(logicalId))
 
         eq = self.eqLogics[logicalId]
         # monitor eq element if enabled
         if eq.isEnable != '1':
-            raise wideq.APIError(404,
-                "device not active in jeedom configuration (logicalId {})".format(logicalId))
+            raise wideq.APIError(404, "device not active in jeedom \
+                                 configuration (logicalId {})"
+                                 .format(logicalId))
 
-        LOGGER.info('lgthinq id({}) {} \'{}\' ({}-{}) contains {} commands'.format(eq.id,
-            eq.name, eq.logicalId, eq.isVisible, eq.isEnable, len(eq.commands)))
+        LOGGER.info('lgthinq id({}) {} \'{}\' ({}-{}) contains {} commands'
+                    .format(eq.id, eq.name, eq.logicalId, eq.isVisible,
+                    eq.isEnable, len(eq.commands)))
 
         try:
             device = self.client.get_device_obj(eq.logicalId)
@@ -195,9 +198,11 @@ class jeedomConfig():
             device = self.client.get_device_obj(eq.logicalId)
 
         if device is None:
-            LOGGER.warning("no LG device for jeedom configuration {} id= {}".format(eq.name, eq.logicalId))
+            LOGGER.warning("no LG device for jeedom configuration {} id= {}"
+                           .format(eq.name, eq.logicalId))
             raise wideq.APIError(404,
-                "no LG device for jeedom configuration {} id= {}".format(eq.name, eq.logicalId))
+                "no LG device for jeedom configuration {} id= {}"
+                .format(eq.name, eq.logicalId))
 
         try:
             state = eq.mon(device)
@@ -235,13 +240,15 @@ class eqLogic():
         if nom in self.json:
             return self.json[nom]
         else:
-            LOGGER.warning('pas d\'attribut %s dans eqLogic %s', nom, self.json['id'])
+            LOGGER.warning('pas d\'attribut %s dans eqLogic %s',
+                           nom, self.json['id'])
 
     def getCommand(self, name):
         if name in self.commands:
             return self.commands.get(name)
         else:
-            LOGGER.warning('pas de commande %s dans eqLogic %s', name, self.json['name'])
+            LOGGER.warning('pas de commande %s dans eqLogic %s',
+                           name, self.json['name'])
 
     def hasCommand(self, name):
         return name in self.commands
@@ -275,8 +282,10 @@ class eqLogic():
                 if state:
                     return state
                 else:
-                    LOGGER.debug("no state for %s (%s) try again (%s)", device.device.name, device.device.type, i)
-            LOGGER.warning('timeout after 5 try, device %s %s unreachable', device.device.name, device.device.type)
+                    LOGGER.debug("no state for %s (%s) try again (%s)",
+                                 device.device.name, device.device.type, i)
+            LOGGER.warning('timeout after 5 try, device %s %s unreachable',
+                           device.device.name, device.device.type)
 
         except KeyboardInterrupt:
             LOGGER.info('keyboard interruption')
@@ -311,7 +320,8 @@ def main() -> None:
     )
     parser.add_argument(
         '--id', '-j',
-        help='The Jeedom Command Id to monitor. Optional, default is monitoring everything.',
+        help='The Jeedom Command Id to monitor. Optional, default \
+             is monitoring everything.',
         default=None
     )
 
@@ -330,7 +340,8 @@ def main() -> None:
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     # command line:
-    # python jeedom.py --ip http://192.168.1.25 --key kLbmBWVeQSqbhluECyycGEeGAXXZOahS
+    # python jeedom.py --ip http://192.168.1.25
+    # --key kLbmBWVeQSqbhluECyycGEeGAXXZOahS
     print('python jeedom.py --ip {} --key {}'.format(args.ip, args.key))
     jee = jeedomConfig(args.ip, args.key)
 
@@ -338,7 +349,8 @@ def main() -> None:
     client.refresh()
     # get all LG connected devices
     for device in client.devices:
-        print(device, '{0.id}: {0.name} ({0.type.name} {0.model_id})'.format(device))
+        print(device, '{0.id}: {0.name} ({0.type.name} {0.model_id})'
+              .format(device))
 
     #Get all jeedom eqLogics:
     pluginEqlogics = jee.eqLogics
