@@ -1,3 +1,5 @@
+# type: ignore
+
 """
 A simple Flask-server implementation of wideq lib to expose
 most common operations of the LG wideq lib

@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-# flake8: noqa
+# type: ignore
 
 """ pyJeedom v0.3
     https://github.com/KiboOst/pyJeedom
