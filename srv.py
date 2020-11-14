@@ -84,11 +84,11 @@ if __name__ == "__main__":
 
     parser.add_argument(
         '--ip', '-i',
-        help=f'IP adress of jeedom (default: http://localhost)',
+        help='IP adress of jeedom (default: http://localhost)',
         default='http://localhost'
     )
     parser.add_argument(
-        '--key', '-k', help=f'the jeedom API key',
+        '--key', '-k', help='the jeedom API key',
         default=None, required=True
     )
     parser.add_argument(
@@ -104,11 +104,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logging.basicConfig(stream=sys.stdout, format='%(asctime)s:%(levelname)s:%(message)s',
-        level= logging.DEBUG if args.verbose else logging.INFO)
+    logging.basicConfig(stream=sys.stdout,
+                        format='%(asctime)s:%(levelname)s:%(message)s',
+                        level=logging.DEBUG if args.verbose
+                                             else logging.INFO)
     LOGGER.setLevel(logging.DEBUG if args.verbose else logging.INFO)
 
-    print(' * python jeedom srv.py --ip {} --key {}'.format(args.ip, args.key))
+    print(' * python jeedom srv.py --ip {} --key {}'.format(args.ip,
+                                                            args.key))
     jee = jeedom.jeedomConfig(args.ip, args.key)
 
     funcs = {
@@ -118,5 +121,5 @@ if __name__ == "__main__":
         'gateway': lambda u, v: jee.gateway(u, v),
         'auth': lambda t: print(t),
     }
-    api = create_app( funcs, debug=args.verbose)
+    api = create_app(funcs, debug=args.verbose)
     api.run(host="0.0.0.0", port=args.port, debug=args.verbose)

@@ -1,5 +1,4 @@
 #-*- coding: UTF-8 -*-
-# type: ignore
 
 """ pyJeedom v0.3
     https://github.com/KiboOst/pyJeedom
