@@ -1,4 +1,4 @@
-#-*- coding: UTF-8 -*-
+# -*- coding: UTF-8 -*-
 
 """ pyJeedom v0.3
     https://github.com/KiboOst/pyJeedom
@@ -25,11 +25,10 @@ else:
     requestUrl = urllib.request
     quoteurl = urllib.parse.quote
 
-try:
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-except:
-    pass
+if (sys.stdout.encoding is None):
+    print('please set python env PYTHONIOENCODING=UTF-8, example:'
+          ' export PYTHONIOENCODING=UTF-8, when write to stdout.')
+    exit(1)
 
 # import locale
 
