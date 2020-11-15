@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.1" />
-<title>wideq API documentation</title>
-<meta name="description" content="Reverse-engineered client for the LG SmartThinQ API." />
+<title>wideq.server API documentation</title>
+<meta name="description" content="A simple Flask-server implementation of wideq lib to expose
+most common operations of the LG wideq lib
+See also https://www.python-boilerplate.com/flask" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,75 +21,119 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>wideq</code></h1>
+<h1 class="title">Module <code>wideq.server</code></h1>
 </header>
 <section id="section-intro">
-<p>Reverse-engineered client for the LG SmartThinQ API.</p>
+<p>A simple Flask-server implementation of wideq lib to expose
+most common operations of the LG wideq lib
+See also <a href="https://www.python-boilerplate.com/flask">https://www.python-boilerplate.com/flask</a></p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Reverse-engineered client for the LG SmartThinQ API.
+<pre><code class="python">&#34;&#34;&#34;
+A simple Flask-server implementation of wideq lib to expose
+most common operations of the LG wideq lib
+See also https://www.python-boilerplate.com/flask
 &#34;&#34;&#34;
-from .core import *  # noqa
-from .client import *  # noqa
-from .ac import *  # noqa
-from .dishwasher import *  # noqa
-from .dryer import *  # noqa
-from .refrigerator import *  # noqa
-from .washer import *  # noqa
-from .server import * # noqa
+import os
+import logging
+import time
 
-__version__ = &#39;1.5.0&#39;</code></pre>
+from flask import Flask, jsonify
+
+TOKEN_KEY = &#39;jeedom_token&#39;
+
+
+def create_app(config=None):
+    app = Flask(__name__)
+
+    # the token value
+    token_value = &#39;&#39;
+    # starting datetime
+    starting = time.time()
+
+    # See http://flask.pocoo.org/docs/latest/config/
+    app.config.update(dict(DEBUG=True))
+    app.config.update(config or {})
+
+    # Definition of the routes. Put them into their own file. See also
+    # Flask Blueprints: http://flask.pocoo.org/docs/latest/blueprints
+    @app.route(&#34;/&#34;)
+    def hello_world():
+        return &#34;Hello World&#34;
+
+    @app.route(&#34;/foo/&lt;someId&gt;&#34;)
+    def foo_url_arg(someId):
+        return jsonify({&#34;echo&#34;: someId})
+
+    @app.route(&#39;/ping&#39;, methods=[&#39;GET&#39;])
+    def get_ping():
+        &#34;&#34;&#34;
+        check if server is alive
+        &#34;&#34;&#34;
+        logging.debug(&#39;ping token &#39; + str(token_value))
+        return jsonify({&#39;starting&#39;: starting, TOKEN_KEY: (token_value != &#39;&#39;)})
+
+    return app
+
+
+if __name__ == &#34;__main__&#34;:
+    port = int(os.environ.get(&#34;PORT&#34;, 8000))
+    app = create_app()
+    app.run(host=&#34;0.0.0.0&#34;, port=port)</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="wideq.ac" href="ac.html">wideq.ac</a></code></dt>
-<dd>
-<div class="desc"><p>A <code>Device</code> class representing air conditioning/climate devices.</p></div>
-</dd>
-<dt><code class="name"><a title="wideq.client" href="client.html">wideq.client</a></code></dt>
-<dd>
-<div class="desc"><p>A high-level, convenient abstraction for interacting with the LG
-SmartThinQ API for most use cases.</p></div>
-</dd>
-<dt><code class="name"><a title="wideq.core" href="core.html">wideq.core</a></code></dt>
-<dd>
-<div class="desc"><p>A low-level, general abstraction for the LG SmartThinQ API.</p></div>
-</dd>
-<dt><code class="name"><a title="wideq.dishwasher" href="dishwasher.html">wideq.dishwasher</a></code></dt>
+<dt id="wideq.server.create_app"><code class="name flex">
+<span>def <span class="ident">create_app</span></span>(<span>config=None)</span>
+</code></dt>
 <dd>
 <div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="wideq.dryer" href="dryer.html">wideq.dryer</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="wideq.refrigerator" href="refrigerator.html">wideq.refrigerator</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="wideq.server" href="server.html">wideq.server</a></code></dt>
-<dd>
-<div class="desc"><p>A simple Flask-server implementation of wideq lib to expose
-most common operations of the LG wideq lib
-See also <a href="https://www.python-boilerplate.com/flask">https://www.python-boilerplate.com/flask</a></p></div>
-</dd>
-<dt><code class="name"><a title="wideq.util" href="util.html">wideq.util</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="wideq.washer" href="washer.html">wideq.washer</a></code></dt>
-<dd>
-<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_app(config=None):
+    app = Flask(__name__)
+
+    # the token value
+    token_value = &#39;&#39;
+    # starting datetime
+    starting = time.time()
+
+    # See http://flask.pocoo.org/docs/latest/config/
+    app.config.update(dict(DEBUG=True))
+    app.config.update(config or {})
+
+    # Definition of the routes. Put them into their own file. See also
+    # Flask Blueprints: http://flask.pocoo.org/docs/latest/blueprints
+    @app.route(&#34;/&#34;)
+    def hello_world():
+        return &#34;Hello World&#34;
+
+    @app.route(&#34;/foo/&lt;someId&gt;&#34;)
+    def foo_url_arg(someId):
+        return jsonify({&#34;echo&#34;: someId})
+
+    @app.route(&#39;/ping&#39;, methods=[&#39;GET&#39;])
+    def get_ping():
+        &#34;&#34;&#34;
+        check if server is alive
+        &#34;&#34;&#34;
+        logging.debug(&#39;ping token &#39; + str(token_value))
+        return jsonify({&#39;starting&#39;: starting, TOKEN_KEY: (token_value != &#39;&#39;)})
+
+    return app</code></pre>
+</details>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
 </section>
 <section>
 </section>
@@ -98,17 +144,14 @@ See also <a href="https://www.python-boilerplate.com/flask">https://www.python-b
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="wideq.ac" href="ac.html">wideq.ac</a></code></li>
-<li><code><a title="wideq.client" href="client.html">wideq.client</a></code></li>
-<li><code><a title="wideq.core" href="core.html">wideq.core</a></code></li>
-<li><code><a title="wideq.dishwasher" href="dishwasher.html">wideq.dishwasher</a></code></li>
-<li><code><a title="wideq.dryer" href="dryer.html">wideq.dryer</a></code></li>
-<li><code><a title="wideq.refrigerator" href="refrigerator.html">wideq.refrigerator</a></code></li>
-<li><code><a title="wideq.server" href="server.html">wideq.server</a></code></li>
-<li><code><a title="wideq.util" href="util.html">wideq.util</a></code></li>
-<li><code><a title="wideq.washer" href="washer.html">wideq.washer</a></code></li>
+<li><code><a title="wideq" href="index.html">wideq</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="wideq.server.create_app" href="#wideq.server.create_app">create_app</a></code></li>
 </ul>
 </li>
 </ul>

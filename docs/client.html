@@ -37,10 +37,12 @@ import enum
 import logging
 import requests
 import base64
+import re
 from collections import namedtuple
 from typing import Any, Dict, Generator, List, Optional
 
 from . import core
+
 
 #: Represents an unknown enum value.
 _UNKNOWN = &#39;Unknown&#39;
@@ -167,6 +169,24 @@ class Client(object):
             if device.id == device_id:
                 return device
         return None
+
+    def get_device_obj(self, device_id):
+        &#34;&#34;&#34;Look up a subclass of Device object by device ID.
+
+        Return a Device instance if no subclass exists for the device type.
+        Return None if the device does not exist.
+        &#34;&#34;&#34;
+        from . import util
+
+        device_info = self.get_device(device_id)
+        if not device_info:
+            return None
+        classes = util.device_classes()
+        if device_info.type in classes:
+            return classes[device_info.type](self, device_info)
+        LOGGER.debug(&#39;No specific subclass for deviceType %s, using default&#39;,
+                     device_info.type)
+        return Device(self, device_info)
 
     @classmethod
     def load(cls, state: Dict[str, Any]) -&gt; &#39;Client&#39;:
@@ -463,7 +483,17 @@ class Device(object):
             self.device.id,
             key,
         )
-        return json.loads(base64.b64decode(data).decode(&#39;utf8&#39;))
+        data = base64.b64decode(data).decode(&#39;utf8&#39;)
+        try:
+            return json.loads(data)
+        except json.decoder.JSONDecodeError:
+            # Sometimes, the service returns JSON wrapped in an extra
+            # pair of curly braces. Try removing them and re-parsing.
+            LOGGER.debug(&#39;attempting to fix JSON format&#39;)
+            try:
+                return json.loads(re.sub(r&#39;^\{(.*?)\}$&#39;, r&#39;\1&#39;, data))
+            except json.decoder.JSONDecodeError:
+                raise core.MalformedResponseError(data)
 
     def _get_control(self, key):
         &#34;&#34;&#34;Look up a device&#39;s control value.&#34;&#34;&#34;
@@ -593,6 +623,24 @@ and allows serialization of state.</p></div>
             if device.id == device_id:
                 return device
         return None
+
+    def get_device_obj(self, device_id):
+        &#34;&#34;&#34;Look up a subclass of Device object by device ID.
+
+        Return a Device instance if no subclass exists for the device type.
+        Return None if the device does not exist.
+        &#34;&#34;&#34;
+        from . import util
+
+        device_info = self.get_device(device_id)
+        if not device_info:
+            return None
+        classes = util.device_classes()
+        if device_info.type in classes:
+            return classes[device_info.type](self, device_info)
+        LOGGER.debug(&#39;No specific subclass for deviceType %s, using default&#39;,
+                     device_info.type)
+        return Device(self, device_info)
 
     @classmethod
     def load(cls, state: Dict[str, Any]) -&gt; &#39;Client&#39;:
@@ -869,6 +917,36 @@ def session(self) -&gt; core.Session:
     return None</code></pre>
 </details>
 </dd>
+<dt id="wideq.client.Client.get_device_obj"><code class="name flex">
+<span>def <span class="ident">get_device_obj</span></span>(<span>self, device_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Look up a subclass of Device object by device ID.</p>
+<p>Return a Device instance if no subclass exists for the device type.
+Return None if the device does not exist.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_device_obj(self, device_id):
+    &#34;&#34;&#34;Look up a subclass of Device object by device ID.
+
+    Return a Device instance if no subclass exists for the device type.
+    Return None if the device does not exist.
+    &#34;&#34;&#34;
+    from . import util
+
+    device_info = self.get_device(device_id)
+    if not device_info:
+        return None
+    classes = util.device_classes()
+    if device_info.type in classes:
+        return classes[device_info.type](self, device_info)
+    LOGGER.debug(&#39;No specific subclass for deviceType %s, using default&#39;,
+                 device_info.type)
+    return Device(self, device_info)</code></pre>
+</details>
+</dd>
 <dt id="wideq.client.Client.model_info"><code class="name flex">
 <span>def <span class="ident">model_info</span></span>(<span>self, device: <a title="wideq.client.DeviceInfo" href="#wideq.client.DeviceInfo">DeviceInfo</a>) ‑> <a title="wideq.client.ModelInfo" href="#wideq.client.ModelInfo">ModelInfo</a></span>
 </code></dt>
@@ -952,7 +1030,17 @@ regarding the device.</p>
             self.device.id,
             key,
         )
-        return json.loads(base64.b64decode(data).decode(&#39;utf8&#39;))
+        data = base64.b64decode(data).decode(&#39;utf8&#39;)
+        try:
+            return json.loads(data)
+        except json.decoder.JSONDecodeError:
+            # Sometimes, the service returns JSON wrapped in an extra
+            # pair of curly braces. Try removing them and re-parsing.
+            LOGGER.debug(&#39;attempting to fix JSON format&#39;)
+            try:
+                return json.loads(re.sub(r&#39;^\{(.*?)\}$&#39;, r&#39;\1&#39;, data))
+            except json.decoder.JSONDecodeError:
+                raise core.MalformedResponseError(data)
 
     def _get_control(self, key):
         &#34;&#34;&#34;Look up a device&#39;s control value.&#34;&#34;&#34;
@@ -1878,6 +1966,7 @@ decoded status result (or None if status is not available).</p></div>
 <li><code><a title="wideq.client.Client.from_token" href="#wideq.client.Client.from_token">from_token</a></code></li>
 <li><code><a title="wideq.client.Client.gateway" href="#wideq.client.Client.gateway">gateway</a></code></li>
 <li><code><a title="wideq.client.Client.get_device" href="#wideq.client.Client.get_device">get_device</a></code></li>
+<li><code><a title="wideq.client.Client.get_device_obj" href="#wideq.client.Client.get_device_obj">get_device_obj</a></code></li>
 <li><code><a title="wideq.client.Client.load" href="#wideq.client.Client.load">load</a></code></li>
 <li><code><a title="wideq.client.Client.model_info" href="#wideq.client.Client.model_info">model_info</a></code></li>
 <li><code><a title="wideq.client.Client.refresh" href="#wideq.client.Client.refresh">refresh</a></code></li>

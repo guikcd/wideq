@@ -198,11 +198,19 @@ class MonitorError(APIError):
         self.code = code
 
 
+class MalformedResponseError(APIError):
+    &#34;&#34;&#34;The server produced malformed data, such as invalid JSON.&#34;&#34;&#34;
+
+    def __init__(self, data):
+        self.data = data
+
+
 API_ERRORS = {
     &#34;0102&#34;: NotLoggedInError,
     &#34;0106&#34;: NotConnectedError,
     &#34;0100&#34;: FailedRequestError,
     9000: InvalidRequestError,  # Surprisingly, an integer (not a string).
+    9003: NotLoggedInError,  # Session Creation FailureError
 }
 
 
@@ -894,6 +902,7 @@ getting updated access tokens.</p></div>
 <ul class="hlist">
 <li><a title="wideq.core.FailedRequestError" href="#wideq.core.FailedRequestError">FailedRequestError</a></li>
 <li><a title="wideq.core.InvalidRequestError" href="#wideq.core.InvalidRequestError">InvalidRequestError</a></li>
+<li><a title="wideq.core.MalformedResponseError" href="#wideq.core.MalformedResponseError">MalformedResponseError</a></li>
 <li><a title="wideq.core.MonitorError" href="#wideq.core.MonitorError">MonitorError</a></li>
 <li><a title="wideq.core.NotConnectedError" href="#wideq.core.NotConnectedError">NotConnectedError</a></li>
 <li><a title="wideq.core.NotLoggedInError" href="#wideq.core.NotLoggedInError">NotLoggedInError</a></li>
@@ -1190,6 +1199,29 @@ def discover(cls, country, language) -&gt; &#39;Gateway&#39;:
 </summary>
 <pre><code class="python">class InvalidRequestError(APIError):
     &#34;&#34;&#34;The server rejected a request as invalid.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="wideq.core.APIError" href="#wideq.core.APIError">APIError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="wideq.core.MalformedResponseError"><code class="flex name class">
+<span>class <span class="ident">MalformedResponseError</span></span>
+<span>(</span><span>data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The server produced malformed data, such as invalid JSON.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MalformedResponseError(APIError):
+    &#34;&#34;&#34;The server produced malformed data, such as invalid JSON.&#34;&#34;&#34;
+
+    def __init__(self, data):
+        self.data = data</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1666,6 +1698,9 @@ request from an active Session.</p></div>
 </li>
 <li>
 <h4><code><a title="wideq.core.InvalidRequestError" href="#wideq.core.InvalidRequestError">InvalidRequestError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="wideq.core.MalformedResponseError" href="#wideq.core.MalformedResponseError">MalformedResponseError</a></code></h4>
 </li>
 <li>
 <h4><code><a title="wideq.core.MonitorError" href="#wideq.core.MonitorError">MonitorError</a></code></h4>

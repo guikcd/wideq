@@ -450,7 +450,10 @@ class ACStatus(object):
     @property
     def is_on(self):
         op = ACOp(lookup_enum(&#39;Operation&#39;, self.data, self.ac))
-        return op != ACOp.OFF</code></pre>
+        return op != ACOp.OFF
+
+    def __str__(self):
+        return &#34;ACStatus(%r %r)&#34; % (self.ac, self.data)</code></pre>
 </details>
 </section>
 <section>
@@ -1679,7 +1682,10 @@ after jet mode turns off</p></div>
     @property
     def is_on(self):
         op = ACOp(lookup_enum(&#39;Operation&#39;, self.data, self.ac))
-        return op != ACOp.OFF</code></pre>
+        return op != ACOp.OFF
+
+    def __str__(self):
+        return &#34;ACStatus(%r %r)&#34; % (self.ac, self.data)</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
