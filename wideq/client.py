@@ -6,10 +6,12 @@ import enum
 import logging
 import requests
 import base64
+import re
 from collections import namedtuple
 from typing import Any, Dict, Generator, List, Optional
 
 from . import core
+
 
 #: Represents an unknown enum value.
 _UNKNOWN = 'Unknown'
@@ -136,6 +138,24 @@ class Client(object):
             if device.id == device_id:
                 return device
         return None
+
+    def get_device_obj(self, device_id):
+        """Look up a subclass of Device object by device ID.
+
+        Return a Device instance if no subclass exists for the device type.
+        Return None if the device does not exist.
+        """
+        from . import util
+
+        device_info = self.get_device(device_id)
+        if not device_info:
+            return None
+        classes = util.device_classes()
+        if device_info.type in classes:
+            return classes[device_info.type](self, device_info)
+        LOGGER.debug('No specific subclass for deviceType %s, using default',
+                     device_info.type)
+        return Device(self, device_info)
 
     @classmethod
     def load(cls, state: Dict[str, Any]) -> 'Client':
@@ -432,7 +452,17 @@ class Device(object):
             self.device.id,
             key,
         )
-        return json.loads(base64.b64decode(data).decode('utf8'))
+        data = base64.b64decode(data).decode('utf8')
+        try:
+            return json.loads(data)
+        except json.decoder.JSONDecodeError:
+            # Sometimes, the service returns JSON wrapped in an extra
+            # pair of curly braces. Try removing them and re-parsing.
+            LOGGER.debug('attempting to fix JSON format')
+            try:
+                return json.loads(re.sub(r'^\{(.*?)\}$', r'\1', data))
+            except json.decoder.JSONDecodeError:
+                raise core.MalformedResponseError(data)
 
     def _get_control(self, key):
         """Look up a device's control value."""
