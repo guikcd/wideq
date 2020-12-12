@@ -118,22 +118,30 @@ class jeedomConfig():
         if not re.compile(r"^[A-Z]{2,3}$").match(country):
             msg = "Country must be two or three letters" \
                " all upper case (e.g. US, NO, KR) got: '{}'".format(country)
-            logging.error(msg)
+            LOGGER.error(msg)
             raise wideq.APIError(404, msg)
 
         if not re.compile(r"^[a-z]{2,3}-[A-Z]{2,3}$").match(language):
             msg = "Language must be a combination of language" \
                " and country (e.g. en-US, no-NO, kr-KR)" \
                " got: '{}'".format(language)
-            logging.error(msg)
+            LOGGER.error(msg)
             raise wideq.APIError(404, msg)
 
-        logging.info("auth country=%s, lang=%s", country, language)
+        LOGGER.info("auth country=%s, lang=%s", country, language)
 
         client = getClient()
         client._country = country
         client._language = language
         return {'url': client.gateway.oauth_url()}
+
+    def save(self):
+        # Save the updated state.
+        state = self.client.dump()
+        with open(STATE_FILE, 'w') as f:
+            json.dump(state, f)
+            LOGGER.debug("Wrote state file '%s'", os.path.abspath(STATE_FILE))
+        return {'save': STATE_FILE}
 
     @property
     def eqLogics(self):

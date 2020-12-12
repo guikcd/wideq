@@ -60,7 +60,7 @@ def create_app(app, debug=False):
                 LOGGER.error(e)
                 if debug:
                     raise e  # for Flask debugger display
-                abort(make_response(jsonify(rep), 404))
+                abort(make_response(jsonify(rep), 500))
         else:
             abort(make_response(jsonify(
                 message='command "{}" not found or not callable'.format(cmd)
@@ -120,6 +120,7 @@ if __name__ == "__main__":
         'log': lambda u, v: jee.log(u),
         'gateway': lambda u, v: jee.gateway(u, v),
         'auth': lambda t: print(t),
+        'save': lambda u: jee.save(),
     }
     api = create_app(funcs, debug=args.verbose)
     api.run(host="0.0.0.0", port=args.port, debug=args.verbose)
