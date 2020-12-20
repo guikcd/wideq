@@ -14,6 +14,8 @@ LOGGER = logging.getLogger("jeedom.py")
 # global
 WClient = None
 STATE_FILE = 'wideq_state.json'
+# full path & file for json state file
+path_file = None
 
 
 def getClient(supplier=None):
@@ -24,18 +26,23 @@ def getClient(supplier=None):
     Third, try to ask for an external configuration with the supplier
     else: fail
     """
-    global WClient
+    global WClient, path_file
+    
+    path_file = (os.path.dirname(os.path.realpath(__file__)) +
+        "/" + STATE_FILE)
+    LOGGER.debug("Run from " + os.getcwd() + " save to " + 
+        path_file)
 
     if WClient is None:
         # Load the current state for the example.
         try:
-            with open(STATE_FILE) as f:
+            with open(path_file) as f:
                 LOGGER.info("State file found '%s'",
-                            os.path.abspath(STATE_FILE))
+                            os.path.abspath(path_file))
                 WClient = wideq.Client.load(json.load(f))
         except IOError:
             LOGGER.debug("No state file found (tried: '%s')",
-                         os.path.abspath(STATE_FILE))
+                         os.path.abspath(path_file))
 
     if WClient is None and supplier is not None:
         try:
@@ -61,6 +68,7 @@ class jeedomConfig():
     key ( jeedom api key )
     jeedom ( the pyJeedom instance )
     _eqLogic ( list of jeedom objects )
+    _client ( method to find and load wideq instance )
     """
 
     def __init__(self, ip, key):
@@ -135,13 +143,23 @@ class jeedomConfig():
         client._language = language
         return {'url': client.gateway.oauth_url()}
 
-    def save(self):
+    def save(self, file):
+        """
+        dump wideq configuration data to json file
+        """
         # Save the updated state.
         state = self.client.dump()
-        with open(STATE_FILE, 'w') as f:
+        if file == None:
+            if path_file is None:
+                LOGGER.warning("No path defined, save json to default path" +
+                    os.cwd())
+                file = STATE_FILE
+            else:
+                file = path_file
+        with open(file, 'w') as f:
             json.dump(state, f)
-            LOGGER.debug("Wrote state file '%s'", os.path.abspath(STATE_FILE))
-        return {'save': STATE_FILE}
+            LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
+        return {'save': file}
 
     @property
     def eqLogics(self):
@@ -264,13 +282,17 @@ class eqLogic():
     def hasCommand(self, name):
         return name in self.commands
 
-    # update jeedom command if the value changed
     def event(self, name, value):
+        """
+        update jeedom command if the value changed.
+        name is the jeedom human command name
+        value is the new monitored value
+        """
         id = self.commands.get(name)['id']
         if id not in self.values or self.values[id] != value:
             # cache the new value
             self.values[id] = value
-            # ma jeedom
+            # maj jeedom
             self.jeedom.cmd.event(id, value)
             LOGGER.debug("%s: maj %s = %s", self.name, name, value)
 
@@ -308,6 +330,7 @@ def main() -> None:
     """
     The main command-line entry point.
     require jeedom IP and API key.
+    optional id is the command id to monitor.
     """
     parser = argparse.ArgumentParser(
         description='Connector between the LG SmartThinQ API and Jeedom.'
@@ -362,6 +385,9 @@ def main() -> None:
     for device in client.devices:
         print(device, '{0.id}: {0.name} ({0.type.name} {0.model_id})'
               .format(device))
+
+    if args.id:
+        cmd = jee.cmd.byId(args.id)
 
     # Get all jeedom eqLogics:
     pluginEqlogics = jee.eqLogics

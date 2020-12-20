@@ -120,7 +120,7 @@ if __name__ == "__main__":
         'log': lambda u, v: jee.log(u),
         'gateway': lambda u, v: jee.gateway(u, v),
         'auth': lambda u, v: u,
-        'save': lambda u, v: jee.save(),
+        'save': lambda u, v: jee.save(u),
     }
     api = create_app(funcs, debug=args.verbose)
     api.run(host="0.0.0.0", port=args.port, debug=args.verbose)
