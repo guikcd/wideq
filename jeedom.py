@@ -139,7 +139,7 @@ class jeedomConfig():
 
         LOGGER.info("auth country=%s, lang=%s", country, language)
 
-        client = getClient()
+        client = getClient(self)
         client._country = country
         client._language = language
         return {'url': client.gateway.oauth_url()}
