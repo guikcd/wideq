@@ -14,6 +14,9 @@
 
 import sys
 import json
+import logging
+
+LOGGER = logging.getLogger("jeedom.py")
 
 if sys.version_info[0] == 2:
     import urllib2
@@ -747,9 +750,11 @@ class jeedom():
         try:
             result = json.loads(response)
             if 'error' in result:
+                LOGGER.debug("pyJeedom call " + url)
                 return result
             return result['result']
         except Exception as e:
+            LOGGER.error("pyJeedom call " + url, exc_info=True, stack_info=True)
             return {"error": e}
     #
 

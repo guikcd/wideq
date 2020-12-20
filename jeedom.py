@@ -95,7 +95,10 @@ class jeedomConfig():
         return {device.id: device.__dict__ for device in devices}
 
     def _getKey(self, key):
-        return self.jeedom.config.byKey(key, 'lgthinq')
+        result = self.jeedom.config.byKey(key, 'lgthinq')
+        if "error" in result:
+            raise Exception(result["error"])
+        return result
 
     def log(self, level):
         numeric_level = getattr(logging, level.upper(), None)
