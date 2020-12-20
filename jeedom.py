@@ -121,7 +121,8 @@ class jeedomConfig():
         client = wideq.Client.load({})
         client._country = country
         client._language = language
-        client._auth = wideq.Auth.from_url(client.gateway, auth)
+        if auth:
+            client._auth = wideq.Auth.from_url(client.gateway, auth)
         return client
 
     def gateway(self, country, language):
