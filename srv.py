@@ -40,7 +40,7 @@ def create_app(app, debug=False):
         """
         # put token into current client auth configuration
         # WClient()._auth = core.Auth.from_url(WClient().gateway, token)
-        app['auth'](token)
+        app['auth'](token, None)
         return jsonify({'token': 'TRUE'})
 
     @api.route("/<cmd>/<arg1>/<arg2>")

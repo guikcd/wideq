@@ -52,7 +52,8 @@ def getClient(supplier=None):
         except Exception as ex:
             LOGGER.error("Cannot get wideq client with external "
                          "supplier: '%s' '%s' '%s'",
-                         type(ex), ex.args, str(ex))
+                         type(ex), ex.args, str(ex),
+                         exc_info=True, stack_info=True)
 
     if WClient is None:
         LOGGER.error("no Wideq client found")
