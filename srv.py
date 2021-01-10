@@ -3,6 +3,7 @@ import argparse
 import logging
 import time
 import lgthinq
+import traceback
 
 from flask import Flask, abort, jsonify, make_response
 from wideq import APIError
@@ -65,13 +66,16 @@ def create_app(app, debug=False):
                 return jsonify(app[cmd](arg1, arg2))
             except APIError as e:
                 rep = {'message': e.message, 'code': e.code}
+                if debug:
+                    rep['trace'] = traceback.format_exc()
                 LOGGER.error(str(e))
                 abort(make_response(jsonify(rep), 404))
             except Exception as e:
                 rep = {'message': str(e)}
                 LOGGER.error(e)
                 if debug:
-                    raise e  # for Flask debugger display
+                    rep['trace'] = traceback.format_exc()
+                    # raise e  # for Flask debugger display
                 abort(make_response(jsonify(rep), 500))
         else:
             abort(make_response(jsonify(

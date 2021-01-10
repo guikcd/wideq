@@ -117,7 +117,7 @@ def ls():
 
 def get_device(id=None):
     """
-    Search for a devbice by ID. if ID is None, then return every device
+    Search for a device by ID. if ID is None, then return every device
     """
     client = getClient()
     try:
@@ -138,14 +138,22 @@ def mon(id):
     Monitor any device, displaying generic information about its status.
     """
     client = getClient()
-    client.refresh()
-    device = client.get_device_obj(id)
-    if device is None:
-        return {'code': 404, 'message': f'device {id} not found'}
-    if isinstance(device, wideq.ACDevice):
-        return ac_mon(device)
-    else:
-        return gen_mon(device)
+    for i in range(2):  # 2 tries, if first fail for any catchable reason
+        try:
+            LOGGER.debug(f'[debug] monitor device {id} try {i}')
+            device = client.get_device_obj(id)
+            if device is None:
+                return {'code': 404, 'message': f'device {id} not found'}
+            if isinstance(device, wideq.ACDevice):
+                return ac_mon(device)
+            else:
+                return gen_mon(device)
+        except (wideq.core.NotConnectedError,
+                wideq.core.NotLoggedInError) as ex:
+            if i == 0:
+                client.refresh()
+            else:
+                raise ex
 
 
 def gen_mon(device):
@@ -160,29 +168,23 @@ def gen_mon(device):
         LOGGER.warning(msg)
         return {'code': 404, 'message': msg}
 
-    try:
-        for i in range(5):
-            time.sleep(1)
-            # poll returns some device status information
-            state = device.poll()
-            if state:
-                return repr(state.data)
-                return {'name': state.name, 'temp_cur': state.temp_cur_f,
-                        'temp_cfg': state.temp_cfg_f,
-                        'fan': state.fan_speed.name,
-                        'state': 'on' if state.is_on else 'off'
-                        }
-            else:
-                LOGGER.debug("no state for %s (%s) try again (%s)",
-                             device.device.name, device.device.type, i)
-        LOGGER.warning('timeout after 5 try, device %s %s unreachable',
-                       device.device.name, device.device.type)
-
-    except KeyboardInterrupt:
-        LOGGER.info('keyboard interruption')
-        pass
-    finally:
-        device.monitor_stop()
+    for i in range(5):
+        time.sleep(1)
+        # poll returns some device status information
+        state = device.poll()
+        if state:
+            device.monitor_stop()
+            return state.data
+            return {'name': state.name, 'temp_cur': state.temp_cur_f,
+                    'temp_cfg': state.temp_cfg_f,
+                    'fan': state.fan_speed.name,
+                    'state': 'on' if state.is_on else 'off'
+                    }
+        else:
+            LOGGER.debug("no state for %s (%s) try again (%s)",
+                         device.device.name, device.device.type, i)
+    LOGGER.warning('timeout after 5 try, device %s %s unreachable',
+                   device.device.name, device.device.type)
 
 
 def ac_mon(ac):
@@ -193,31 +195,26 @@ def ac_mon(ac):
     try:
         ac.monitor_start()
     except wideq.core.NotConnectedError:
-        print("Device not available.")
-        return
+        msg = f'device {ac.device.name} not connected'
+        LOGGER.warning(msg)
+        return {'code': 404, 'message': msg}
 
-    try:
-        while True:
-            time.sleep(1)
-            state = ac.poll()
-            if state:
-                print(
-                    "{1}; "
-                    "{0.mode.name}; "
-                    "cur {0.temp_cur_f}°F; "
-                    "cfg {0.temp_cfg_f}°F; "
-                    "fan speed {0.fan_speed.name}".format(
-                        state, "on" if state.is_on else "off"
-                    )
-                )
-                return repr(state.data)
-            else:
-                print("no state. Wait 1 more second.")
-
-    except KeyboardInterrupt:
-        pass
-    finally:
-        ac.monitor_stop()
+    while True:
+        time.sleep(1)
+        state = ac.poll()
+        if state:
+            LOGGER.debug(
+                "{1}; "
+                "{0.mode.name}; "
+                "cur {0.temp_cur_f}°F; "
+                "cfg {0.temp_cfg_f}°F; "
+                "fan speed {0.fan_speed.name}".format(
+                    state, "on" if state.is_on else "off")
+            )
+            ac.monitor_stop()
+            return state.data
+        else:
+            print("no state. Wait 1 more second.")
 
 
 def example(verbose: bool,
