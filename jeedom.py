@@ -11,55 +11,6 @@ from pyJeedom import jeedom
 
 LOGGER = logging.getLogger("jeedom.py")
 
-# global
-WClient = None
-STATE_FILE = 'wideq_state.json'
-# full path & file for json state file
-path_file = None
-
-
-def getClient(supplier=None):
-    """
-    The global common method to initialize wideq client.
-    First, use the global variable
-    Second, search for the local json file
-    Third, try to ask for an external configuration with the supplier
-    else: fail
-    """
-    global WClient, path_file
-    
-    path_file = (os.path.dirname(os.path.realpath(__file__)) +
-        "/" + STATE_FILE)
-    LOGGER.debug("Run from " + os.getcwd() + " save to " + 
-        path_file)
-
-    if WClient is None:
-        # Load the current state for the example.
-        try:
-            with open(path_file) as f:
-                LOGGER.info("State file found '%s'",
-                            os.path.abspath(path_file))
-                WClient = wideq.Client.load(json.load(f))
-        except IOError:
-            LOGGER.debug("No state file found (tried: '%s')",
-                         os.path.abspath(path_file))
-
-    if WClient is None and supplier is not None:
-        try:
-            LOGGER.debug("Get wideq client with external supplier '%s'",
-                         supplier)
-            WClient = supplier.getClient()
-        except Exception as ex:
-            LOGGER.error("Cannot get wideq client with external "
-                         "supplier: '%s' '%s' '%s'",
-                         type(ex), ex.args, str(ex),
-                         exc_info=True, stack_info=True)
-
-    if WClient is None:
-        LOGGER.error("no Wideq client found")
-
-    return WClient
-
 
 class jeedomConfig():
     """
@@ -86,20 +37,17 @@ class jeedomConfig():
             self._client = getClient(self)
         return self._client
 
-    @property
-    def devices(self):
-        try:
-            devices = self.client.devices
-        except wideq.core.NotLoggedInError:
-            self.client.refresh()
-            devices = self.client.devices
-        return {device.id: device.__dict__ for device in devices}
-
-    def _getKey(self, key):
+    def __getattr__(self, key):
         result = self.jeedom.config.byKey(key, 'lgthinq')
         if "error" in result:
             raise Exception(result["error"])
         return result
+
+    def health(self):
+        try:
+            return self._getKey("name")
+        except Exception as ex:
+            return str(ex)
 
     def log(self, level):
         numeric_level = getattr(logging, level.upper(), None)
@@ -350,7 +298,7 @@ def main() -> None:
     parser.add_argument(
         '--key', '-k',
         help='the jeedom API key',
-        default=None
+        required=True
     )
     parser.add_argument(
         '--verbose', '-v',
@@ -365,10 +313,6 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    if not args.key:
-        LOGGER.error("Jeedom API key mandatory: argument -k")
-        exit(1)
-
     if args.verbose:
         LOGGER.setLevel(logging.DEBUG)
         log_level = logging.DEBUG
