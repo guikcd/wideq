@@ -61,10 +61,11 @@ def getClient(supplier=None):
     return WClient
 
 
-def save(client):
+def save(file):
     """
     Save the updated client state.
     """
+    client = getClient()
     state = client.dump()
     with open(path_file, "w") as f:
         json.dump(state, f)
