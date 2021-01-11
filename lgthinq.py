@@ -29,8 +29,8 @@ def getClient(supplier=None):
 
     path_file = (os.path.dirname(os.path.realpath(__file__))
                  + "/" + STATE_FILE)
-    LOGGER.debug("Run from " + os.getcwd() + " save to "
-                 + path_file)
+    # LOGGER.debug("Run from " + os.getcwd() + " save to "
+    #              + path_file)
 
     if WClient is None:
         # Load the current state for the example.
@@ -81,7 +81,7 @@ def gateway(country, language):
     client._country = country
     client._language = language
     save(client)
-    return client.gateway.oauth_url()
+    return {'url': client.gateway.oauth_url()}
 
 
 def auth(auth):
