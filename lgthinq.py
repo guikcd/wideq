@@ -81,7 +81,7 @@ def gateway(country, language):
     client._country = country
     client._language = language
     save(client)
-    return gateway.oauth_url()
+    return client.gateway.oauth_url()
 
 
 def auth(auth):
