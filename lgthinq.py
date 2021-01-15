@@ -67,9 +67,11 @@ def save(file):
     """
     client = getClient()
     state = client.dump()
-    with open(path_file, "w") as f:
+    if file is None:
+        file = path_file
+    with open(file, "w") as f:
         json.dump(state, f)
-    LOGGER.debug("Wrote state file '%s'", os.path.abspath(path_file))
+    LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
     return state
 
 
