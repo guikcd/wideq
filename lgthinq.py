@@ -134,6 +134,16 @@ def get_device(id=None):
     return None
 
 
+def info(id):
+    """
+    return model_info for selected device
+    """
+    device = getClient().get_device(id)
+    if device is None:
+        return {'code': 404, 'message': f'device {id} not found'}
+    return device.data
+
+
 def mon(id):
     """
     Monitor any device, displaying generic information about its status.

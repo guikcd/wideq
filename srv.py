@@ -148,6 +148,7 @@ if __name__ == "__main__":
 
     funcs = {
         'ls': lambda u, v: lgthinq.ls(),
+        'info': lambda u, v: lgthinq.info(u),
         'mon': lambda u, v: lgthinq.mon(u),
         'log': lambda u, v: lgthinq.log(u),
         'gateway': lambda u, v: lgthinq.gateway(u, v),
