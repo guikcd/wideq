@@ -79,11 +79,12 @@ def gateway(country, language):
     """
     Init new wideq client gateway
     """
-    client = getClient()
-    client._country = country
-    client._language = language
-    save(client)
-    return {'url': client.gateway.oauth_url()}
+    global WClient
+    WClient = wideq.Client.load({})
+    WClient._country = country
+    WClient._language = language
+    save()
+    return {'url': WClient.gateway.oauth_url()}
 
 
 def auth(auth):
