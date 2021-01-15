@@ -89,6 +89,12 @@ def auth(auth):
     authenticate with callback url
     """
     client = getClient()
+    if auth is None:
+        if client.gateway:
+            return {'code': 404, 'message': 'auth URL required.'
+                    f'Login to {client.gateway.oauth_url()}'}
+        else:
+            return {'code': 404, 'message': 'auth URL required.'}
     client._auth = wideq.Auth.from_url(gateway, auth)
     if client._auth is None:
         return False
