@@ -61,11 +61,12 @@ def getClient(supplier=None):
     return WClient
 
 
-def save(file):
+def save(file=None, client=None):
     """
     Save the updated client state.
     """
-    client = getClient()
+    if client is None:
+        client = getClient()
     state = client.dump()
     if file is None:
         file = path_file
@@ -93,17 +94,16 @@ def auth(auth):
     """
     client = getClient()
     if auth is None:
+        msg = 'auth URL required.'
         if client.gateway:
-            return {'code': 404, 'message': 'auth URL required.'
-                    f'Login to {client.gateway.oauth_url()}'}
-        else:
-            return {'code': 404, 'message': 'auth URL required.'}
+            msg += f'Login to {client.gateway.oauth_url()}'
+        raise wideq.APIError(404, msg)
     client._auth = wideq.Auth.from_url(gateway, auth)
     if client._auth is None:
-        return False
+        return {'token': False}
     else:
-        save(client)
-        return True
+        save(client=client)
+        return {'token': True}
 
 
 def check():
@@ -149,7 +149,7 @@ def info(id):
     """
     device = getClient().get_device(id)
     if device is None:
-        return {'code': 404, 'message': f'device {id} not found'}
+        raise wideq.APIError(404, f'device {id} not found')
     return device.data
 
 
@@ -163,7 +163,7 @@ def mon(id):
             LOGGER.debug(f'[debug] monitor device {id} try {i}')
             device = client.get_device_obj(id)
             if device is None:
-                return {'code': 404, 'message': f'device {id} not found'}
+                raise wideq.APIError(404, f'device {id} not found')
             if isinstance(device, wideq.ACDevice):
                 return ac_mon(device)
             else:
@@ -186,7 +186,7 @@ def gen_mon(device):
     except wideq.core.NotConnectedError:
         msg = f'device {device.device.name} not connected'
         LOGGER.warning(msg)
-        return {'code': 404, 'message': msg}
+        raise wideq.APIError(404, msg)
 
     for i in range(5):
         time.sleep(1)
@@ -217,7 +217,7 @@ def ac_mon(ac):
     except wideq.core.NotConnectedError:
         msg = f'device {ac.device.name} not connected'
         LOGGER.warning(msg)
-        return {'code': 404, 'message': msg}
+        raise wideq.APIError(404, msg)
 
     while True:
         time.sleep(1)
@@ -241,12 +241,10 @@ def example(verbose: bool,
             cmd: str, args: List[str]) -> None:
     if verbose:
         wideq.set_log_level(logging.DEBUG)
-
     # Load the current state for the example.
     client = getClient()
-
     # Save the updated state.
-    save(client)
+    save(client=client)
 
 
 def main() -> None:

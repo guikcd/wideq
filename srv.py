@@ -18,7 +18,8 @@ def create_app(app, debug=False):
     starting = time.time()
 
     # See http://flask.pocoo.org/docs/latest/config/
-    api.config.update(dict(DEBUG=debug))
+    if debug:
+        api.config.update(dict(DEBUG=debug))
 
     @api.route("/")
     @api.route("/ping")
@@ -44,8 +45,8 @@ def create_app(app, debug=False):
         """
         # put token into current client auth configuration
         # WClient()._auth = core.Auth.from_url(WClient().gateway, token)
-        app['auth'](token, None)
-        return jsonify({'token': 'TRUE'})
+        result = app['auth'](token, None)
+        return jsonify(result)
 
     @api.route('/log/<log>')
     def route_set_log(log):
@@ -61,25 +62,25 @@ def create_app(app, debug=False):
         Generic route definition with command and 2 optionals arguments
         """
         if cmd in app and callable(app[cmd]):
-            LOGGER.debug('{} with arg {} and {}'.format(cmd, arg1, arg2))
+            LOGGER.debug(f'{cmd} with arg {arg1} and {arg2}')
             try:
                 return jsonify(app[cmd](arg1, arg2))
             except APIError as e:
                 rep = {'message': e.message, 'code': e.code}
                 if debug:
                     rep['trace'] = traceback.format_exc()
-                LOGGER.error(str(e))
+                LOGGER.error(rep)
                 abort(make_response(jsonify(rep), 404))
             except Exception as e:
-                rep = {'message': str(e)}
-                LOGGER.error(e)
+                rep = {'message': str(e), 'code': 500}
                 if debug:
                     rep['trace'] = traceback.format_exc()
                     # raise e  # for Flask debugger display
+                LOGGER.error(rep)
                 abort(make_response(jsonify(rep), 500))
         else:
             abort(make_response(jsonify(
-                message='command "{}" not found or not callable'.format(cmd)),
+                message=f'command "{cmd}" not found or not callable'),
                 404))
 
     @api.route("/<cmd>/<arg1>")
@@ -153,8 +154,7 @@ if __name__ == "__main__":
         'log': lambda u, v: lgthinq.log(u),
         'gateway': lambda u, v: lgthinq.gateway(u, v),
         'auth': lambda u, v: lgthinq.auth(u),
-        'save': lambda u, v: lgthinq.save(u),
-        'health': lambda u, v: lgthinq.health(),
+        'save': lambda u, v: lgthinq.save(file=u),
     }
     api = create_app(funcs, debug=args.verbose)
     api.run(host="0.0.0.0", port=args.port, debug=args.verbose)
