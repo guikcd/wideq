@@ -237,6 +237,20 @@ def ac_mon(ac):
             print("no state. Wait 1 more second.")
 
 
+def set(id: str, cmd: str, value: str):
+    """
+    set command to value for the selected device.
+    if no value, then the command should be on/off triggered
+    """
+    device = getClient().get_device(id)
+    if device is None:
+        raise wideq.APIError(404, f'device {id} not found')
+    if cmd in device and callable(device[cmd]):
+        return device[cmd] = value
+    else:
+        raise wideq.APIError(404, f'device {id} has no command {cmd}')
+
+
 def example(verbose: bool,
             cmd: str, args: List[str]) -> None:
     if verbose:

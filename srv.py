@@ -56,15 +56,15 @@ def create_app(app, debug=False):
         set_log(log)
         return jsonify({'log': log})
 
-    @api.route("/<cmd>/<arg1>/<arg2>")
-    def any_route2(cmd, arg1, arg2):
+    @api.route("/<cmd>/<arg1>/<arg2>/<arg3>")
+    def any_route3(cmd, arg1, arg2, arg3):
         """
         Generic route definition with command and 2 optionals arguments
         """
         if cmd in app and callable(app[cmd]):
-            LOGGER.debug(f'{cmd} with arg {arg1} and {arg2}')
+            LOGGER.debug(f'{cmd} with arg {arg1} / {arg2} / {arg3}')
             try:
-                return jsonify(app[cmd](arg1, arg2))
+                return jsonify(app[cmd](arg1, arg2, arg3))
             except APIError as e:
                 rep = {'message': e.message, 'code': e.code}
                 if debug:
@@ -83,13 +83,17 @@ def create_app(app, debug=False):
                 message=f'command "{cmd}" not found or not callable'),
                 404))
 
+    @api.route("/<cmd>/<arg1>/<arg2>")
+    def any_route2(cmd, arg1, arg2):
+        return any_route3(cmd, arg1, arg2, None)
+
     @api.route("/<cmd>/<arg1>")
     def any_route1(cmd, arg1):
-        return any_route2(cmd, arg1, None)
+        return any_route3(cmd, arg1, None, None)
 
     @api.route("/<cmd>")
     def any_route0(cmd):
-        return any_route2(cmd, None, None)
+        return any_route3(cmd, None, None, None)
 
     return api
 
@@ -155,6 +159,7 @@ if __name__ == "__main__":
         'gateway': lambda u, v: lgthinq.gateway(u, v),
         'auth': lambda u, v: lgthinq.auth(u),
         'save': lambda u, v: lgthinq.save(file=u),
+        'set': lambda u, v, w: lgthinq.set(u, v, w),
     }
     api = create_app(funcs, debug=args.verbose)
     api.run(host="0.0.0.0", port=args.port, debug=args.verbose)
