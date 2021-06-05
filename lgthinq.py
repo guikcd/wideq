@@ -246,7 +246,7 @@ def set(id: str, cmd: str, value: str):
     if device is None:
         raise wideq.APIError(404, f'device {id} not found')
     if cmd in device and callable(device[cmd]):
-        return device[cmd] = value
+        return device[cmd](value)
     else:
         raise wideq.APIError(404, f'device {id} has no command {cmd}')
 

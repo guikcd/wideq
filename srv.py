@@ -152,13 +152,13 @@ if __name__ == "__main__":
     # jee = jeedom.jeedomConfig(args.ip, args.key)
 
     funcs = {
-        'ls': lambda u, v: lgthinq.ls(),
-        'info': lambda u, v: lgthinq.info(u),
-        'mon': lambda u, v: lgthinq.mon(u),
-        'log': lambda u, v: lgthinq.log(u),
-        'gateway': lambda u, v: lgthinq.gateway(u, v),
-        'auth': lambda u, v: lgthinq.auth(u),
-        'save': lambda u, v: lgthinq.save(file=u),
+        'ls': lambda u, v, w: lgthinq.ls(),
+        'info': lambda u, v, w: lgthinq.info(u),
+        'mon': lambda u, v, w: lgthinq.mon(u),
+        'log': lambda u, v, w: lgthinq.log(u),
+        'gateway': lambda u, v, w: lgthinq.gateway(u, v),
+        'auth': lambda u, v, w: lgthinq.auth(u),
+        'save': lambda u, v, w: lgthinq.save(file=u),
         'set': lambda u, v, w: lgthinq.set(u, v, w),
     }
     api = create_app(funcs, debug=args.verbose)

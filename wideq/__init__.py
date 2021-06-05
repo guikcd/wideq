@@ -7,6 +7,5 @@ from .dishwasher import *  # noqa
 from .dryer import *  # noqa
 from .refrigerator import *  # noqa
 from .washer import *  # noqa
-from .server import * # noqa
 
 __version__ = "1.5.0"
