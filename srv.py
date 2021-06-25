@@ -45,7 +45,7 @@ def create_app(app, debug=False):
         """
         # put token into current client auth configuration
         # WClient()._auth = core.Auth.from_url(WClient().gateway, token)
-        result = app['auth'](token, None)
+        result = app['auth'](token, None, None)
         return jsonify(result)
 
     @api.route('/log/<log>')
@@ -151,6 +151,7 @@ if __name__ == "__main__":
                                                             args.key))
     # jee = jeedom.jeedomConfig(args.ip, args.key)
 
+    # mapping between HTTP words and lgthinq methods :
     funcs = {
         'ls': lambda u, v, w: lgthinq.ls(),
         'info': lambda u, v, w: lgthinq.info(u),
