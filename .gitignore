@@ -6,3 +6,4 @@ __pycache__
 .vscode/
 # Ignore Mac system files
 .DS_Store
+jeedom.py
