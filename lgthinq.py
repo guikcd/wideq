@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from os import system
 import wideq
 import json
 import argparse
@@ -74,6 +75,30 @@ def save(file=None, client=None):
         json.dump(state, f)
     LOGGER.debug("Wrote state file '%s'", os.path.abspath(file))
     return state
+
+
+def log(log):
+    """
+    Set log level to 'log'
+    """
+    levels = {
+        'critical': logging.CRITICAL,
+        'error': logging.ERROR,
+        'warn': logging.WARNING,
+        'warning': logging.WARNING,
+        'info': logging.INFO,
+        'debug': logging.DEBUG
+    }
+    level = levels.get(log.lower())
+    if level is None:
+        raise ValueError(
+            f"log level given: {log}"
+            f" -- must be one of: {' | '.join(levels.keys())}")
+    logging.basicConfig(stream=system.stdout,
+                        format='%(asctime)s:%(levelname)s:%(message)s',
+                        level=level)
+    LOGGER.setLevel(level)
+    return {'log': level}
 
 
 def gateway(country, language):
@@ -270,7 +295,7 @@ def main() -> None:
         description='Connector for the LG SmartThinQ API.'
     )
     parser.add_argument('cmd', metavar='CMD', nargs='?', default='ls',
-                        help=f'one of: {", ".join(None)}')
+                        help='unused?')
     parser.add_argument('args', metavar='ARGS', nargs='*',
                         help='subcommand arguments')
     parser.add_argument(

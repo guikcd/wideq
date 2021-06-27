@@ -48,14 +48,6 @@ def create_app(app, debug=False):
         result = app['auth'](token, None, None)
         return jsonify(result)
 
-    @api.route('/log/<log>')
-    def route_set_log(log):
-        """
-        Change log level for this server
-        """
-        set_log(log)
-        return jsonify({'log': log})
-
     @api.route("/<cmd>/<arg1>/<arg2>/<arg3>")
     def any_route3(cmd, arg1, arg2, arg3):
         """
@@ -98,27 +90,6 @@ def create_app(app, debug=False):
     return api
 
 
-def set_log(log):
-    levels = {
-        'critical': logging.CRITICAL,
-        'error': logging.ERROR,
-        'warn': logging.WARNING,
-        'warning': logging.WARNING,
-        'info': logging.INFO,
-        'debug': logging.DEBUG
-    }
-    level = levels.get(log.lower())
-    if level is None:
-        raise ValueError(
-            f"log level given: {log}"
-            f" -- must be one of: {' | '.join(levels.keys())}")
-    logging.basicConfig(stream=sys.stdout,
-                        format='%(asctime)s:%(levelname)s:%(message)s',
-                        level=level)
-    LOGGER.setLevel(level)
-    return {'log': level}
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='REST API for the LG SmartThinQ wideq Lib.'
@@ -145,7 +116,6 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    set_log('debug' if args.verbose else 'info')
 
     print(' * python jeedom srv.py --ip {} --key {}'.format(args.ip,
                                                             args.key))
