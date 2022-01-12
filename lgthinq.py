@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from os import system
+from os import sys
 import wideq
 import json
 import argparse
@@ -94,7 +94,7 @@ def log(log):
         raise ValueError(
             f"log level given: {log}"
             f" -- must be one of: {' | '.join(levels.keys())}")
-    logging.basicConfig(stream=system.stdout,
+    logging.basicConfig(stream=sys.stdout,
                         format='%(asctime)s:%(levelname)s:%(message)s',
                         level=level)
     LOGGER.setLevel(level)
